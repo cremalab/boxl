@@ -4,12 +4,15 @@
   "description": "A thing",
   "author": "Crema",
   "license": "ISC",
+  "types": "dist/types/Box.d.ts",
   "main": "dist/web.js",
-  "module": "dist/web.es.js",
-  "react-native": "dist/native.js",
-  "react-native-module": "dist/native.es.js",
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "build": "rollup -c rollup.config.js",
+    "clean": "rm -rf ./dist",
+    "start": "npm run storybook",
+    "build": "npm run clean && rollup -c rollup.config.js",
     "build:watch": "npm run build -- -w",
     "test": "echo \"Error: no test specified\" && exit 1",
     "storybook": "start-storybook -p 6006",

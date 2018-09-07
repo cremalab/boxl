@@ -10,6 +10,7 @@ coverage
 dist
 
 # misc
+package
 .rpt2_cache
 .DS_Store
 .env

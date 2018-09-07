@@ -13,32 +13,16 @@ const common = {
   ],
 };
 
-export default [{
-  input: "src/web.tsx",
-  output: [
-    {
-      file: pkg.main,
-      format: "cjs",
-    },
-    {
-      file: pkg.module,
-      format: "es",
-    },
-  ],
-  ...common,
-},
-{
-  input: "src/native.tsx",
-  output: [
-    {
-      file: pkg["react-native"],
-      format: "cjs",
-    },
-    {
-      file: pkg["react-native-module"],
-      format: "es",
-    },
-  ],
-  ...common,
-},
+export default [
+  {
+    input: "src/web.tsx",
+    output: [
+      {
+        file: "dist/web.js",
+        format: "cjs",
+        name: 'Boxl',
+      },
+    ],
+    ...common,
+  }
 ];

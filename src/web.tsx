@@ -1,66 +1,43 @@
 import * as CSSLength from "css-length";
 import * as React from "react";
 import styled, { css, StyledFunction, StyledProps } from "styled-components";
+import { alignmentToCss } from "./lib/alignmentToCss";
+import {
+  BoxChildProps,
+  BoxChildrenProps,
+  BoxContainerProps,
+  BoxProps,
+  BoxSpacingInfo,
+  BoxState,
+} from "./types/Box";
 
-interface BoxSpacingInfo {
-  value: number;
-  unit: string;
-}
-
-export type BoxDirection = "horizontal" | "vertical";
-export type BoxSpacing = number | string;
-export type HorizontalAlignment = "left" | "center" | "right";
-export type VerticalAlignment = "top" | "center" | "bottom";
-
-interface BoxContainerProps {
-  grow: number;
-}
-
-const BoxContainer = styled<BoxContainerProps, "div">("div")`
-  ${({ grow }) => {
+const BoxContainer = styled.div<BoxContainerProps>`
+  ${({ grow, styleString }) => {
     return css`
+      box-sizing: border-box;
       display: flex;
       flex-grow: ${grow};
+      ${styleString ? styleString : ""};
     `;
   }};
 `;
 
-interface BoxChildrenProps {
-  spacingInfo?: BoxSpacingInfo;
-  iDirection: BoxDirection;
-  horizontalAlign?: HorizontalAlignment;
-  verticalAlign?: VerticalAlignment;
-}
-
-interface AlignmentInfo {
-  vertical: string | null;
-  horizontal: string | null;
-}
-
-const BoxChildren = styled<BoxChildrenProps, "div">("div")`
-  ${({ spacingInfo, iDirection, horizontalAlign, verticalAlign }) => {
-    const alignmentToCss = (
-      alignment: VerticalAlignment | HorizontalAlignment | undefined
-    ) => {
-      switch (alignment) {
-        case "top":
-        case "left":
-          return "flex-start";
-        case "center":
-          return "center";
-        case "bottom":
-        case "right":
-          return "flex-end";
-        default:
-          return "stretch";
-      }
-    };
+const BoxChildren = styled.div<BoxChildrenProps>`
+  ${({
+    spacingInfo,
+    iDirection,
+    horizontalAlign,
+    verticalAlign,
+    childWrap,
+  }) => {
     const horizontalCss = alignmentToCss(horizontalAlign);
     const verticalCss = alignmentToCss(verticalAlign);
     return css`
+      box-sizing: border-box;
       display: flex;
       flex: 1;
       flex-direction: ${iDirection === "vertical" ? "column" : "row"};
+      flex-wrap: ${childWrap !== undefined ? "wrap" : "nowrap"};
       ${iDirection === "vertical"
         ? `
         align-items: ${horizontalCss};
@@ -76,69 +53,88 @@ const BoxChildren = styled<BoxChildrenProps, "div">("div")`
   }};
 `;
 
-interface BoxChildProps {
-  spacingInfo?: BoxSpacingInfo;
-  grow: number;
-}
-
-const BoxChild = styled<BoxChildProps, "div">("div")`
-  ${({ spacingInfo, grow }) => {
+const BoxChild = styled.div<BoxChildProps>`
+  ${({ spacingInfo, grow, iWidth, isDummy }) => {
     return css`
+      box-sizing: border-box;
       display: flex;
       flex-grow: ${grow};
-      ${spacingInfo
+      ${iWidth ? `flex-basis: ${iWidth};` : ""}${
+      spacingInfo && !isDummy
         ? `padding: ${spacingInfo.value / 2}${spacingInfo.unit}`
-        : ""};
+        : ""
+    };
     `;
   }};
 `;
 
-export interface BoxProps extends React.HTMLAttributes<"div"> {
-  direction?: BoxDirection;
-  horizontalAlign?: HorizontalAlignment;
-  verticalAlign?: VerticalAlignment;
-  spacing?: BoxSpacing;
-  grow?: number;
-}
-
-const childToBoxChild = (spacingInfo: BoxSpacingInfo) => (child: any) => {
-  const isBox = child && child.type && child.type.displayName === "Box";
-  return (
-    <BoxChild grow={isBox ? child.props.grow : 0} spacingInfo={spacingInfo}>
-      {child}
-    </BoxChild>
-  );
-};
-
-export class Box extends React.Component<BoxProps> {
+export class Box extends React.PureComponent<BoxProps, BoxState> {
   public static displayName = "Box";
+
+  public static getDerivedStateFromProps(props: BoxProps, state: BoxState) {
+    const { spacing } = props;
+    const spacingInfo = spacing ? new CSSLength(spacing) : undefined;
+    return { spacingInfo };
+  }
+
+  public state = {
+    spacingInfo: undefined,
+  };
+
   public render() {
     const {
-      direction = "vertical",
-      horizontalAlign,
-      verticalAlign,
-      spacing = 0,
-      grow = 1,
-      style,
+      childGrow,
+      childWidth,
+      childWrap,
       children,
+      direction = "vertical",
+      grow = 1,
+      horizontalAlign,
+      spacing = 0,
+      style,
+      verticalAlign,
+      width,
       ...rest
     } = this.props;
 
-    const spacingInfo = spacing ? new CSSLength(spacing) : undefined;
-    const childToBoxChildWithSpacing = childToBoxChild(spacingInfo);
+    const { spacingInfo } = this.state;
+    const shouldWrapChildren =
+      spacing || childGrow || childWidth || childWrap === "even";
+    const shouldIncludeDummies = childWrap === "even";
+
     return (
-      <BoxContainer grow={grow} style={style} {...rest}>
+      <BoxContainer grow={grow} styleString={style} {...rest}>
         <BoxChildren
           iDirection={direction}
           spacingInfo={spacingInfo}
           horizontalAlign={horizontalAlign}
           verticalAlign={verticalAlign}
+          childWrap={childWrap}
         >
-          {spacing
-            ? React.Children.map(children, childToBoxChildWithSpacing)
+          {shouldWrapChildren
+            ? React.Children.map(children, this.childToBoxChild(false))
             : children}
+          {shouldIncludeDummies &&
+            React.Children.map(children, this.childToBoxChild(true))}
         </BoxChildren>
       </BoxContainer>
     );
   }
+
+  private childToBoxChild = (isDummy: boolean) => (child: any) => {
+    const { childGrow, childWidth } = this.props;
+    const { spacingInfo } = this.state;
+    const grow = (child && child.props && child.props.grow) || 0;
+    const width = child && child.props && child.props.width;
+    return (
+      <BoxChild
+        grow={grow || childGrow}
+        iWidth={width || childWidth}
+        spacingInfo={spacingInfo}
+        isDummy={isDummy}
+      >
+        {!isDummy && child}
+      </BoxChild>
+    );
+  };
 }
