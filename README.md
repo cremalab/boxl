@@ -10,7 +10,7 @@ $ npm install react-boxl
 ```
 
 ### Usage
-```tsx
+```jsx
 import * as React from "react";
 import { Box } from "react-boxl";
 
