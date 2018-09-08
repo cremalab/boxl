@@ -9,10 +9,20 @@ Easy layouts for React
 $ npm install react-boxl
 ```
 
-### Import
+### Usage
 ```jsx
 import { Box } from 'react-boxl'; // web
-...
+
+export const MyComponent = (props) => (
+  <Box 
+    spacing="10px"
+    direction="horizontal"
+  >
+    <Box grow={1}>1</Box>
+    <Box>2</Box>
+  </Box>
+)
+
 ```
 
 ## API
