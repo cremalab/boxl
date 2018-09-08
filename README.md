@@ -10,10 +10,11 @@ $ npm install react-boxl
 ```
 
 ### Usage
-```jsx
-import { Box } from 'react-boxl'; // web
+```tsx
+import * as React from "react";
+import { Box } from "react-boxl";
 
-export const MyComponent = (props) => (
+export const MyComponent: React.SFC<{}> = () => (
   <Box 
     spacing="10px"
     direction="horizontal"
