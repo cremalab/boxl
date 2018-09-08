@@ -6,7 +6,7 @@ Easy layouts for React
 
 ### Install
 ```shell
-$ npm install react-layout-views
+$ npm install react-boxl
 ```
 
 ### Import
