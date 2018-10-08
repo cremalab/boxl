@@ -9,7 +9,7 @@ interface Props {
   v?: BoxProps<Theme>["verticalAlign"];
 }
 
-const Alignment = ({ h, v }: Props) => (
+const Example = ({ h, v }: Props) => (
   <BoxContainer>
     <BoxChild grow={1} horizontalAlign={h} verticalAlign={v}>
       <Dot />
@@ -18,15 +18,13 @@ const Alignment = ({ h, v }: Props) => (
 );
 
 storiesOf("alignment", module)
-  .add("default", () => <Alignment />)
-  .add("h: left, v: top", () => <Alignment h="left" v="top" />)
-  .add("h: left, v: center", () => <Alignment h="left" v="center" />)
-  .add("h: left, v: bottom", () => <Alignment h="left" v="bottom" />)
-
-  .add("h: center, v: top", () => <Alignment h="center" v="top" />)
-  .add("h: center, v: center", () => <Alignment h="center" v="center" />)
-  .add("h: center, v: bottom", () => <Alignment h="center" v="bottom" />)
-
-  .add("h: right, v: top", () => <Alignment h="right" v="top" />)
-  .add("h: right, v: center", () => <Alignment h="right" v="center" />)
-  .add("h: right, v: bottom", () => <Alignment h="right" v="bottom" />);
+  .add("00 default", () => <Example />)
+  .add("01 h: left,   v: top", () => <Example h="left" v="top" />)
+  .add("02 h: left,   v: center", () => <Example h="left" v="center" />)
+  .add("03 h: left,   v: bottom", () => <Example h="left" v="bottom" />)
+  .add("04 h: center, v: top", () => <Example h="center" v="top" />)
+  .add("05 h: center, v: center", () => <Example h="center" v="center" />)
+  .add("06 h: center, v: bottom", () => <Example h="center" v="bottom" />)
+  .add("07 h: right,  v: top", () => <Example h="right" v="top" />)
+  .add("08 h: right,  v: center", () => <Example h="right" v="center" />)
+  .add("09 h: right,  v: bottom", () => <Example h="right" v="bottom" />);
