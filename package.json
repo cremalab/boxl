@@ -14,13 +14,12 @@
     "start": "npm run storybook",
     "build": "npm run clean && rollup -c rollup.config.js",
     "build:watch": "npm run build -- -w",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node_modules/.bin/jest",
+    "test:watch": "npm run test -- --watch",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
-  "dependencies": {
-    "css-length": "^1.0.3"
-  },
+  "dependencies": {},
   "peerDependencies": {
     "react": "^16.4.2",
     "styled-components": "^3.4.5"
@@ -30,6 +29,7 @@
     "@storybook/addon-links": "^3.4.10",
     "@storybook/addons": "^3.4.10",
     "@storybook/react": "^3.4.10",
+    "@types/jest": "^23.3.3",
     "@types/react": "^16.4.13",
     "@types/react-dom": "^16.0.7",
     "@types/storybook__react": "^3.0.9",
@@ -43,6 +43,7 @@
     "rollup-plugin-filesize": "^4.0.1",
     "rollup-plugin-typescript2": "^0.17.0",
     "styled-components": "^3.4.5",
+    "ts-jest": "^23.10.3",
     "ts-loader": "^3.5.0",
     "tslint": "^5.11.0",
     "tslint-config-prettier": "^1.15.0",

@@ -4,13 +4,14 @@
     "module": "esnext",
     "rootDir": "./src",
     "lib": [
-      "es6"
+      "es2017"
     ],
     "declaration": true,
     "jsx": "react",
     "strict": true,
     "moduleResolution": "node",
     "skipLibCheck": true,
+    "esModuleInterop": true
   },
   "include": [
     "src/**/*",

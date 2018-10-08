@@ -1,55 +1,86 @@
 import * as React from "react";
+import {
+  Interpolation,
+  InterpolationFunction,
+  ThemedStyledProps,
+  ThemeProps,
+} from "styled-components";
 export { Box } from "../web";
 
-export interface BoxSpacingInfo {
-  value: number;
-  unit: string;
+export type BoxPropThemeFn<A, T> = (
+  props: BoxThemeProps<T>
+) => A | BoxPropMediaQuery<A, T>;
+
+export interface BoxPropMediaQuery<A, T> {
+  [key: string]: A | BoxPropThemeFn<A, T>;
 }
 
-export type BoxDirection = "horizontal" | "vertical";
-export type BoxGrow = number;
-export type BoxSpacing = number | string;
-export type BoxWrap = "auto" | "even";
-export type BoxWidth = number | string;
-export type BoxHorizontalAlignment = "left" | "center" | "right";
-export type BoxVerticalAlignment = "top" | "center" | "bottom";
+export type BoxProp<A, T> = A | BoxPropMediaQuery<A, T> | BoxPropThemeFn<A, T>;
 
-export interface BoxContainerProps {
-  grow: BoxGrow;
-  styleString?: string;
+export type BoxSpacingInfo = string;
+
+export type BoxPropDirection<T> = BoxProp<"horizontal" | "vertical", T>;
+export type BoxPropGrow<T> = BoxProp<number, T>;
+export type BoxPropSpacing<T> = BoxProp<string | number | undefined, T>;
+export type BoxPropWrap<T> = BoxProp<"auto" | "even" | undefined, T>;
+export type BoxPropWidth<T> = BoxProp<string, T>;
+export type BoxPropHorizontalAlignment<T> = BoxProp<
+  "left" | "center" | "right" | undefined,
+  T
+>;
+export type BoxPropVerticalAlignment<T> = BoxProp<
+  "top" | "center" | "bottom" | undefined,
+  T
+>;
+
+export type BoxThemeThunk<T> = (
+  strings: ReadonlyArray<string>,
+  ...interpolations: Array<InterpolationFunction<BoxThemeProps<T>> | string>
+) => BoxThemeThunkReturn<T>;
+
+export interface BoxThemeThunkReturn<T> {
+  literals: ReadonlyArray<string>;
+  interpolations: Array<InterpolationFunction<BoxThemeProps<T>> | string>;
 }
 
-export interface BoxChildrenProps {
-  horizontalAlign?: BoxHorizontalAlignment;
-  iDirection: BoxDirection;
-  spacingInfo?: BoxSpacingInfo;
-  verticalAlign?: BoxVerticalAlignment;
-  childWrap?: BoxWrap;
+export type BoxPropStyle<T> =
+  | ((styleFn: BoxThemeThunk<T>) => BoxThemeThunkReturn<T>)
+  | (string);
+
+export interface BoxContainerProps<T> {
+  grow: BoxPropGrow<T>;
+  styleString?: BoxPropStyle<T>;
 }
 
-export interface BoxChildProps {
-  grow: BoxGrow;
-  iWidth?: BoxWidth;
-  spacingInfo?: BoxSpacingInfo;
+export interface BoxChildrenProps<T> {
+  horizontalAlign?: BoxPropHorizontalAlignment<T>;
+  iDirection: BoxPropDirection<T>;
+  spacingInfo?: BoxPropSpacing<T>;
+  verticalAlign?: BoxPropVerticalAlignment<T>;
+  childWrap?: BoxPropWrap<T>;
+}
+
+export interface BoxChildProps<T> {
+  grow: BoxPropGrow<T>;
+  iWidth?: BoxPropWidth<T>;
+  spacingInfo?: BoxPropSpacing<T>;
   isDummy: boolean;
 }
 
 type Omit<T, K> = Pick<T, Exclude<keyof T, K>>;
 type Div = Omit<React.HtmlHTMLAttributes<"div">, "style">;
 
-export interface BoxProps extends Div {
-  childGrow?: BoxGrow;
-  childWidth?: BoxWidth;
-  childWrap?: BoxWrap;
-  direction?: BoxDirection;
-  grow?: BoxGrow;
-  horizontalAlign?: BoxHorizontalAlignment;
-  spacing?: BoxSpacing;
-  verticalAlign?: BoxVerticalAlignment;
-  width?: BoxWidth;
-  style?: string;
+export interface BoxProps<T> extends Div {
+  childGrow?: BoxPropGrow<T>;
+  childWidth?: BoxPropWidth<T>;
+  childWrap?: BoxPropWrap<T>;
+  direction?: BoxPropDirection<T>;
+  grow?: BoxPropGrow<T>;
+  horizontalAlign?: BoxPropHorizontalAlignment<T>;
+  spacing?: BoxPropSpacing<T>;
+  verticalAlign?: BoxPropVerticalAlignment<T>;
+  width?: BoxPropWidth<T>;
+  style?: BoxPropStyle<T>;
 }
 
-export interface BoxState {
-  spacingInfo?: BoxSpacingInfo;
-}
+export type BoxThemeProps<T> = BoxProps<T> & ThemeProps<T>;
