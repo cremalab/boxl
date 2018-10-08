@@ -33,14 +33,15 @@ export class Box<T> extends React.PureComponent<BoxProps<T>> {
   private BoxContainer = styled.div<BoxContainerProps<T>>`
     ${props => {
       const { grow, styleString, theme } = props;
+      const propsWithTheme = this.propsWithTheme(theme);
       const style =
         typeof styleString === "function"
-          ? flatten(styleString(this.boxThemeThunk), props)
+          ? flatten(styleString(this.boxThemeThunk), propsWithTheme)
           : styleString;
       return css`
         box-sizing: border-box;
         display: flex;
-        ${styleOfProp("flex-grow", grow, props)};
+        ${styleOfProp("flex-grow", grow, propsWithTheme)};
         ${style};
       `;
     }};
@@ -56,25 +57,31 @@ export class Box<T> extends React.PureComponent<BoxProps<T>> {
         childWrap,
         theme,
       } = props;
+      const propsWithTheme = this.propsWithTheme(theme);
       return css`
       box-sizing: border-box;
       display: flex;
       flex: 1;
-      ${styleOfProp("flex-direction", iDirection, theme, translateDirection)}
-      ${styleOfProp("flex-wrap", childWrap, theme, translateWrap)}
+      ${styleOfProp(
+        "flex-direction",
+        iDirection,
+        propsWithTheme,
+        translateDirection
+      )}
+      ${styleOfProp("flex-wrap", childWrap, propsWithTheme, translateWrap)}
       ${
         iDirection === "vertical"
           ? `
         ${styleOfProp(
           "align-items",
           horizontalAlign,
-          props,
+          propsWithTheme,
           translateHorizontalAlign
         )}
         ${styleOfProp(
           "justify-content",
           verticalAlign,
-          props,
+          propsWithTheme,
           translateVerticalAlign
         )}
       `
@@ -82,13 +89,13 @@ export class Box<T> extends React.PureComponent<BoxProps<T>> {
           ${styleOfProp(
             "justify-content",
             horizontalAlign,
-            props,
+            propsWithTheme,
             translateHorizontalAlign
           )}
           ${styleOfProp(
             "align-items",
             verticalAlign,
-            props,
+            propsWithTheme,
             translateVerticalAlign
           )}
       `
@@ -96,7 +103,7 @@ export class Box<T> extends React.PureComponent<BoxProps<T>> {
       ${styleOfProp(
         "margin",
         spacingInfo,
-        props,
+        propsWithTheme,
         translateBoxSpacingHalf<T>(true)
       )};
     `;
@@ -106,16 +113,17 @@ export class Box<T> extends React.PureComponent<BoxProps<T>> {
   private BoxChild = styled.div<BoxChildProps<T>>`
     ${props => {
       const { spacingInfo, grow, iWidth, isDummy, theme } = props;
+      const propsWithTheme = this.propsWithTheme(theme);
       return css`
       box-sizing: border-box;
       display: flex;
-      ${styleOfProp("flex-grow", grow, props)}
+      ${styleOfProp("flex-grow", grow, propsWithTheme)}
       ${iWidth ? `flex-basis: ${iWidth};` : ""}${
         spacingInfo && !isDummy
           ? styleOfProp(
               "padding",
               spacingInfo,
-              props,
+              propsWithTheme,
               translateBoxSpacingHalf<T>()
             )
           : ""
@@ -185,6 +193,8 @@ export class Box<T> extends React.PureComponent<BoxProps<T>> {
       </this.BoxContainer>
     );
   }
+
+  private propsWithTheme = (theme: T) => ({ ...this.props, theme });
 
   private boxThemeThunk: BoxThemeThunk<T> = (literals, ...interpolations) => ({
     interpolations,
