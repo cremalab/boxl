@@ -6,13 +6,24 @@ Easy layouts for React
 
 ### Install
 ```shell
-$ npm install react-layout-views
+$ npm install react-boxl
 ```
 
-### Import
+### Usage
 ```jsx
-import { Box } from 'react-boxl'; // web
-...
+import * as React from "react";
+import { Box } from "react-boxl";
+
+export const MyComponent: React.SFC<{}> = () => (
+  <Box 
+    spacing="10px"
+    direction="horizontal"
+  >
+    <Box grow={1}>1</Box>
+    <Box>2</Box>
+  </Box>
+)
+
 ```
 
 ## API
