@@ -4,6 +4,10 @@ import { ThemedStyledComponentsModule } from "styled-components"; // tslint:disa
 import { BoxProps } from "../types/Box";
 import { Box } from "../web";
 
+export const decoratorFlex = (story: any) => {
+  return <div style={{ height: "100vh", display: "flex" }}>{story()}</div>;
+};
+
 type Scale = "1" | "2" | "3" | "4";
 type Breakpoint = "1" | "2" | "3";
 type Color = "primary" | "secondary" | "tertiary";

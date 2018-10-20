@@ -2,7 +2,7 @@ import { storiesOf } from "@storybook/react";
 import * as React from "react";
 import { BoxProps } from "../types/Box";
 import { Box } from "../web";
-import { BoxChild, BoxContainer, Dot, Theme } from "./config";
+import { BoxChild, BoxContainer, decoratorFlex, Dot, Theme } from "./config";
 
 interface Props {
   h?: BoxProps<Theme>["horizontalAlign"];
@@ -18,6 +18,7 @@ const Example = ({ h, v }: Props) => (
 );
 
 storiesOf("alignment", module)
+  .addDecorator(decoratorFlex)
   .add("00 default", () => <Example />)
   .add("01 h: left,   v: top", () => <Example h="left" v="top" />)
   .add("02 h: left,   v: center", () => <Example h="left" v="center" />)

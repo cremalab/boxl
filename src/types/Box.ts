@@ -81,6 +81,7 @@ export interface BoxProps<T> extends Div {
   verticalAlign?: BoxPropVerticalAlignment<T>;
   width?: BoxPropWidth<T>;
   style?: BoxPropStyle<T>;
+  isChild?: boolean;
 }
 
 export type BoxThemeProps<T> = BoxProps<T> & ThemeProps<T>;
