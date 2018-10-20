@@ -4,13 +4,16 @@ import { ThemedStyledComponentsModule } from "styled-components"; // tslint:disa
 import { BoxProps } from "../types/Box";
 import { Box } from "../web";
 
-type Scale = "1" | "2" | "3";
+type Scale = "1" | "2" | "3" | "4";
+type Breakpoint = "1" | "2" | "3";
+type Color = "primary" | "secondary" | "tertiary";
+type Speed = "fast" | "slow";
 
 export interface Theme {
-  color: { [key in "primary" | "secondary" | "tertiary"]: string };
-  mq: { [key in Scale]: string };
+  color: { [key in Color]: string };
+  mq: { [key in Breakpoint]: string };
   spacing: { [key in Scale]: string };
-  transitions: { [key in "fast" | "slow"]: string };
+  transitions: { [key in Speed]: string };
   roundness: { [key in Scale]: string };
 }
 
@@ -29,11 +32,13 @@ export const theme: Theme = {
     1: "0.1em",
     2: "0.5em",
     3: "1em",
+    4: "2em",
   },
   spacing: {
-    1: "1em",
-    2: "2em",
-    3: "3em",
+    1: "0.5em",
+    2: "1em",
+    3: "2em",
+    4: "3em",
   },
   transitions: {
     fast: "transition: all 0.2s ease-in-out",
@@ -85,9 +90,9 @@ export const Dot = (props: BoxProps<Theme>) => (
     grow={0}
     style={s => s`
       ${({ theme: { spacing, color } }) => `
-        height: ${spacing["2"]};
-        width: ${spacing["2"]};
-        border-radius: ${spacing["2"]};
+        height: ${spacing["3"]};
+        width: ${spacing["3"]};
+        border-radius: ${spacing["3"]};
         background: ${color.tertiary}
       `}
 `}

@@ -72,8 +72,8 @@
     "configurations": {
       "box": {
         "target": "chrome.docker",
-        "width": 800,
-        "height": 800,
+        "width": 500,
+        "height": 500,
         "deviceScaleFactor": 1,
         "mobile": false,
         "fitWindow": false
