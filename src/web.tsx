@@ -126,6 +126,7 @@ export class Box<T> extends React.PureComponent<BoxProps<T>> {
       box-sizing: border-box;
       display: flex;
       ${styleOfProp("flex-grow", grow, propsWithTheme)}
+      ${isDummy ? "height: 0;" : ""}
       ${iWidth ? `flex-basis: ${iWidth};` : ""}${
         spacingInfo && !isDummy
           ? styleOfProp(
@@ -178,22 +179,27 @@ export class Box<T> extends React.PureComponent<BoxProps<T>> {
       this.childToBoxChild(false)
     );
 
-    const childrenDummies =
-      shouldIncludeDummies &&
-      React.Children.map(children, this.childToBoxChild(true));
-
-    const childrenComputed = [childrenWrapped, childrenDummies];
+    const childrenDummies = shouldIncludeDummies
+      ? React.Children.map(children, this.childToBoxChild(true))
+      : null;
 
     return (
-      <this.BoxContainer grow={grow} styleString={style} {...rest}>
+      <this.BoxContainer
+        data-name="BoxContainer"
+        grow={grow}
+        styleString={style}
+        {...rest}
+      >
         <this.BoxChildren
+          data-name="BoxChildren"
           iDirection={direction}
           spacingInfo={spacing}
           horizontalAlign={horizontalAlign}
           verticalAlign={verticalAlign}
           childWrap={childWrap}
         >
-          {childrenComputed}
+          {childrenWrapped}
+          {childrenDummies}
         </this.BoxChildren>
       </this.BoxContainer>
     );
@@ -208,16 +214,22 @@ export class Box<T> extends React.PureComponent<BoxProps<T>> {
 
   private childToBoxChild = (isDummy: boolean) => (child: any) => {
     const { childGrow, childWidth, spacing } = this.props;
-    const grow = (child && child.props && child.props.grow) || 0;
-    const width = child && child.props && child.props.width;
+    const grow = (child && child.props && child.props.grow) || childGrow;
+    const width = (child && child.props && child.props.width) || childWidth;
+    const shouldWrap = childGrow || childWidth || spacing || grow || width;
     return (
       <this.BoxChild
-        grow={grow || childGrow}
-        iWidth={width || childWidth}
+        data-name="BoxChild"
+        grow={grow}
+        iWidth={width}
         spacingInfo={spacing}
         isDummy={isDummy}
       >
-        {!isDummy && React.cloneElement(child, { isChild: true })}
+        {grow && !isDummy
+          ? React.cloneElement(child, { isChild: true })
+          : isDummy
+            ? null
+            : child}
       </this.BoxChild>
     );
   };
