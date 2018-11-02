@@ -7,7 +7,10 @@
   "types": "dist/types/Box.d.ts",
   "main": "dist/web.js",
   "files": [
-    "dist"
+    "dist/lib",
+    "dist/types",
+    "dist/web.d.ts",
+    "dist/web.js"
   ],
   "watch": {
     "loki": {
@@ -31,7 +34,8 @@
     "loki:update": "loki update",
     "loki:approve": "loki approve",
     "watch": "npm-watch",
-    "watch:loki": "npm-watch loki"
+    "watch:loki": "npm-watch loki",
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {},
   "peerDependencies": {
