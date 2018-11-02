@@ -9,7 +9,8 @@ export function styleOfProp<A, T>(
 ): string {
   switch (typeof prop) {
     case "function": {
-      const result = typeof prop === "function" && props && prop(props);
+      const propTyped = prop as BoxPropThemeFn<A, T>;
+      const result = props && propTyped(props);
       return result && props
         ? typeof result === "object"
           ? styleOfProp(attribute, result, props, translate)
@@ -21,9 +22,10 @@ export function styleOfProp<A, T>(
         (acc, [key, value]: [string, BoxProp<A, T>]) => {
           switch (typeof value) {
             case "function": {
+              const valueTyped = value as BoxPropThemeFn<A, T>;
               return (acc +=
                 typeof value === "function" && props
-                  ? `${key} { ${attribute}: ${translate(value(props))}; }`
+                  ? `${key} { ${attribute}: ${translate(valueTyped(props))}; }`
                   : ``);
             }
             default:
