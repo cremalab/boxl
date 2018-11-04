@@ -12,6 +12,7 @@ type Scale = "1" | "2" | "3" | "4";
 type Breakpoint = "1" | "2" | "3";
 type Color = "primary" | "secondary" | "tertiary";
 type Speed = "fast" | "slow";
+type Width = "small" | "medium" | "large";
 
 export interface Theme {
   color: { [key in Color]: string };
@@ -19,6 +20,7 @@ export interface Theme {
   spacing: { [key in Scale]: string };
   transitions: { [key in Speed]: string };
   roundness: { [key in Scale]: string };
+  width: { [key in Width]: string };
 }
 
 export const theme: Theme = {
@@ -47,6 +49,11 @@ export const theme: Theme = {
   transitions: {
     fast: "transition: all 0.2s ease-in-out",
     slow: "transition: all 1s ease-in-out",
+  },
+  width: {
+    large: "300px",
+    medium: "200px",
+    small: "100px",
   },
 };
 

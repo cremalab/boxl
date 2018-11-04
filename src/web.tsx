@@ -113,7 +113,7 @@ export class Box<T> extends React.PureComponent<BoxProps<T>> {
         "margin",
         spacingInfo,
         propsWithTheme,
-        translateBoxSpacingHalf<T>(true)
+        translateBoxSpacingHalf(true)
       )};
     `;
     }};
@@ -127,14 +127,15 @@ export class Box<T> extends React.PureComponent<BoxProps<T>> {
       box-sizing: border-box;
       display: flex;
       ${styleOfProp("flex-grow", grow, propsWithTheme)}
+      ${iWidth && styleOfProp("flex-basis", iWidth, propsWithTheme)}
       ${isDummy ? "height: 0;" : ""}
-      ${iWidth ? `flex-basis: ${iWidth};` : ""}${
+      ${
         spacingInfo && !isDummy
           ? styleOfProp(
               "padding",
               spacingInfo,
               propsWithTheme,
-              translateBoxSpacingHalf<T>()
+              translateBoxSpacingHalf()
             )
           : ""
       };
@@ -217,7 +218,6 @@ export class Box<T> extends React.PureComponent<BoxProps<T>> {
     const { childGrow, childWidth, spacing } = this.props;
     const grow = (child && child.props && child.props.grow) || childGrow;
     const width = (child && child.props && child.props.width) || childWidth;
-    const shouldWrap = childGrow || childWidth || spacing || grow || width;
     return (
       <this.BoxChild
         data-name="BoxChild"
