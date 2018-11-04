@@ -61,7 +61,7 @@ const {
 export { css, createGlobalStyle, keyframes, ThemeProvider };
 
 export const BoxContainer = (props: BoxProps<Theme>) => (
-  <Box<Theme>
+  <Box
     {...props}
     style={s => s`
     ${({ theme: { color, spacing, transitions, mq, roundness } }) => `
@@ -75,7 +75,7 @@ export const BoxContainer = (props: BoxProps<Theme>) => (
 );
 
 export const BoxChild = (props: BoxProps<Theme>) => (
-  <Box<Theme>
+  <Box
     {...props}
     style={s => s`
       ${({ theme: { color, roundness, transitions, spacing } }) => `
@@ -89,7 +89,7 @@ export const BoxChild = (props: BoxProps<Theme>) => (
 );
 
 export const Dot = (props: BoxProps<Theme>) => (
-  <Box<Theme>
+  <Box
     {...props}
     grow={0}
     style={s => s`

@@ -7,6 +7,8 @@ import {
 } from "styled-components";
 export { Box } from "../web";
 
+type Omit<T, K> = Pick<T, Exclude<keyof T, K>>;
+
 export type BoxPropThemeFn<A, T> = (
   props: BoxThemeProps<T>
 ) => A | BoxPropMediaQuery<A, T>;
@@ -67,10 +69,10 @@ export interface BoxChildProps<T> {
   isDummy: boolean;
 }
 
-type Omit<T, K> = Pick<T, Exclude<keyof T, K>>;
-type Div = Omit<React.HtmlHTMLAttributes<"div">, "style">;
+export type BoxElement = keyof React.ReactHTML;
+export type El = Omit<React.AllHTMLAttributes<HTMLElement>, "style" | "width">;
 
-export interface BoxProps<T> extends Div {
+export interface BoxProps<T> extends El {
   childGrow?: BoxPropGrow<T>;
   childWidth?: BoxPropWidth<T>;
   childWrap?: BoxPropWrap<T>;
@@ -82,6 +84,7 @@ export interface BoxProps<T> extends Div {
   width?: BoxPropWidth<T>;
   style?: BoxPropStyle<T>;
   isChild?: boolean;
+  element?: BoxElement;
 }
 
 export type BoxThemeProps<T> = BoxProps<T> & ThemeProps<T>;

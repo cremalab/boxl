@@ -30,10 +30,11 @@ import {
 export class Box<T> extends React.PureComponent<BoxProps<T>> {
   public static displayName = "Box";
   public static defaultProps = {
+    element: "div",
     isChild: false,
   };
 
-  private BoxContainer = styled.div<BoxContainerProps<T>>`
+  private BoxContainer = styled[this.props.element!]<BoxContainerProps<T>>`
     ${props => {
       const { isChild } = this.props;
       const { grow, styleString, theme } = props;
