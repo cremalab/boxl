@@ -2,14 +2,14 @@
 
 exports[`Box edge-cases handles null child in children array 1`] = `
 <div
-  className="sc-chPdSV ffxdSC"
+  className="sc-chPdSV jRuPny"
   data-name="Box"
 />
 `;
 
 exports[`Box structure Renders correct structure when no spacing 1`] = `
 <div
-  className="sc-bwzfXH lcLgJh"
+  className="sc-bwzfXH iLFntR"
   data-name="Box"
 >
   Text
@@ -63,7 +63,7 @@ exports[`Box structure Renders correct structure when spacing AND children lengt
       data-name="BoxChild"
     >
       <div
-        className="sc-VigVT fVGxAV"
+        className="sc-VigVT fuQzMH"
         data-name="Box"
       >
         Text 1
@@ -74,7 +74,7 @@ exports[`Box structure Renders correct structure when spacing AND children lengt
       data-name="BoxChild"
     >
       <div
-        className="sc-jzJRlG cqTQyl"
+        className="sc-jzJRlG ewZitb"
         data-name="Box"
       >
         Text 2
@@ -86,7 +86,7 @@ exports[`Box structure Renders correct structure when spacing AND children lengt
 
 exports[`Box structure Renders correct structure when spacing BUT children length === 1 1`] = `
 <div
-  className="sc-ifAKCX dFplD"
+  className="sc-ifAKCX eXaVbb"
   data-name="Box"
 >
   Text

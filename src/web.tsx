@@ -174,8 +174,6 @@ export class Box<T> extends React.PureComponent<BoxProps<T>> {
     } = this.props;
 
     const growComputed = isChild ? 1 : grow === undefined ? 0 : grow;
-    console.log('growComputed', growComputed); // tslint:disable-line
-    console.log('grow', grow); // tslint:disable-line
 
     const shouldUseFullStructure =
       spacing !== undefined && Array.isArray(children) && children.length > 1;
