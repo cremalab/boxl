@@ -249,8 +249,9 @@ export class Box<T> extends React.PureComponent<BoxProps<T>> {
   private childToBoxChild = (
     isDummy: boolean,
     shouldUseFullStructure: boolean
-  ) => (child: React.ReactChild) => {
+  ) => (child: React.ReactChild | null) => {
     if (
+      child !== null &&
       typeof child !== "number" &&
       typeof child !== "string" &&
       typeof child === "object" &&

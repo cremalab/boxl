@@ -34,4 +34,13 @@ describe("Box", () => {
       expect(received).toMatchSnapshot();
     });
   });
+
+  describe("edge-cases", () => {
+    it("handles null child in children array", () => {
+      const received = TestRenderer.create(
+        <Box grow={1} spacing={"10px"} children={[null]} />
+      );
+      expect(received).toMatchSnapshot();
+    });
+  });
 });
