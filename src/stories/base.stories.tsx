@@ -1,8 +1,6 @@
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
-import { BoxProps } from "../types/Box";
-import { Box } from "../web";
-import { BoxChild, BoxContainer, decoratorFlex, Dot, Theme } from "./config";
+import { BoxChild, BoxContainer, decoratorFlex } from "./config";
 
 storiesOf("01 Base", module)
   .addDecorator(decoratorFlex)

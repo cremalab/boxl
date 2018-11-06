@@ -2,8 +2,8 @@
 
 exports[`Box structure Renders correct structure when no spacing 1`] = `
 <div
-  className="sc-bwzfXH cYGREo"
-  data-name="BoxChildren"
+  className="sc-bwzfXH lcLgJh"
+  data-name="Box"
 >
   Text
 </div>
@@ -11,8 +11,8 @@ exports[`Box structure Renders correct structure when no spacing 1`] = `
 
 exports[`Box structure Renders correct structure when spacing AND children length > 1 1`] = `
 <div
-  className="sc-bZQynM bMswha"
-  data-name="BoxContainer"
+  className="sc-bZQynM ilqCzY"
+  data-name="Box"
 >
   <div
     className="sc-gzVnrw fddkIu"
@@ -22,7 +22,9 @@ exports[`Box structure Renders correct structure when spacing AND children lengt
       className="sc-htoDjs ieYwg"
       data-name="BoxChild"
     >
-      <div>
+      <div
+        isChild={true}
+      >
         Text 1
       </div>
     </div>
@@ -30,7 +32,9 @@ exports[`Box structure Renders correct structure when spacing AND children lengt
       className="sc-htoDjs ieYwg"
       data-name="BoxChild"
     >
-      <div>
+      <div
+        isChild={true}
+      >
         Text 2
       </div>
     </div>
@@ -40,8 +44,8 @@ exports[`Box structure Renders correct structure when spacing AND children lengt
 
 exports[`Box structure Renders correct structure when spacing AND children length > 1 and children are Box 1`] = `
 <div
-  className="sc-dnqmqq dQCDjg"
-  data-name="BoxContainer"
+  className="sc-dnqmqq jLEFYc"
+  data-name="Box"
 >
   <div
     className="sc-iwsKbI gIBXeV"
@@ -53,7 +57,7 @@ exports[`Box structure Renders correct structure when spacing AND children lengt
     >
       <div
         className="sc-VigVT fVGxAV"
-        data-name="BoxChildren"
+        data-name="Box"
       >
         Text 1
       </div>
@@ -64,7 +68,7 @@ exports[`Box structure Renders correct structure when spacing AND children lengt
     >
       <div
         className="sc-jzJRlG cqTQyl"
-        data-name="BoxChildren"
+        data-name="Box"
       >
         Text 2
       </div>
@@ -75,8 +79,8 @@ exports[`Box structure Renders correct structure when spacing AND children lengt
 
 exports[`Box structure Renders correct structure when spacing BUT children length === 1 1`] = `
 <div
-  className="sc-ifAKCX iIkmr"
-  data-name="BoxChildren"
+  className="sc-ifAKCX dFplD"
+  data-name="Box"
 >
   Text
 </div>

@@ -35,7 +35,7 @@ export class Box<T> extends React.PureComponent<BoxProps<T>> {
   };
 
   private BoxContainer = styled[
-    this.props.spacing ? this.props.element! : "div"
+    this.props.spacing && this.props.element ? this.props.element! : "div"
   ]<BoxContainerProps<T>>`
     ${props => {
       const { isChild } = this.props;
@@ -59,7 +59,7 @@ export class Box<T> extends React.PureComponent<BoxProps<T>> {
   `;
 
   private BoxChildren = styled[
-    !this.props.spacing ? this.props.element! : "div"
+    !this.props.spacing && this.props.element ? this.props.element : "div"
   ]<BoxChildrenProps<T>>`
     ${props => {
       const { isChild } = this.props;
@@ -178,8 +178,7 @@ export class Box<T> extends React.PureComponent<BoxProps<T>> {
       ...rest
     } = this.props;
 
-    const growComputed =
-      isChild && grow === undefined ? 1 : grow !== undefined ? grow : 1;
+    const growComputed = isChild ? 1 : grow !== undefined ? grow : 0;
 
     const shouldUseFullStructure =
       spacing !== undefined && Array.isArray(children) && children.length > 1;
@@ -200,7 +199,7 @@ export class Box<T> extends React.PureComponent<BoxProps<T>> {
 
     const templateStylerAlignerSpacer = (
       <this.BoxContainer
-        data-name="BoxContainer"
+        data-name="Box"
         grow={growComputed}
         styleString={style}
         {...rest}
@@ -221,7 +220,7 @@ export class Box<T> extends React.PureComponent<BoxProps<T>> {
 
     const templateAligner = (
       <this.BoxChildren
-        data-name="BoxChildren"
+        data-name="Box"
         iDirection={direction}
         horizontalAlign={horizontalAlign}
         verticalAlign={verticalAlign}
@@ -250,41 +249,42 @@ export class Box<T> extends React.PureComponent<BoxProps<T>> {
   private childToBoxChild = (
     isDummy: boolean,
     shouldUseFullStructure: boolean
-  ) => (child: any) => {
-    const { childGrow, childWidth, spacing } = this.props;
-    const grow = (child && child.props && child.props.grow) || childGrow;
-    const width = (child && child.props && child.props.width) || childWidth;
-    const hasSpacing = spacing !== undefined;
-    const hasGrow = grow !== undefined;
-    const hasWidth = width !== undefined;
-    const shouldWrapWithChild =
-      hasGrow || hasWidth || (hasSpacing && shouldUseFullStructure);
+  ) => (child: React.ReactChild) => {
+    if (
+      typeof child !== "number" &&
+      typeof child !== "string" &&
+      typeof child === "object" &&
+      child.hasOwnProperty("props")
+    ) {
+      const { childGrow, childWidth, spacing } = this.props;
+      const grow = (child && child.props && child.props.grow) || childGrow;
+      const width = (child && child.props && child.props.width) || childWidth;
+      const hasSpacing = spacing !== undefined;
+      const hasGrow = grow !== undefined;
+      const hasWidth = width !== undefined;
+      const shouldWrapWithChild = hasSpacing && shouldUseFullStructure;
 
-    const templateWrapWithChild: JSX.Element = (
-      <this.BoxChild
-        data-name="BoxChild"
-        grow={grow}
-        iWidth={width}
-        spacingInfo={spacing}
-        isDummy={isDummy}
-      >
-        {grow && !isDummy
-          ? React.cloneElement(child, { isChild: true })
-          : isDummy
-            ? null
-            : child}
-      </this.BoxChild>
-    );
+      const templateWrapWithChild = (
+        <this.BoxChild
+          data-name="BoxChild"
+          grow={grow}
+          iWidth={width}
+          spacingInfo={spacing}
+          isDummy={isDummy}
+        >
+          {isDummy ? null : React.cloneElement(child, { isChild: true })}
+        </this.BoxChild>
+      );
 
-    const templateNoWrapWithChild: JSX.Element =
-      hasGrow && !isDummy
-        ? React.cloneElement(child, { isChild: true })
-        : isDummy
-          ? null
-          : child;
+      const templateNoWrapWithChild = isDummy
+        ? null
+        : React.cloneElement(child, { isChild: false });
 
-    return shouldWrapWithChild
-      ? templateWrapWithChild
-      : templateNoWrapWithChild;
+      return shouldWrapWithChild
+        ? templateWrapWithChild
+        : templateNoWrapWithChild;
+    } else {
+      return child;
+    }
   };
 }
