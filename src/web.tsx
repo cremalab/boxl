@@ -79,13 +79,8 @@ export class Box<T> extends React.PureComponent<BoxProps<T>> {
           ? flatten(styleString(this.boxThemeThunk), propsWithTheme)
           : styleString;
       return css`
-      ${grow !== undefined &&
-        styleOfProp(
-          "flex-grow",
-          isChild && grow && grow < 1 ? 1 : grow,
-          propsWithTheme
-        )};
-      ${!style && "flex-grow: 1;"}
+      ${grow !== undefined && styleOfProp("flex-grow", grow, propsWithTheme)};
+      ${!style && grow === undefined && "flex-grow: 1;"}
       ${style};
       box-sizing: border-box;
       display: flex;
@@ -178,7 +173,9 @@ export class Box<T> extends React.PureComponent<BoxProps<T>> {
       ...rest
     } = this.props;
 
-    const growComputed = isChild ? 1 : grow !== undefined ? grow : 0;
+    const growComputed = isChild ? 1 : grow === undefined ? 0 : grow;
+    console.log('growComputed', growComputed); // tslint:disable-line
+    console.log('grow', grow); // tslint:disable-line
 
     const shouldUseFullStructure =
       spacing !== undefined && Array.isArray(children) && children.length > 1;
