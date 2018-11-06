@@ -1,6 +1,6 @@
 import React from "react";
 import TestRenderer from "react-test-renderer";
-import { Box } from "./web";
+import { Box } from "../dist/web";
 
 describe("Box", () => {
   describe("structure", () => {

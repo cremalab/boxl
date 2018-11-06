@@ -12,7 +12,7 @@
     "dist/web.js"
   ],
   "watch": {
-    "loki": {
+    "test:visual": {
       "patterns": [
         "src"
       ],
@@ -21,22 +21,22 @@
   },
   "scripts": {
     "clean": "rm -rf ./dist",
-    "start": "npm run storybook",
+    "start": "npm run test:playground",
     "build": "npm run clean && rollup -c rollup.config.js",
     "build:watch": "npm run build -- -w",
-    "test": "jest",
-    "test:coverage": "jest --coverage",
-    "test:watch": "jest --watch",
-    "test:watch:coverage": "jest --coverage --watch",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
-    "loki": "loki test",
-    "loki:watch": "run-p storybook watch:loki",
-    "loki:update": "loki update",
-    "loki:approve": "loki approve",
+    "test:unit": "jest",
+    "test:unit:coverage": "jest --coverage",
+    "test:unit:watch": "jest --watch",
+    "test:unit:watch:coverage": "jest --coverage --watch",
+    "test:playground": "start-storybook -p 6006",
+    "test:playground:build": "build-storybook",
+    "test:visual": "loki test",
+    "test:visual:watch": "npm run watch",
+    "test:visual:update": "loki update",
+    "test:visual:approve": "loki approve",
     "watch": "npm-watch",
-    "watch:loki": "npm-watch loki",
-    "prepublishOnly": "npm run build"
+    "prepush": "run-s build test:unit test:visual",
+    "prepublishOnly": "npm run prepush"
   },
   "dependencies": {},
   "peerDependencies": {

@@ -1,5 +1,6 @@
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
+import { Box } from "../web";
 import { BoxChild, BoxContainer, decoratorFlex } from "./config";
 
 storiesOf("01 Base", module)
@@ -26,4 +27,12 @@ storiesOf("01 Base", module)
         </BoxContainer>
       </BoxChild>
     </BoxContainer>
+  ))
+  .add("01 working...", () => (
+    <div style={{ width: "100%" }}>
+      <Box direction="horizontal" style={`padding: 1em; background: teal;`}>
+        <Box>Logo</Box>
+        <Box>Logo</Box>
+      </Box>
+    </div>
   ));
