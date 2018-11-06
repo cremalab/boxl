@@ -55,18 +55,20 @@ export interface BoxContainerProps<T> {
 }
 
 export interface BoxChildrenProps<T> {
+  childWrap?: BoxPropWrap<T>;
+  grow?: BoxPropGrow<T>;
   horizontalAlign?: BoxPropHorizontalAlignment<T>;
   iDirection: BoxPropDirection<T>;
   spacingInfo?: BoxPropSpacing<T>;
+  styleString?: BoxPropStyle<T>;
   verticalAlign?: BoxPropVerticalAlignment<T>;
-  childWrap?: BoxPropWrap<T>;
 }
 
 export interface BoxChildProps<T> {
   grow: BoxPropGrow<T>;
   iWidth?: BoxPropWidth<T>;
-  spacingInfo?: BoxPropSpacing<T>;
   isDummy: boolean;
+  spacingInfo?: BoxPropSpacing<T>;
 }
 
 export type BoxElement = keyof React.ReactHTML;
@@ -77,14 +79,14 @@ export interface BoxProps<T> extends El {
   childWidth?: BoxPropWidth<T>;
   childWrap?: BoxPropWrap<T>;
   direction?: BoxPropDirection<T>;
+  element?: BoxElement;
   grow?: BoxPropGrow<T>;
   horizontalAlign?: BoxPropHorizontalAlignment<T>;
+  isChild?: boolean;
   spacing?: BoxPropSpacing<T>;
+  style?: BoxPropStyle<T>;
   verticalAlign?: BoxPropVerticalAlignment<T>;
   width?: BoxPropWidth<T>;
-  style?: BoxPropStyle<T>;
-  isChild?: boolean;
-  element?: BoxElement;
 }
 
 export type BoxThemeProps<T> = BoxProps<T> & ThemeProps<T>;

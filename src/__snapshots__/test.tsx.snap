@@ -1,0 +1,83 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Box structure Renders correct structure when no spacing 1`] = `
+<div
+  className="sc-bwzfXH cYGREo"
+  data-name="BoxChildren"
+>
+  Text
+</div>
+`;
+
+exports[`Box structure Renders correct structure when spacing AND children length > 1 1`] = `
+<div
+  className="sc-bZQynM bMswha"
+  data-name="BoxContainer"
+>
+  <div
+    className="sc-gzVnrw fddkIu"
+    data-name="BoxChildren"
+  >
+    <div
+      className="sc-htoDjs ieYwg"
+      data-name="BoxChild"
+    >
+      <div>
+        Text 1
+      </div>
+    </div>
+    <div
+      className="sc-htoDjs ieYwg"
+      data-name="BoxChild"
+    >
+      <div>
+        Text 2
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Box structure Renders correct structure when spacing AND children length > 1 and children are Box 1`] = `
+<div
+  className="sc-dnqmqq dQCDjg"
+  data-name="BoxContainer"
+>
+  <div
+    className="sc-iwsKbI gIBXeV"
+    data-name="BoxChildren"
+  >
+    <div
+      className="sc-gZMcBi dnGCkP"
+      data-name="BoxChild"
+    >
+      <div
+        className="sc-VigVT fVGxAV"
+        data-name="BoxChildren"
+      >
+        Text 1
+      </div>
+    </div>
+    <div
+      className="sc-gZMcBi dnGCkP"
+      data-name="BoxChild"
+    >
+      <div
+        className="sc-jzJRlG cqTQyl"
+        data-name="BoxChildren"
+      >
+        Text 2
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Box structure Renders correct structure when spacing BUT children length === 1 1`] = `
+<div
+  className="sc-ifAKCX iIkmr"
+  data-name="BoxChildren"
+>
+  Text
+</div>
+`;

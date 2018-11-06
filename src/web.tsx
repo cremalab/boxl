@@ -34,7 +34,9 @@ export class Box<T> extends React.PureComponent<BoxProps<T>> {
     isChild: false,
   };
 
-  private BoxContainer = styled[this.props.element!]<BoxContainerProps<T>>`
+  private BoxContainer = styled[
+    this.props.spacing ? this.props.element! : "div"
+  ]<BoxContainerProps<T>>`
     ${props => {
       const { isChild } = this.props;
       const { grow, styleString, theme } = props;
@@ -56,21 +58,37 @@ export class Box<T> extends React.PureComponent<BoxProps<T>> {
     }};
   `;
 
-  private BoxChildren = styled.div<BoxChildrenProps<T>>`
+  private BoxChildren = styled[
+    !this.props.spacing ? this.props.element! : "div"
+  ]<BoxChildrenProps<T>>`
     ${props => {
+      const { isChild } = this.props;
       const {
         spacingInfo,
         iDirection,
         horizontalAlign,
         verticalAlign,
         childWrap,
+        grow,
+        styleString,
         theme,
       } = props;
       const propsWithTheme = this.propsWithTheme(theme);
+      const style =
+        typeof styleString === "function"
+          ? flatten(styleString(this.boxThemeThunk), propsWithTheme)
+          : styleString;
       return css`
+      ${grow !== undefined &&
+        styleOfProp(
+          "flex-grow",
+          isChild && grow && grow < 1 ? 1 : grow,
+          propsWithTheme
+        )};
+      ${!style && "flex-grow: 1;"}
+      ${style};
       box-sizing: border-box;
       display: flex;
-      flex: 1;
       ${styleOfProp(
         "flex-direction",
         iDirection,
@@ -150,45 +168,40 @@ export class Box<T> extends React.PureComponent<BoxProps<T>> {
       childWrap,
       children,
       direction = "vertical",
-      grow = 1,
+      grow,
       horizontalAlign,
       spacing,
       style,
       verticalAlign,
       width,
+      isChild,
       ...rest
     } = this.props;
 
-    const shouldIncludeBoxChildren = !!(
-      direction === "horizontal" ||
-      spacing ||
-      horizontalAlign ||
-      verticalAlign ||
-      childWrap
-    );
+    const growComputed =
+      isChild && grow === undefined ? 1 : grow !== undefined ? grow : 1;
 
-    const shouldWrapChildren = !!(
-      spacing ||
-      childGrow ||
-      childWidth ||
-      childWrap === "even"
-    );
+    const shouldUseFullStructure =
+      spacing !== undefined && Array.isArray(children) && children.length > 1;
 
     const shouldIncludeDummies = childWrap === "even";
 
     const childrenWrapped = React.Children.map(
       children,
-      this.childToBoxChild(false)
+      this.childToBoxChild(false, shouldUseFullStructure)
     );
 
     const childrenDummies = shouldIncludeDummies
-      ? React.Children.map(children, this.childToBoxChild(true))
+      ? React.Children.map(
+          children,
+          this.childToBoxChild(true, shouldUseFullStructure)
+        )
       : null;
 
-    return (
+    const templateStylerAlignerSpacer = (
       <this.BoxContainer
         data-name="BoxContainer"
-        grow={grow}
+        grow={growComputed}
         styleString={style}
         {...rest}
       >
@@ -205,6 +218,26 @@ export class Box<T> extends React.PureComponent<BoxProps<T>> {
         </this.BoxChildren>
       </this.BoxContainer>
     );
+
+    const templateAligner = (
+      <this.BoxChildren
+        data-name="BoxChildren"
+        iDirection={direction}
+        horizontalAlign={horizontalAlign}
+        verticalAlign={verticalAlign}
+        childWrap={childWrap}
+        grow={growComputed}
+        styleString={style}
+        {...rest}
+      >
+        {childrenWrapped}
+        {childrenDummies}
+      </this.BoxChildren>
+    );
+
+    return shouldUseFullStructure
+      ? templateStylerAlignerSpacer
+      : templateAligner;
   }
 
   private propsWithTheme = (theme: T) => ({ ...this.props, theme });
@@ -214,11 +247,20 @@ export class Box<T> extends React.PureComponent<BoxProps<T>> {
     literals,
   });
 
-  private childToBoxChild = (isDummy: boolean) => (child: any) => {
+  private childToBoxChild = (
+    isDummy: boolean,
+    shouldUseFullStructure: boolean
+  ) => (child: any) => {
     const { childGrow, childWidth, spacing } = this.props;
     const grow = (child && child.props && child.props.grow) || childGrow;
     const width = (child && child.props && child.props.width) || childWidth;
-    return (
+    const hasSpacing = spacing !== undefined;
+    const hasGrow = grow !== undefined;
+    const hasWidth = width !== undefined;
+    const shouldWrapWithChild =
+      hasGrow || hasWidth || (hasSpacing && shouldUseFullStructure);
+
+    const templateWrapWithChild: JSX.Element = (
       <this.BoxChild
         data-name="BoxChild"
         grow={grow}
@@ -233,5 +275,16 @@ export class Box<T> extends React.PureComponent<BoxProps<T>> {
             : child}
       </this.BoxChild>
     );
+
+    const templateNoWrapWithChild: JSX.Element =
+      hasGrow && !isDummy
+        ? React.cloneElement(child, { isChild: true })
+        : isDummy
+          ? null
+          : child;
+
+    return shouldWrapWithChild
+      ? templateWrapWithChild
+      : templateNoWrapWithChild;
   };
 }
