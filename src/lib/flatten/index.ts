@@ -10,7 +10,7 @@ export const flatten = <T>(
     return (acc +=
       x +
       (interpolation !== undefined && typeof interpolation === "function"
-        ? interpolation(props) + ";"
+        ? interpolation(props)
         : ""));
   }, ``);
 };

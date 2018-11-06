@@ -13,7 +13,7 @@ describe("flatten", () => {
           return p.theme.spacing["3"];
         },
       ],
-      literals: [`background: gray; padding: `, ``],
+      literals: [`background: gray; padding: `, `;`],
     };
     const props = {
       theme: {
