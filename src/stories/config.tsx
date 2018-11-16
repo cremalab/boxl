@@ -5,7 +5,7 @@ import { BoxProps } from "../types/Box";
 import { Box } from "../web";
 
 export const decoratorFlex = (story: any) => {
-  return <div style={{ height: "100vh", display: "flex" }}>{story()}</div>;
+  return <div style={{ minHeight: "100vh", display: "flex" }}>{story()}</div>;
 };
 
 type Scale = "1" | "2" | "3" | "4";

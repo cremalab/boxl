@@ -2,15 +2,17 @@ import { storiesOf } from "@storybook/react";
 import * as React from "react";
 import { BoxProps } from "../types/Box";
 import { Box } from "../web";
-import { BoxChild, BoxContainer, decoratorFlex, Dot, Theme } from "./config";
+import {
+  BoxChild,
+  BoxContainer,
+  BoxPropsThemed,
+  decoratorFlex,
+  Dot,
+  Theme,
+} from "./config";
 
-interface Props {
-  h?: BoxProps<Theme>["horizontalAlign"];
-  v?: BoxProps<Theme>["verticalAlign"];
-}
-
-const Example = ({ h, v }: Props) => (
-  <BoxContainer spacing="1em" grow={1} childGrow={1}>
+const Example = (props: BoxPropsThemed) => (
+  <BoxContainer {...props}>
     <BoxChild />
     <BoxChild />
     <BoxChild />
@@ -20,4 +22,5 @@ const Example = ({ h, v }: Props) => (
 
 storiesOf("childGrow", module)
   .addDecorator(decoratorFlex)
-  .add("00 default", () => <Example />);
+  .add("00 childGrow", () => <Example childGrow={1} />)
+  .add("01 childGrow spacing", () => <Example spacing="1em" childGrow={1} />);

@@ -27,4 +27,67 @@ storiesOf("01 Base", module)
         </BoxContainer>
       </BoxChild>
     </BoxContainer>
+  ))
+  .add("01 content", () => (
+    <BoxContainer spacing="1em">
+      <BoxChild>
+        Deserunt enim reprehenderit dolore magna aliqua aliqua fugiat tempor est
+        reprehenderit et. Veniam laboris culpa cupidatat cupidatat irure sunt
+        qui consectetur sunt ex do non officia. Consectetur velit Lorem nostrud
+        duis enim. Cillum aliqua nulla aute aliqua cillum in.
+      </BoxChild>
+      <BoxChild>
+        Deserunt enim reprehenderit dolore magna aliqua aliqua fugiat tempor est
+        reprehenderit et. Veniam laboris culpa cupidatat cupidatat irure sunt
+        qui consectetur sunt ex do non officia. Consectetur velit Lorem nostrud
+        duis enim. Cillum aliqua nulla aute aliqua cillum in.
+      </BoxChild>
+      <BoxChild>
+        Deserunt enim reprehenderit dolore magna aliqua aliqua fugiat tempor est
+        reprehenderit et. Veniam laboris culpa cupidatat cupidatat irure sunt
+        qui consectetur sunt ex do non officia. Consectetur velit Lorem nostrud
+        duis enim. Cillum aliqua nulla aute aliqua cillum in.
+      </BoxChild>
+    </BoxContainer>
+  ))
+  .add("02 content", () => (
+    <Box
+      spacing="2em"
+      direction="horizontal"
+      style={`padding: 2em;`}
+      childIdealWidth={"50%"}
+    >
+      <Box idealWidth="200%">
+        <h1>Title Here</h1>
+        Deserunt enim reprehenderit dolore magna aliqua aliqua fugiat tempor est
+        reprehenderit et. Veniam laboris culpa cupidatat cupidatat irure sunt
+        qui consectetur sunt ex do non officia. Consectetur velit Lorem nostrud
+        duis enim. Cillum aliqua nulla aute aliqua cillum in. Deserunt enim
+        reprehenderit dolore magna aliqua aliqua fugiat tempor est reprehenderit
+        et. Veniam laboris culpa cupidatat cupidatat irure sunt qui consectetur
+        sunt ex do non officia. Consectetur velit Lorem nostrud duis enim.
+        Cillum aliqua nulla aute aliqua cillum in. Deserunt enim reprehenderit
+        dolore magna aliqua aliqua fugiat tempor est reprehenderit et. Veniam
+        laboris culpa cupidatat cupidatat irure sunt qui consectetur sunt ex do
+        non officia. Consectetur velit Lorem nostrud duis enim. Cillum aliqua
+        nulla aute aliqua cillum in. Deserunt enim reprehenderit dolore magna
+        aliqua aliqua fugiat tempor est reprehenderit et. Veniam laboris culpa
+        cupidatat cupidatat irure sunt qui consectetur sunt ex do non officia.
+        Consectetur velit Lorem nostrud duis enim. Cillum aliqua nulla aute
+        aliqua cillum in.
+      </Box>
+      <Box grow={1}>
+        <h1>Title Here</h1>
+        Deserunt enim reprehenderit dolore magna aliqua aliqua fugiat tempor est
+        reprehenderit et. Veniam laboris culpa cupidatat cupidatat irure sunt
+        qui consectetur sunt ex do non officia. Consectetur velit Lorem nostrud.
+      </Box>
+      <Box>
+        <h1>Title Here</h1>
+        Deserunt enim reprehenderit dolore magna aliqua aliqua fugiat tempor est
+        reprehenderit et. Veniam laboris culpa cupidatat cupidatat irure sunt
+        qui consectetur sunt ex do non officia. Consectetur velit Lorem nostrud
+        duis enim.
+      </Box>
+    </Box>
   ));

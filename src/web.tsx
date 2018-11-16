@@ -46,6 +46,7 @@ export class Box<T> extends React.PureComponent<BoxProps<T>> {
           ? flatten(styleString(this.boxThemeThunk), propsWithTheme)
           : styleString;
       return css`
+        ${style};
         box-sizing: border-box;
         display: flex;
         ${styleOfProp(
@@ -53,7 +54,6 @@ export class Box<T> extends React.PureComponent<BoxProps<T>> {
           isChild && grow && grow < 1 ? 1 : grow,
           propsWithTheme
         )};
-        ${style};
       `;
     }};
   `;
@@ -79,9 +79,9 @@ export class Box<T> extends React.PureComponent<BoxProps<T>> {
           ? flatten(styleString(this.boxThemeThunk), propsWithTheme)
           : styleString;
       return css`
+      ${style};
       ${grow !== undefined && styleOfProp("flex-grow", grow, propsWithTheme)};
       ${!style && grow === undefined && "flex-grow: 1;"}
-      ${style};
       box-sizing: border-box;
       display: flex;
       ${styleOfProp(
@@ -134,13 +134,13 @@ export class Box<T> extends React.PureComponent<BoxProps<T>> {
 
   private BoxChild = styled.div<BoxChildProps<T>>`
     ${props => {
-      const { spacingInfo, grow, iWidth, isDummy, theme } = props;
+      const { spacingInfo, grow, idealWidth, isDummy, theme } = props;
       const propsWithTheme = this.propsWithTheme(theme);
       return css`
       box-sizing: border-box;
       display: flex;
       ${styleOfProp("flex-grow", grow, propsWithTheme)}
-      ${iWidth && styleOfProp("flex-basis", iWidth, propsWithTheme)}
+      ${idealWidth && styleOfProp("flex-basis", idealWidth, propsWithTheme)}
       ${isDummy ? "height: 0;" : ""}
       ${
         spacingInfo && !isDummy
@@ -159,7 +159,7 @@ export class Box<T> extends React.PureComponent<BoxProps<T>> {
   public render() {
     const {
       childGrow,
-      childWidth,
+      childIdealWidth,
       childWrap,
       children,
       direction = "vertical",
@@ -168,7 +168,7 @@ export class Box<T> extends React.PureComponent<BoxProps<T>> {
       spacing,
       style,
       verticalAlign,
-      width,
+      idealWidth,
       isChild,
       ...rest
     } = this.props;
@@ -252,19 +252,21 @@ export class Box<T> extends React.PureComponent<BoxProps<T>> {
       typeof child === "object" &&
       child.hasOwnProperty("props")
     ) {
-      const { childGrow, childWidth, spacing } = this.props;
+      const { childGrow, childIdealWidth, spacing } = this.props;
       const grow = (child && child.props && child.props.grow) || childGrow;
-      const width = (child && child.props && child.props.width) || childWidth;
+      const idealWidth =
+        (child && child.props && child.props.idealWidth) || childIdealWidth;
       const hasSpacing = spacing !== undefined;
       const hasGrow = grow !== undefined;
-      const hasWidth = width !== undefined;
-      const shouldWrapWithChild = hasSpacing && shouldUseFullStructure;
+      const hasIdealWidth = idealWidth !== undefined;
+      const shouldWrapWithChild =
+        hasGrow || idealWidth || (hasSpacing && shouldUseFullStructure);
 
       const templateWrapWithChild = (
         <this.BoxChild
           data-name="BoxChild"
           grow={grow}
-          iWidth={width}
+          idealWidth={idealWidth}
           spacingInfo={spacing}
           isDummy={isDummy}
         >

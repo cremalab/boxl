@@ -25,7 +25,7 @@ export type BoxPropDirection<T> = BoxProp<"horizontal" | "vertical", T>;
 export type BoxPropGrow<T> = BoxProp<number, T>;
 export type BoxPropSpacing<T> = BoxProp<string | number | undefined, T>;
 export type BoxPropWrap<T> = BoxProp<"auto" | "even" | undefined, T>;
-export type BoxPropWidth<T> = BoxProp<string, T>;
+export type BoxPropIdealWidth<T> = BoxProp<string, T>;
 export type BoxPropHorizontalAlignment<T> = BoxProp<
   "left" | "center" | "right" | undefined,
   T
@@ -66,17 +66,17 @@ export interface BoxChildrenProps<T> {
 
 export interface BoxChildProps<T> {
   grow: BoxPropGrow<T>;
-  iWidth?: BoxPropWidth<T>;
+  idealWidth?: BoxPropIdealWidth<T>;
   isDummy: boolean;
   spacingInfo?: BoxPropSpacing<T>;
 }
 
 export type BoxElement = keyof React.ReactHTML;
-export type El = Omit<React.AllHTMLAttributes<HTMLElement>, "style" | "width">;
+export type El = Omit<React.AllHTMLAttributes<HTMLElement>, "style">;
 
 export interface BoxProps<T> extends El {
   childGrow?: BoxPropGrow<T>;
-  childWidth?: BoxPropWidth<T>;
+  childIdealWidth?: BoxPropIdealWidth<T>;
   childWrap?: BoxPropWrap<T>;
   direction?: BoxPropDirection<T>;
   element?: BoxElement;
@@ -86,7 +86,7 @@ export interface BoxProps<T> extends El {
   spacing?: BoxPropSpacing<T>;
   style?: BoxPropStyle<T>;
   verticalAlign?: BoxPropVerticalAlignment<T>;
-  width?: BoxPropWidth<T>;
+  idealWidth?: BoxPropIdealWidth<T>;
 }
 
 export type BoxThemeProps<T> = BoxProps<T> & ThemeProps<T>;

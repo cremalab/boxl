@@ -4,14 +4,14 @@ import { BoxProps } from "../types/Box";
 import { Box } from "../web";
 import { BoxChild, BoxContainer, decoratorFlex, Dot, Theme } from "./config";
 
-storiesOf("childWidth", module)
+storiesOf("childIdealWidth", module)
   .addDecorator(decoratorFlex)
   .add("00 theme function", () => (
     <BoxContainer
       spacing="1em"
       direction="horizontal"
       childWrap="even"
-      childWidth={p => p.theme.width.medium}
+      childIdealWidth={p => p.theme.width.medium}
       childGrow={1}
     >
       <BoxChild />
