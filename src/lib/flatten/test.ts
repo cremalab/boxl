@@ -1,5 +1,5 @@
 import { flatten } from ".";
-import { BoxProps, BoxThemeThunkReturn } from "../../types/Box";
+import { BoxThemeThunkReturn } from "../../types/Box";
 
 interface T {
   spacing: { [key in "3"]: string };

@@ -58,7 +58,6 @@ export const theme: Theme = {
 };
 
 const {
-  default: styled,
   css,
   createGlobalStyle,
   keyframes,

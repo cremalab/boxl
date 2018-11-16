@@ -4,7 +4,6 @@ import {
   BoxPropSpacing,
   BoxPropVerticalAlignment,
   BoxPropWrap,
-  BoxSpacingInfo,
 } from "../../types/Box";
 import { CSSInfo } from "../cssInfo";
 

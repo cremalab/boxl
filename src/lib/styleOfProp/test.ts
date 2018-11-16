@@ -1,6 +1,5 @@
-import { ThemeProps } from "styled-components";
 import { styleOfProp } from ".";
-import { BoxProp, BoxPropDirection } from "../../types/Box";
+import { BoxPropDirection } from "../../types/Box";
 
 interface Props {
   theme: {

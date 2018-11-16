@@ -1,4 +1,3 @@
-import { ThemeProps } from "styled-components";
 import { BoxThemeProps, BoxThemeThunkReturn } from "../../types/Box";
 
 export const flatten = <T>(

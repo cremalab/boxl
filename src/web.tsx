@@ -1,13 +1,5 @@
 import * as React from "react";
-import styled, {
-  css,
-  FlattenInterpolation,
-  StyledFunction,
-  StyledProps,
-  ThemeProps,
-  withTheme,
-} from "styled-components";
-import { CSSInfo } from "./lib/cssInfo";
+import styled, { css } from "styled-components";
 import { flatten } from "./lib/flatten";
 import { styleOfProp } from "./lib/styleOfProp";
 import {
@@ -22,9 +14,7 @@ import {
   BoxChildrenProps,
   BoxContainerProps,
   BoxProps,
-  BoxSpacingInfo,
   BoxThemeThunk,
-  BoxThemeThunkReturn,
 } from "./types/Box";
 
 export class Box<T> extends React.PureComponent<BoxProps<T>> {
@@ -63,7 +53,6 @@ export class Box<T> extends React.PureComponent<BoxProps<T>> {
     !this.props.spacing && this.props.element ? this.props.element : "div"
   ]<BoxChildrenProps<T>>`
     ${props => {
-      const { isChild } = this.props;
       const {
         childWrap,
         grow,
@@ -264,7 +253,6 @@ export class Box<T> extends React.PureComponent<BoxProps<T>> {
         (child && child.props && child.props.idealWidth) || childIdealWidth;
       const hasSpacing = spacing !== undefined;
       const hasGrow = grow !== undefined;
-      const hasIdealWidth = idealWidth !== undefined;
       const shouldWrapWithChild =
         hasGrow || idealWidth || (hasSpacing && shouldUseFullStructure);
 
