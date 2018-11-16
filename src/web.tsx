@@ -39,7 +39,7 @@ export class Box<T> extends React.PureComponent<BoxProps<T>> {
   ]<BoxContainerProps<T>>`
     ${props => {
       const { isChild } = this.props;
-      const { grow, styleString, theme } = props;
+      const { grow, padding, styleString, theme } = props;
       const propsWithTheme = this.propsWithTheme(theme);
       const style =
         typeof styleString === "function"
@@ -54,6 +54,7 @@ export class Box<T> extends React.PureComponent<BoxProps<T>> {
           isChild && grow && grow < 1 ? 1 : grow,
           propsWithTheme
         )};
+        ${styleOfProp("padding", padding, propsWithTheme)};
       `;
     }};
   `;
@@ -64,14 +65,15 @@ export class Box<T> extends React.PureComponent<BoxProps<T>> {
     ${props => {
       const { isChild } = this.props;
       const {
-        spacingInfo,
-        iDirection,
-        horizontalAlign,
-        verticalAlign,
         childWrap,
         grow,
+        horizontalAlign,
+        iDirection,
+        padding,
+        spacingInfo,
         styleString,
         theme,
+        verticalAlign,
       } = props;
       const propsWithTheme = this.propsWithTheme(theme);
       const style =
@@ -128,6 +130,7 @@ export class Box<T> extends React.PureComponent<BoxProps<T>> {
         propsWithTheme,
         translateBoxSpacingHalf(true)
       )};
+      ${styleOfProp("padding", padding, propsWithTheme)};
     `;
     }};
   `;
@@ -165,11 +168,12 @@ export class Box<T> extends React.PureComponent<BoxProps<T>> {
       direction = "vertical",
       grow,
       horizontalAlign,
+      idealWidth,
+      isChild,
+      padding,
       spacing,
       style,
       verticalAlign,
-      idealWidth,
-      isChild,
       ...rest
     } = this.props;
 
@@ -196,16 +200,17 @@ export class Box<T> extends React.PureComponent<BoxProps<T>> {
       <this.BoxContainer
         data-name="Box"
         grow={growComputed}
+        padding={padding}
         styleString={style}
         {...rest}
       >
         <this.BoxChildren
           data-name="BoxChildren"
+          childWrap={childWrap}
+          horizontalAlign={horizontalAlign}
           iDirection={direction}
           spacingInfo={spacing}
-          horizontalAlign={horizontalAlign}
           verticalAlign={verticalAlign}
-          childWrap={childWrap}
         >
           {childrenWrapped}
           {childrenDummies}
@@ -216,12 +221,13 @@ export class Box<T> extends React.PureComponent<BoxProps<T>> {
     const templateAligner = (
       <this.BoxChildren
         data-name="Box"
-        iDirection={direction}
-        horizontalAlign={horizontalAlign}
-        verticalAlign={verticalAlign}
         childWrap={childWrap}
         grow={growComputed}
+        horizontalAlign={horizontalAlign}
+        iDirection={direction}
+        padding={padding}
         styleString={style}
+        verticalAlign={verticalAlign}
         {...rest}
       >
         {childrenWrapped}
@@ -267,8 +273,8 @@ export class Box<T> extends React.PureComponent<BoxProps<T>> {
           data-name="BoxChild"
           grow={grow}
           idealWidth={idealWidth}
-          spacingInfo={spacing}
           isDummy={isDummy}
+          spacingInfo={spacing}
         >
           {isDummy ? null : React.cloneElement(child, { isChild: true })}
         </this.BoxChild>

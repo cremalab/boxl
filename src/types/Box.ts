@@ -1,10 +1,5 @@
 import * as React from "react";
-import {
-  Interpolation,
-  InterpolationFunction,
-  ThemedStyledProps,
-  ThemeProps,
-} from "styled-components";
+import { InterpolationFunction, ThemeProps } from "styled-components";
 export { Box } from "../web";
 
 type Omit<T, K> = Pick<T, Exclude<keyof T, K>>;
@@ -23,6 +18,7 @@ export type BoxSpacingInfo = string;
 
 export type BoxPropDirection<T> = BoxProp<"horizontal" | "vertical", T>;
 export type BoxPropGrow<T> = BoxProp<number, T>;
+export type BoxPropPadding<T> = BoxProp<string | number | undefined, T>;
 export type BoxPropSpacing<T> = BoxProp<string | number | undefined, T>;
 export type BoxPropWrap<T> = BoxProp<"auto" | "even" | undefined, T>;
 export type BoxPropIdealWidth<T> = BoxProp<string, T>;
@@ -51,6 +47,7 @@ export type BoxPropStyle<T> =
 
 export interface BoxContainerProps<T> {
   grow: BoxPropGrow<T>;
+  padding?: BoxPropPadding<T>;
   styleString?: BoxPropStyle<T>;
 }
 
@@ -59,6 +56,7 @@ export interface BoxChildrenProps<T> {
   grow?: BoxPropGrow<T>;
   horizontalAlign?: BoxPropHorizontalAlignment<T>;
   iDirection: BoxPropDirection<T>;
+  padding?: BoxPropPadding<T>;
   spacingInfo?: BoxPropSpacing<T>;
   styleString?: BoxPropStyle<T>;
   verticalAlign?: BoxPropVerticalAlignment<T>;
@@ -82,11 +80,12 @@ export interface BoxProps<T> extends El {
   element?: BoxElement;
   grow?: BoxPropGrow<T>;
   horizontalAlign?: BoxPropHorizontalAlignment<T>;
+  idealWidth?: BoxPropIdealWidth<T>;
   isChild?: boolean;
+  padding?: BoxPropPadding<T>;
   spacing?: BoxPropSpacing<T>;
   style?: BoxPropStyle<T>;
   verticalAlign?: BoxPropVerticalAlignment<T>;
-  idealWidth?: BoxPropIdealWidth<T>;
 }
 
 export type BoxThemeProps<T> = BoxProps<T> & ThemeProps<T>;
