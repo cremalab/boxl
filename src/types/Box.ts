@@ -1,6 +1,6 @@
 import * as React from "react";
 import { InterpolationFunction, ThemeProps } from "styled-components";
-export { Box } from "..";
+export * from "..";
 
 export type Omit<T, K> = Pick<T, Exclude<keyof T, K>>;
 
@@ -43,8 +43,9 @@ export interface BoxThemeThunkReturn<P, T> {
 }
 
 export type BoxPropStyle<P, T> =
-  | ((styleFn: BoxThemeThunk<P, T>) => BoxThemeThunkReturn<P, T>)
-  | (string);
+  | string
+  | ReadonlyArray<string>
+  | ((styleFn: BoxThemeThunk<P, T>) => BoxThemeThunkReturn<P, T>);
 
 export interface BoxChildProps<P, T> {
   grow: BoxPropGrow<P, T>;
@@ -73,3 +74,5 @@ export interface BoxPropsBase<P, T> {
 export type BoxProps<P = {}, T = {}> = P & BoxPropsBase<P, T> & BoxElement;
 
 export type BoxPropsThemed<P, T> = BoxProps<P, T> & ThemeProps<T>;
+
+export type BoxCreateProps<P = {}, T = {}> = Omit<BoxProps<P, T>, keyof P>;

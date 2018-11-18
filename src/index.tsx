@@ -9,7 +9,12 @@ import {
   translateVerticalAlign,
   translateWrap,
 } from "./lib/translate";
-import { BoxChildProps, BoxProps, BoxThemeThunk } from "./types/Box";
+import {
+  BoxChildProps,
+  BoxCreateProps,
+  BoxProps,
+  BoxThemeThunk,
+} from "./types/Box";
 
 export function Box<P, T>(props: BoxProps<P, T>) {
   const {
@@ -186,7 +191,8 @@ export function Box<P, T>(props: BoxProps<P, T>) {
       child.hasOwnProperty("props")
     ) {
       const isBox =
-        typeof child.type === "function" && child.type.name === "Box";
+        (typeof child.type === "function" && child.type.name === "Box") ||
+        (typeof child.type === "function" && child.type.name === "BoxCreated");
       const myGrow = (child && child.props && child.props.grow) || childGrow;
       const myIdealWidth =
         (child && child.props && child.props.idealWidth) || childIdealWidth;
@@ -222,7 +228,7 @@ export function Box<P, T>(props: BoxProps<P, T>) {
   };
 
   const childrenWrapped = React.Children.map(
-    children,
+    [children],
     childToBoxChild(false, shouldUseFullStructure)
   );
 
@@ -231,23 +237,29 @@ export function Box<P, T>(props: BoxProps<P, T>) {
         children,
         childToBoxChild(true, shouldUseFullStructure)
       )
-    : null;
+    : [];
+
+  const childrenFinal = [...childrenWrapped, ...childrenDummies];
 
   const structureFull = (
     <BoxContainer data-name="Box" {...propsRest}>
-      <BoxChildren data-name="BoxChildren">
-        {childrenWrapped}
-        {childrenDummies}
-      </BoxChildren>
+      <BoxChildren data-name="BoxChildren">{childrenFinal}</BoxChildren>
     </BoxContainer>
   );
 
   const structureMinimal = (
     <BoxChildren data-name="Box" {...propsRest}>
-      {childrenWrapped}
-      {childrenDummies}
+      {childrenFinal}
     </BoxChildren>
   );
 
   return shouldUseFullStructure ? structureFull : structureMinimal;
+}
+
+export function boxCreate<P = {}, T = {}>(defaultProps: BoxCreateProps<P, T>) {
+  function BoxCreated(props: BoxProps<P, T> & P) {
+    return <Box<P, T> {...defaultProps} {...props} />;
+  }
+  BoxCreated.displayName = "Box";
+  return BoxCreated;
 }

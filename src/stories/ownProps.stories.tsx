@@ -6,9 +6,9 @@ storiesOf("ownProps", module)
   .addDecorator(decoratorFlex)
   .add("00 are passed to interpolations", () => (
     <BoxContainer<{ test2: Scale }>
-      test={true}
+      testProp={true}
       test2={"1"}
-      padding={p => (p.test ? "1em" : "2em")}
+      padding={p => (p.testProp ? "1em" : "2em")}
       spacing={p => p.theme.spacing[p.test2]}
     >
       <BoxChild />
@@ -18,9 +18,9 @@ storiesOf("ownProps", module)
   ))
   .add("01 are passed to interpolations confirmed", () => (
     <BoxContainer<{ test2: Scale }>
-      test={false}
+      testProp={false}
       test2={"4"}
-      padding={p => (p.test ? "1em" : "2em")}
+      padding={p => (p.testProp ? "1em" : "2em")}
       spacing={p => p.theme.spacing[p.test2]}
     >
       <BoxChild />

@@ -69,15 +69,15 @@ export { css, createGlobalStyle, keyframes, ThemeProvider };
 export type BoxPropsThemed<P = {}> = BoxProps<P, Theme>;
 
 export const BoxContainer = <P extends {}>(
-  props: BoxPropsThemed<{ test?: boolean } & P>
+  props: BoxPropsThemed<{ testProp?: boolean } & P>
 ) => (
   <Box
     {...props}
     grow={1}
     style={s => s`
-    ${({ theme: { color, spacing, transitions, roundness }, test }) => `
+    ${({ theme: { color, spacing, transitions, roundness }, testProp }) => `
         border-radius: ${roundness["3"]}
-        background: ${test ? color.tertiary : color.primary};
+        background: ${testProp ? color.tertiary : color.primary};
         padding: ${spacing["3"]};
         ${transitions.fast};
       `}
