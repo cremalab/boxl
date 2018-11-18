@@ -1,11 +1,11 @@
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 import { BoxProps } from "../types/Box";
-import { BoxChild, BoxContainer, decoratorFlex, Dot, Theme } from "./config";
+import { BoxChild, BoxContainer, decoratorFlex, Dot } from "./config";
 
 interface Props {
-  h?: BoxProps<Theme>["horizontalAlign"];
-  v?: BoxProps<Theme>["verticalAlign"];
+  h?: BoxProps["horizontalAlign"];
+  v?: BoxProps["verticalAlign"];
 }
 
 const Example = ({ h, v }: Props) => (

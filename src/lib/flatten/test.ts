@@ -7,7 +7,7 @@ interface T {
 
 describe("flatten", () => {
   it("works", () => {
-    const stringArray: BoxThemeThunkReturn<T> = {
+    const stringArray: BoxThemeThunkReturn<{}, T> = {
       interpolations: [
         function (p) { // tslint:disable-line
           return p.theme.spacing["3"];

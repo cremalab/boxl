@@ -7,13 +7,15 @@ import {
 } from "../../types/Box";
 import { CSSInfo } from "../cssInfo";
 
-export const translateDirection = <T>(x: BoxPropDirection<T>) =>
+export const translateDirection = <P, T>(x: BoxPropDirection<P, T>) =>
   x === "vertical" ? "column" : "row";
 
-export const translateWrap = <T>(x: BoxPropWrap<T>) =>
+export const translateWrap = <P, T>(x: BoxPropWrap<P, T>) =>
   x !== undefined ? "wrap" : "nowrap";
 
-export const translateVerticalAlign = <T>(x: BoxPropVerticalAlignment<T>) => {
+export const translateVerticalAlign = <P, T>(
+  x: BoxPropVerticalAlignment<P, T>
+) => {
   switch (x) {
     case "top":
       return "flex-start";
@@ -26,8 +28,8 @@ export const translateVerticalAlign = <T>(x: BoxPropVerticalAlignment<T>) => {
   }
 };
 
-export const translateHorizontalAlign = <T>(
-  x: BoxPropHorizontalAlignment<T>
+export const translateHorizontalAlign = <P, T>(
+  x: BoxPropHorizontalAlignment<P, T>
 ) => {
   switch (x) {
     case "left":
@@ -41,8 +43,8 @@ export const translateHorizontalAlign = <T>(
   }
 };
 
-export const translateBoxSpacingHalf = <T>(negative?: boolean) => (
-  x: BoxPropSpacing<T>
+export const translateBoxSpacingHalf = <P, T>(negative?: boolean) => (
+  x: BoxPropSpacing<P, T>
 ) => {
   const info = new CSSInfo(x + "");
   return info.value

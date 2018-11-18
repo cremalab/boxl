@@ -5,11 +5,11 @@
   "author": "Crema",
   "license": "ISC",
   "types": "dist/types/Box.d.ts",
-  "main": "dist/web.js",
+  "main": "dist/index.js",
   "files": [
     "dist/types",
-    "dist/web.d.ts",
-    "dist/web.js"
+    "dist/index.d.ts",
+    "dist/index.js"
   ],
   "watch": {
     "test:visual": {
@@ -41,8 +41,9 @@
   },
   "dependencies": {},
   "peerDependencies": {
-    "react": "^16.4.2",
-    "styled-components": ">= 3.0.0 < 5.0.0"
+    "react": ">= 16.3.0",
+    "react-dom": ">= 16.3.0",
+    "styled-components": ">= 3.0.0"
   },
   "devDependencies": {
     "@storybook/addon-actions": "^3.4.11",
@@ -75,7 +76,7 @@
     "tslint-config-prettier": "^1.15.0",
     "tslint-plugin-prettier": "^1.3.0",
     "tslint-react": "^3.6.0",
-    "typescript": "^3.1.6"
+    "typescript": "^3.2.0-dev.20181117"
   },
   "loki": {
     "configurations": {

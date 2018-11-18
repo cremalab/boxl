@@ -1,91 +1,75 @@
 import * as React from "react";
 import { InterpolationFunction, ThemeProps } from "styled-components";
-export { Box } from "../web";
+export { Box } from "..";
 
-type Omit<T, K> = Pick<T, Exclude<keyof T, K>>;
+export type Omit<T, K> = Pick<T, Exclude<keyof T, K>>;
 
-export type BoxPropThemeFn<A, T> = (
-  props: BoxThemeProps<T>
-) => A | BoxPropMediaQuery<A, T>;
-
-export interface BoxPropMediaQuery<A, T> {
-  [key: string]: A | BoxPropThemeFn<A, T>;
+export interface BoxPropMediaQuery<A, P, T> {
+  [key: string]: A | BoxPropThemeFn<A, P, T>;
 }
 
-export type BoxProp<A, T> = A | BoxPropMediaQuery<A, T> | BoxPropThemeFn<A, T>;
+export type BoxProp<A, P, T> =
+  | A
+  | BoxPropMediaQuery<A, P, T>
+  | BoxPropThemeFn<A, P, T>;
 
-export type BoxSpacingInfo = string;
+export type BoxDir = "horizontal" | "vertical";
+export type BoxDirH = "left" | "center" | "right" | undefined;
+export type BoxDirV = "top" | "center" | "bottom" | undefined;
+export type BoxWrap = "auto" | "even" | undefined;
 
-export type BoxPropDirection<T> = BoxProp<"horizontal" | "vertical", T>;
-export type BoxPropGrow<T> = BoxProp<number, T>;
-export type BoxPropPadding<T> = BoxProp<string | number | undefined, T>;
-export type BoxPropSpacing<T> = BoxProp<string | number | undefined, T>;
-export type BoxPropWrap<T> = BoxProp<"auto" | "even" | undefined, T>;
-export type BoxPropIdealWidth<T> = BoxProp<string, T>;
-export type BoxPropHorizontalAlignment<T> = BoxProp<
-  "left" | "center" | "right" | undefined,
-  T
->;
-export type BoxPropVerticalAlignment<T> = BoxProp<
-  "top" | "center" | "bottom" | undefined,
-  T
->;
+export type BoxPropDirection<P, T> = BoxProp<BoxDir, P, T>;
+export type BoxPropElement = keyof React.ReactHTML;
+export type BoxPropGrow<P, T> = BoxProp<number, P, T>;
+export type BoxPropHorizontalAlignment<P, T> = BoxProp<BoxDirH, P, T>;
+export type BoxPropIdealWidth<P, T> = BoxProp<string, P, T>;
+export type BoxPropPadding<P, T> = BoxProp<string | number | undefined, P, T>;
+export type BoxPropSpacing<P, T> = BoxProp<string | number | undefined, P, T>;
+export type BoxPropVerticalAlignment<P, T> = BoxProp<BoxDirV, P, T>;
+export type BoxPropWrap<P, T> = BoxProp<BoxWrap, P, T>;
 
-export type BoxThemeThunk<T> = (
+export type BoxPropThemeFn<A, P, T> = (
+  props: BoxPropsThemed<P, T>
+) => A | BoxPropMediaQuery<A, P, T>;
+
+export type BoxThemeThunk<P, T> = (
   strings: ReadonlyArray<string>,
-  ...interpolations: Array<InterpolationFunction<BoxThemeProps<T>> | string>
-) => BoxThemeThunkReturn<T>;
+  ...interpolations: Array<InterpolationFunction<BoxPropsThemed<P, T>> | string>
+) => BoxThemeThunkReturn<P, T>;
 
-export interface BoxThemeThunkReturn<T> {
+export interface BoxThemeThunkReturn<P, T> {
   literals: ReadonlyArray<string>;
-  interpolations: Array<InterpolationFunction<BoxThemeProps<T>> | string>;
+  interpolations: Array<InterpolationFunction<BoxPropsThemed<P, T>> | string>;
 }
 
-export type BoxPropStyle<T> =
-  | ((styleFn: BoxThemeThunk<T>) => BoxThemeThunkReturn<T>)
+export type BoxPropStyle<P, T> =
+  | ((styleFn: BoxThemeThunk<P, T>) => BoxThemeThunkReturn<P, T>)
   | (string);
 
-export interface BoxContainerProps<T> {
-  grow: BoxPropGrow<T>;
-  padding?: BoxPropPadding<T>;
-  styleString?: BoxPropStyle<T>;
-}
-
-export interface BoxChildrenProps<T> {
-  childWrap?: BoxPropWrap<T>;
-  grow?: BoxPropGrow<T>;
-  horizontalAlign?: BoxPropHorizontalAlignment<T>;
-  iDirection: BoxPropDirection<T>;
-  padding?: BoxPropPadding<T>;
-  spacingInfo?: BoxPropSpacing<T>;
-  styleString?: BoxPropStyle<T>;
-  verticalAlign?: BoxPropVerticalAlignment<T>;
-}
-
-export interface BoxChildProps<T> {
-  grow: BoxPropGrow<T>;
-  idealWidth?: BoxPropIdealWidth<T>;
+export interface BoxChildProps<P, T> {
+  grow: BoxPropGrow<P, T>;
+  idealWidth?: BoxPropIdealWidth<P, T>;
   isDummy: boolean;
-  spacingInfo?: BoxPropSpacing<T>;
 }
 
-export type BoxElement = keyof React.ReactHTML;
-export type El = Omit<React.AllHTMLAttributes<HTMLElement>, "style">;
+export type BoxElement = Omit<React.AllHTMLAttributes<HTMLElement>, "style">;
 
-export interface BoxProps<T> extends El {
-  childGrow?: BoxPropGrow<T>;
-  childIdealWidth?: BoxPropIdealWidth<T>;
-  childWrap?: BoxPropWrap<T>;
-  direction?: BoxPropDirection<T>;
-  element?: BoxElement;
-  grow?: BoxPropGrow<T>;
-  horizontalAlign?: BoxPropHorizontalAlignment<T>;
-  idealWidth?: BoxPropIdealWidth<T>;
+export interface BoxPropsBase<P, T> {
+  childGrow?: BoxPropGrow<P, T>;
+  childIdealWidth?: BoxPropIdealWidth<P, T>;
+  childWrap?: BoxPropWrap<P, T>;
+  direction?: BoxPropDirection<P, T>;
+  element?: BoxPropElement;
+  grow?: BoxPropGrow<P, T>;
+  horizontalAlign?: BoxPropHorizontalAlignment<P, T>;
+  idealWidth?: BoxPropIdealWidth<P, T>;
   isChild?: boolean;
-  padding?: BoxPropPadding<T>;
-  spacing?: BoxPropSpacing<T>;
-  style?: BoxPropStyle<T>;
-  verticalAlign?: BoxPropVerticalAlignment<T>;
+  padding?: BoxPropPadding<P, T>;
+  spacing?: BoxPropSpacing<P, T>;
+  style?: BoxPropStyle<P, T>;
+  verticalAlign?: BoxPropVerticalAlignment<P, T>;
 }
 
-export type BoxThemeProps<T> = BoxProps<T> & ThemeProps<T>;
+export type BoxProps<P = {}, T = {}> = P & BoxPropsBase<P, T> & BoxElement;
+
+export type BoxPropsThemed<P, T> = BoxProps<P, T> & ThemeProps<T>;

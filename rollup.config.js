@@ -15,10 +15,10 @@ const common = {
 
 export default [
   {
-    input: "src/web.tsx",
+    input: "src/index.tsx",
     output: [
       {
-        file: "dist/web.js",
+        file: "dist/index.js",
         format: "cjs",
         name: 'Boxl',
       },

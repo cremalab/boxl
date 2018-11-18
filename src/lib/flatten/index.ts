@@ -1,9 +1,9 @@
-import { BoxThemeProps, BoxThemeThunkReturn } from "../../types/Box";
+import { BoxPropsThemed, BoxThemeThunkReturn } from "../../types/Box";
 
-export const flatten = <T>(
-  o: BoxThemeThunkReturn<T>,
-  props: BoxThemeProps<T>
-) => {
+export function flatten<P, T>(
+  o: BoxThemeThunkReturn<P, T>,
+  props: BoxPropsThemed<P, T>
+) {
   return o.literals.reduce((acc, x, i) => {
     const interpolation = o.interpolations[i];
     return (acc +=
@@ -12,4 +12,4 @@ export const flatten = <T>(
         ? interpolation(props)
         : ""));
   }, ``);
-};
+}

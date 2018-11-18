@@ -40,12 +40,12 @@ describe("styleOfProp", () => {
   });
 
   it("handles translate", () => {
-    const prop: BoxPropDirection<any> = {
+    const prop: BoxPropDirection<{}, any> = {
       "@media (max-width: 1200px)": "horizontal",
       "@media (max-width: 700px)": "vertical",
     };
 
-    const translate = (x: BoxPropDirection<any>) =>
+    const translate = (x: BoxPropDirection<{}, any>) =>
       x === "horizontal" ? "row" : "column";
 
     expect(styleOfProp("flex-direction", prop, props, translate)).toEqual(

@@ -1,15 +1,14 @@
-import { ThemeProps } from "styled-components";
-import { BoxProp, BoxProps, BoxPropThemeFn } from "../../types/Box";
+import { BoxProp, BoxPropsThemed, BoxPropThemeFn } from "../../types/Box";
 
-export function styleOfProp<A, T>(
+export function styleOfProp<A, P, T>(
   attribute: string,
-  prop: BoxProp<A, T>,
-  props?: BoxProps<T> & ThemeProps<T>,
-  translate: ((prop: BoxProp<A, T>) => string | undefined) = (x: any) => x
+  prop: BoxProp<A, P, T>,
+  props?: BoxPropsThemed<P, T>,
+  translate: ((prop: BoxProp<A, P, T>) => string | undefined) = (x: any) => x
 ): string {
   switch (typeof prop) {
     case "function": {
-      const propTyped = prop as BoxPropThemeFn<A, T>;
+      const propTyped = prop as BoxPropThemeFn<A, P, T>;
       const result = props && propTyped(props);
       return result && props
         ? typeof result === "object"
@@ -19,10 +18,10 @@ export function styleOfProp<A, T>(
     }
     case "object": {
       return Object.entries(prop).reduce(
-        (acc, [key, value]: [string, BoxProp<A, T>]) => {
+        (acc, [key, value]: [string, BoxProp<A, P, T>]) => {
           switch (typeof value) {
             case "function": {
-              const valueTyped = value as BoxPropThemeFn<A, T>;
+              const valueTyped = value as BoxPropThemeFn<A, P, T>;
               return (acc +=
                 typeof value === "function" && props
                   ? `${key} { ${attribute}: ${translate(valueTyped(props))}; }`

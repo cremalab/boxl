@@ -1,18 +1,18 @@
 import * as React from "react";
 import * as styledComponents from "styled-components"; // tslint:disable-line
 import { ThemedStyledComponentsModule } from "styled-components"; // tslint:disable-line
+import { Box } from "..";
 import { BoxProps } from "../types/Box";
-import { Box } from "../web";
 
 export const decoratorFlex = (story: any) => {
   return <div style={{ minHeight: "100vh", display: "flex" }}>{story()}</div>;
 };
 
-type Scale = "1" | "2" | "3" | "4";
-type Breakpoint = "1" | "2" | "3";
-type Color = "primary" | "secondary" | "tertiary";
-type Speed = "fast" | "slow";
-type Width = "small" | "medium" | "large";
+export type Scale = "1" | "2" | "3" | "4";
+export type Breakpoint = "1" | "2" | "3";
+export type Color = "primary" | "secondary" | "tertiary";
+export type Speed = "fast" | "slow";
+export type Width = "small" | "medium" | "large";
 
 export interface Theme {
   color: { [key in Color]: string };
@@ -66,16 +66,18 @@ const {
 
 export { css, createGlobalStyle, keyframes, ThemeProvider };
 
-export type BoxPropsThemed = BoxProps<Theme>;
+export type BoxPropsThemed<P = {}> = BoxProps<P, Theme>;
 
-export const BoxContainer = (props: BoxPropsThemed) => (
+export const BoxContainer = <P extends {}>(
+  props: BoxPropsThemed<{ test?: boolean } & P>
+) => (
   <Box
     {...props}
     grow={1}
     style={s => s`
-    ${({ theme: { color, spacing, transitions, mq, roundness } }) => `
+    ${({ theme: { color, spacing, transitions, roundness }, test }) => `
         border-radius: ${roundness["3"]}
-        background: ${color.primary};
+        background: ${test ? color.tertiary : color.primary};
         padding: ${spacing["3"]};
         ${transitions.fast};
       `}
@@ -83,7 +85,7 @@ export const BoxContainer = (props: BoxPropsThemed) => (
   />
 );
 
-export const BoxChild = (props: BoxPropsThemed) => (
+export const BoxChild = <P extends {}>(props: BoxPropsThemed<P>) => (
   <Box
     {...props}
     style={s => s`
@@ -97,7 +99,7 @@ export const BoxChild = (props: BoxPropsThemed) => (
   />
 );
 
-export const Dot = (props: BoxPropsThemed) => (
+export const Dot = <P extends {}>(props: BoxPropsThemed<P>) => (
   <Box
     {...props}
     grow={0}
