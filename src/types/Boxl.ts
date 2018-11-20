@@ -1,6 +1,6 @@
 import * as React from "react";
 import { InterpolationFunction, ThemeProps } from "styled-components";
-export { boxl } from "..";
+export * from "..";
 
 export type BoxlChildProps<P, T> = {
   grow: BoxlPropGrow<P, T>;
