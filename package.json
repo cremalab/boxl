@@ -1,6 +1,6 @@
 {
   "name": "react-boxl",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "description": "Layout primitives for the styled component age.",
   "author": "Crema",
   "license": "ISC",
@@ -26,7 +26,7 @@
     "jest:src": "jest 'src\\/.*\\/test\\.ts?$'",
     "jest:build": "jest test-build.test.ts",
     "prepublishOnly": "npm run prepush",
-    "prepush": "run-s test:build test:unit test:visual test:example",
+    "prepush": "run-s test:unit test:visual test:example test:build",
     "start": "npm run test:playground",
     "test:build": "run-s build jest:build",
     "test:example": "loki test --configurationFilter example --storiesFilter ^Example.+$",
