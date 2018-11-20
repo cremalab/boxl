@@ -13,7 +13,7 @@ $ npm i react-boxl styled-components
 
 Create components with the `boxl` function passing default props and styling.
 
-```tsx
+```jsx
 // Examples.tsx
 import * as React from "react";
 import { boxl } from "boxl";
@@ -48,7 +48,7 @@ const Section = boxl<SectionProps>({
 
 #### Direction Vertical (default)
 ![Example 1](.loki/reference/example_example_01.png)
-```tsx
+```jsx
 const Vertical = () => (
   <Container>
     <Section primary={true} />
@@ -60,7 +60,7 @@ const Vertical = () => (
 
 #### Direction Horizontal
 ![Example 2](.loki/reference/example_example_02.png)
-```tsx
+```jsx
 const Horizontal = () => (
   <Container direction="horizontal">
     <Section grow={1} primary={true} />
