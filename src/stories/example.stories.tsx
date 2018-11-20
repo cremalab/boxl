@@ -1,11 +1,12 @@
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 import { boxl } from "..";
-import { decoratorBlock } from "./config";
+import { decoratorBlock, decoratorExample } from "./config";
 
 const Container = boxl({
   spacing: "16px", // ⬅︎ adds spacing between children
   style: `
+    background: white;
     border: 8px solid black;
     box-shadow: 12px -12px 0 0 black;
     margin: 12px 12px 0 0;
@@ -25,6 +26,7 @@ interface SectionProps {
 const Section = boxl<SectionProps>({
   style: styled => styled` // ⬅︎ tagged template literal à la styled-components
     ${props => (props.primary ? `background: black;` : ``)};
+    background: white;
     border: 8px solid black;
     padding: 32px;
   `,
@@ -32,6 +34,7 @@ const Section = boxl<SectionProps>({
 
 storiesOf("example", module)
   .addDecorator(decoratorBlock)
+  .addDecorator(decoratorExample)
   .add("01", () => (
     <Container>
       <Section primary={true} />

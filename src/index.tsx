@@ -1,6 +1,7 @@
 import * as React from "react";
 import styled, { css } from "styled-components";
 import { flatten } from "./lib/flatten";
+import { omit } from "./lib/omit";
 import { styleOfProp } from "./lib/styleOfProp";
 import {
   translateBoxSpacingHalf,
@@ -13,10 +14,28 @@ import {
   BoxlChildProps,
   BoxlComponentProps,
   BoxlProps,
+  BoxlPropsPartial,
   BoxlThemeThunk,
 } from "./types/Boxl";
 
 function BoxlComponent<P, T>(props: BoxlComponentProps<P, T>) {
+  const propsRest = omit(props, [
+    "alignHorizontal",
+    "alignVertical",
+    "childGrow",
+    "childIdealWidth",
+    "childWrap",
+    "children",
+    "direction",
+    "element",
+    "grow",
+    "idealWidth",
+    "isChild",
+    "padding",
+    "spacing",
+    "style",
+  ]);
+
   const {
     alignHorizontal,
     alignVertical,
@@ -27,12 +46,11 @@ function BoxlComponent<P, T>(props: BoxlComponentProps<P, T>) {
     direction = "vertical",
     element = "div",
     grow: growUncomputed,
-    idealWidth,
+    // idealWidth,
     isChild = false,
     padding,
     spacing,
     style,
-    ...propsRest
   } = props;
 
   /**
@@ -69,7 +87,7 @@ function BoxlComponent<P, T>(props: BoxlComponentProps<P, T>) {
 
   const BoxlContainer = styled[spacing && element ? element! : "div"]`
     ${({ theme }) => {
-      const propsWithTheme = { ...props, theme };
+      const propsWithTheme = Object.assign({}, props, { theme }); //tslint:disable-line
       const styleString = shouldUseFullStructure
         ? typeof style === "function"
           ? flatten(style(boxThemeThunk), propsWithTheme)
@@ -92,7 +110,7 @@ function BoxlComponent<P, T>(props: BoxlComponentProps<P, T>) {
 
   const BoxlChildren = styled[!spacing && element ? element : "div"]`
     ${({ theme }) => {
-      const propsWithTheme = { ...props, theme };
+      const propsWithTheme = Object.assign({}, props, { theme }); //tslint:disable-line
       const styleString = shouldUseFullStructure
         ? undefined
         : typeof style === "function"
@@ -161,10 +179,7 @@ function BoxlComponent<P, T>(props: BoxlComponentProps<P, T>) {
         isDummy,
         theme,
       } = myProps;
-      const propsWithTheme = {
-        ...props,
-        theme,
-      };
+      const propsWithTheme = Object.assign({}, props, { theme }); //tslint:disable-line
       return css`
       box-sizing: border-box;
       display: flex;
@@ -264,10 +279,18 @@ function BoxlComponent<P, T>(props: BoxlComponentProps<P, T>) {
   return shouldUseFullStructure ? structureFull : structureMinimal;
 }
 
-export function boxl<P1 = {}, T = {}>(defaultProps?: BoxlProps<P1, T>) {
-  function Boxl<P2 = P1, T2 = T>(props: BoxlComponentProps<P2, T2> & P2) {
-    return <BoxlComponent {...defaultProps} {...props} />;
+export function boxl<
+  P,
+  T = {},
+  D extends BoxlPropsPartial<P, T> = BoxlPropsPartial<P, T>
+>(d?: D) {
+  function Boxl(p: P & BoxlProps<P, T>) {
+    return <BoxlComponent {...d} {...p} />;
   }
   Boxl.displayName = "Boxl";
   return Boxl;
+}
+export function boxlThemed<T>() {
+  return <P, D extends BoxlPropsPartial<P, T> = BoxlPropsPartial<P, T>>(d: D) =>
+    boxl<P, T, D>(d);
 }

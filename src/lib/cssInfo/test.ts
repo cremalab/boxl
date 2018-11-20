@@ -16,6 +16,7 @@ const units = [
   "vmax",
   "vmin",
   "vw",
+  "fr",
 ];
 
 describe("cssInfo", () => {

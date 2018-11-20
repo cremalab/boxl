@@ -8,7 +8,7 @@ export type BoxlChildProps<P, T> = {
   isDummy: boolean;
 };
 
-export type BoxlComponentProps<P = {}, T = {}> = {
+export interface BoxlNativeProps<P = {}, T = {}> {
   alignHorizontal?: BoxlPropAlignmentHorizontal<P, T>;
   alignVertical?: BoxlPropAlignmentVertical<P, T>;
   childGrow?: BoxlPropGrow<P, T>;
@@ -22,11 +22,11 @@ export type BoxlComponentProps<P = {}, T = {}> = {
   padding?: BoxlPropPadding<P, T>;
   spacing?: BoxlPropSpacing<P, T>;
   style?: BoxlPropStyle<P, T>;
-} & BoxlElement &
-  P;
+}
 
-export type BoxlComponentPropsThemed<P, T> = BoxlComponentProps<P, T> &
-  ThemeProps<T>;
+export type BoxlComponentProps<P = {}, T = {}> = BoxlNativeProps<P, T> &
+  BoxlElement &
+  P;
 
 export type BoxlElement = Omit<React.AllHTMLAttributes<HTMLElement>, "style">;
 
@@ -69,27 +69,25 @@ export type BoxlPropStyle<P, T> =
   | ((styleFn: BoxlThemeThunk<P, T>) => BoxlThemeThunkReturn<P, T>);
 
 export type BoxlPropThemeFn<A, P, T> = (
-  props: BoxlComponentPropsThemed<P, T>
+  props: BoxlPropsThemed<P, T>
 ) => A | BoxlPropMediaQuery<A, P, T>;
 
 export type BoxlPropWrap<P, T> = BoxlProp<"auto" | "even" | undefined, P, T>;
 
-export type BoxlProps<P = {}, T = {}> =
-  | Omit<BoxlComponentProps<P, T>, keyof P>
-  | BoxlComponentProps<P, T>;
+export type BoxlProps<P = {}, T = {}> = BoxlComponentProps<P, T>;
+export type BoxlPropsPartial<P, T> = BoxlProps<Partial<P>, T>;
+export type BoxlPropsThemed<P, T> = BoxlProps<P, T> & ThemeProps<T>;
 
 export type BoxlThemeThunk<P, T> = (
   strings: ReadonlyArray<string>,
   ...interpolations: Array<
-    InterpolationFunction<BoxlComponentPropsThemed<P, T>> | string
+    InterpolationFunction<BoxlPropsThemed<P, T>> | string
   >
 ) => BoxlThemeThunkReturn<P, T>;
 
 export type BoxlThemeThunkReturn<P, T> = {
   literals: ReadonlyArray<string>;
-  interpolations: Array<
-    InterpolationFunction<BoxlComponentPropsThemed<P, T>> | string
-  >;
+  interpolations: Array<InterpolationFunction<BoxlPropsThemed<P, T>> | string>;
 };
 
 export type Omit<T, K> = Pick<T, Exclude<keyof T, K>>;

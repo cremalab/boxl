@@ -119,3 +119,11 @@ Object {
   "value": 10,
 }
 `;
+
+exports[`cssInfo returns valid cssInfo object for all supported CSS lengths 16`] = `
+Object {
+  "raw": "10fr",
+  "unit": "fr",
+  "value": 10,
+}
+`;

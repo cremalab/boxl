@@ -1,17 +1,14 @@
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
-import { boxl as boxlUnthemed } from "..";
-import { BoxlProps } from "../types/Boxl";
+import { boxlThemed } from "..";
 import { decoratorFlex, Scale, Theme } from "./config";
 
-function boxl<P = {}>(props: BoxlProps<P, Theme>) {
-  return boxlUnthemed(props);
-}
+const boxl = boxlThemed<Theme>();
 
-const Container = boxl<{ ownPropTest: Scale }>({
+const Container = boxl<{ ownPropTest?: Scale }>({
   grow: 1,
-  padding: p => p.theme.spacing[p.ownPropTest],
-  spacing: p => p.theme.spacing[p.ownPropTest],
+  padding: p => p.ownPropTest && p.theme.spacing[p.ownPropTest],
+  spacing: p => p.ownPropTest && p.theme.spacing[p.ownPropTest],
   style: s => s`
     background: ${p => p.theme.color.primary};
   `,

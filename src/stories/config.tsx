@@ -1,7 +1,8 @@
 import * as React from "react";
 import * as styledComponents from "styled-components"; // tslint:disable-line
 import { ThemedStyledComponentsModule } from "styled-components"; // tslint:disable-line
-import { boxl as boxlUnthemed, BoxlProps } from "../types/Boxl";
+import { boxlThemed } from "..";
+import { BoxlProps } from "../types/Boxl";
 
 export const decoratorFlex = (story: any) => {
   return <div style={{ minHeight: "100vh", display: "flex" }}>{story()}</div>;
@@ -9,6 +10,14 @@ export const decoratorFlex = (story: any) => {
 
 export const decoratorBlock = (story: any) => {
   return <div style={{ overflow: "auto" }}>{story()}</div>;
+};
+
+export const decoratorExample = (story: any) => {
+  return (
+    <div style={{ background: "#f6f8fa", padding: "2em", borderRadius: "3px" }}>
+      {story()}
+    </div>
+  );
 };
 
 export type Scale = "1" | "2" | "3" | "4";
@@ -70,10 +79,7 @@ const {
 export { css, createGlobalStyle, keyframes, ThemeProvider };
 
 export type BoxlPropsThemed<P = {}> = BoxlProps<P, Theme>;
-
-function boxl<P = {}>(props?: BoxlPropsThemed<P>) {
-  return boxlUnthemed(props);
-}
+const boxl = boxlThemed<Theme>();
 
 interface BoxContainerProps {
   test1?: boolean;

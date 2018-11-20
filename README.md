@@ -21,6 +21,7 @@ import { boxl } from "boxl";
 const Container = boxl({
   spacing: "16px", // ⬅︎ adds spacing between children
   style: `
+    background: white;
     border: 8px solid black;
     box-shadow: 12px -12px 0 0 black;
     margin: 12px 12px 0 0;
@@ -29,7 +30,7 @@ const Container = boxl({
 });
 
 /**
- * Additional props may be statically defined 
+ * Additional props may be statically defined
  * using an optional type parameter.
  */
 
@@ -40,6 +41,7 @@ interface SectionProps {
 const Section = boxl<SectionProps>({
   style: styled => styled` // ⬅︎ tagged template literal à la styled-components
     ${props => (props.primary ? `background: black;` : ``)};
+    background: white;
     border: 8px solid black;
     padding: 32px;
   `,
@@ -74,6 +76,26 @@ const Horizontal = () => (
 ## API
 
 ### Box
+
+<details>
+  <summary>
+    <code><strong>alignHorizontal?: "left" | "center" | "right"</strong></code>
+  </summary>
+  <br>
+  
+  Aligns children horizontally regardless of `direction` ***(default: "left")***
+
+</details>
+
+<details>
+  <summary>
+    <code><strong>alignVertical?: "top" | "center" | "bottom"</strong></code>
+  </summary>
+  <br>
+  
+  Aligns children vertically regardless of `direction` ***(default: "top")***
+
+</details>
 
 <details>
   <summary>
@@ -226,16 +248,6 @@ const Horizontal = () => (
 
 <details>
   <summary>
-    <code><strong>horizontalAlign?: "left" | "center" | "right"</strong></code>
-  </summary>
-  <br>
-  
-  Aligns children horizontally regardless of `direction` ***(default: "left")***
-
-</details>
-
-<details>
-  <summary>
     <code><strong>idealWidth?: string (CSS length)</strong></code>
   </summary>
   <br>
@@ -298,16 +310,6 @@ const Horizontal = () => (
       `}
     />
   ```
-
-</details>
-
-<details>
-  <summary>
-    <code><strong>verticalAlign?: "top" | "center" | "bottom"</strong></code>
-  </summary>
-  <br>
-  
-  Aligns children vertically regardless of `direction` ***(default: "top")***
 
 </details>
 

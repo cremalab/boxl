@@ -1,13 +1,9 @@
-import {
-  BoxlComponentPropsThemed,
-  BoxlProp,
-  BoxlPropThemeFn,
-} from "../../types/Boxl";
+import { BoxlProp, BoxlPropsThemed, BoxlPropThemeFn } from "../../types/Boxl";
 
 export function styleOfProp<A, P, T>(
   attribute: string,
   prop: BoxlProp<A, P, T>,
-  props: BoxlComponentPropsThemed<P, T>,
+  props: BoxlPropsThemed<P, T>,
   translate: ((x: BoxlProp<A, P, T>) => string | undefined) = x =>
     x ? x.toString() : ""
 ): string {
