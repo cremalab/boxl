@@ -23,7 +23,7 @@
     "build": "npm run clean && rollup -c rollup.config.js",
     "build:watch": "npm run build -- -w",
     "clean": "rm -rf ./dist",
-    "jest:src": "jest 'src\\/.*\\/test\\.ts?$'",
+    "jest:src": "jest 'src.*\/test.(ts|tsx)'",
     "jest:build": "jest test-build.test.ts",
     "prepublishOnly": "npm run prepush",
     "prepush": "run-s test:unit test:visual test:example test:build",
