@@ -25,7 +25,7 @@
     "clean": "rm -rf ./dist",
     "jest": "jest",
     "prepublishOnly": "npm run prepush",
-    "prepush": "run-s build test:unit test:visual",
+    "prepush": "run-s build test:unit test:visual test:example",
     "start": "npm run test:playground",
     "test:example": "loki test --configurationFilter example --storiesFilter ^Example.+$",
     "test:example:approve": "loki approve --configurationFilter example --storiesFilter ^Example.+$",
