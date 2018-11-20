@@ -290,7 +290,9 @@ export function boxl<
   Boxl.displayName = "Boxl";
   return Boxl;
 }
+
 export function boxlThemed<T>() {
-  return <P, D extends BoxlPropsPartial<P, T> = BoxlPropsPartial<P, T>>(d: D) =>
-    boxl<P, T, D>(d);
+  return <P, D extends BoxlPropsPartial<P, T> = BoxlPropsPartial<P, T>>(
+    d?: D
+  ) => boxl<P, T, D>(d);
 }

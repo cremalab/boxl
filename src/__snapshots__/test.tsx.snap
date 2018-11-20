@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Boxl childWrap auto 1`] = `
+exports[`boxl childWrap auto 1`] = `
 <div
   className="sc-hSdWYo cTXxZN"
   data-name="Boxl"
@@ -24,7 +24,7 @@ exports[`Boxl childWrap auto 1`] = `
 </div>
 `;
 
-exports[`Boxl childWrap even 1`] = `
+exports[`boxl childWrap even 1`] = `
 <div
   className="sc-jWBwVP fpqoaz"
   data-name="Boxl"
@@ -56,7 +56,7 @@ exports[`Boxl childWrap even 1`] = `
 </div>
 `;
 
-exports[`Boxl direction default 1`] = `
+exports[`boxl direction default 1`] = `
 <div
   className="sc-kpOJdX frRTgV"
   data-name="Boxl"
@@ -70,7 +70,7 @@ exports[`Boxl direction default 1`] = `
 </div>
 `;
 
-exports[`Boxl direction horizontal 1`] = `
+exports[`boxl direction horizontal 1`] = `
 <div
   className="sc-kEYyzF gOYnrP"
   data-name="Boxl"
@@ -84,7 +84,7 @@ exports[`Boxl direction horizontal 1`] = `
 </div>
 `;
 
-exports[`Boxl direction vertical 1`] = `
+exports[`boxl direction vertical 1`] = `
 <div
   className="sc-jKJlTe huTbaD"
   data-name="Boxl"
@@ -98,14 +98,14 @@ exports[`Boxl direction vertical 1`] = `
 </div>
 `;
 
-exports[`Boxl edge-cases handles null child in children array 1`] = `
+exports[`boxl edge-cases handles null child in children array 1`] = `
 <div
   className="sc-chPdSV LgyEa"
   data-name="Boxl"
 />
 `;
 
-exports[`Boxl structure Renders correct structure when no spacing 1`] = `
+exports[`boxl structure Renders correct structure when no spacing 1`] = `
 <div
   className="sc-bwzfXH RkOMy"
   data-name="Boxl"
@@ -114,7 +114,7 @@ exports[`Boxl structure Renders correct structure when no spacing 1`] = `
 </div>
 `;
 
-exports[`Boxl structure Renders correct structure when spacing AND children length > 1 1`] = `
+exports[`boxl structure Renders correct structure when spacing AND children length > 1 1`] = `
 <div
   className="sc-bZQynM hmYzAv"
   data-name="Boxl"
@@ -143,7 +143,7 @@ exports[`Boxl structure Renders correct structure when spacing AND children leng
 </div>
 `;
 
-exports[`Boxl structure Renders correct structure when spacing AND children length > 1 and children are Boxl 1`] = `
+exports[`boxl structure Renders correct structure when spacing AND children length > 1 and children are Boxl 1`] = `
 <div
   className="sc-dnqmqq ilEALG"
   data-name="Boxl"
@@ -178,11 +178,18 @@ exports[`Boxl structure Renders correct structure when spacing AND children leng
 </div>
 `;
 
-exports[`Boxl structure Renders correct structure when spacing BUT children length === 1 1`] = `
+exports[`boxl structure Renders correct structure when spacing BUT children length === 1 1`] = `
 <div
   className="sc-ifAKCX gZjnqQ"
   data-name="Boxl"
 >
   Text
 </div>
+`;
+
+exports[`boxlThemed can call returned boxl 1`] = `
+<div
+  className="sc-jAaTju hNNvRg"
+  data-name="Boxl"
+/>
 `;

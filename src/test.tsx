@@ -1,10 +1,10 @@
 import React from "react";
 import TestRenderer from "react-test-renderer";
-import { boxl } from ".";
+import { boxl as b, boxlThemed } from ".";
 
-const Boxl = boxl();
+describe("boxl", () => {
+  const Boxl = b();
 
-describe("Boxl", () => {
   describe("structure", () => {
     it("Renders correct structure when no spacing", () => {
       const received = TestRenderer.create(<Boxl>Text</Boxl>);
@@ -98,5 +98,19 @@ describe("Boxl", () => {
       );
       expect(received).toMatchSnapshot();
     });
+  });
+});
+
+describe("boxlThemed", () => {
+  it("returns instance of boxl", () => {
+    const boxl = boxlThemed<{}>();
+    expect(boxl).toBeInstanceOf(Function);
+  });
+
+  it("can call returned boxl", () => {
+    const boxl = boxlThemed<{}>();
+    const Test = boxl();
+    const received = TestRenderer.create(<Test />);
+    expect(received).toMatchSnapshot();
   });
 });
