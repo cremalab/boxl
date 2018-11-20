@@ -20,4 +20,21 @@ storiesOf("childWrap", module)
       <BoxChild idealWidth="200px" grow={1} />
       <BoxChild idealWidth="200px" grow={1} />
     </BoxContainer>
+  ))
+  .add("02 auto no spacing", () => (
+    <BoxContainer direction="horizontal" childWrap="auto">
+      <BoxChild idealWidth="200px" grow={1} />
+      <BoxChild idealWidth="200px" grow={1} />
+      <BoxChild idealWidth="200px" grow={1} />
+      <BoxChild idealWidth="200px" grow={1} />
+    </BoxContainer>
+  ))
+  .add("03 even no spacing", () => (
+    <BoxContainer direction="horizontal" childWrap="even">
+      <BoxChild idealWidth="200px" grow={1} />
+      <BoxChild idealWidth="200px" grow={1} />
+      <BoxChild idealWidth="200px" grow={1} />
+      <BoxChild idealWidth="200px" grow={1} />
+      <BoxChild idealWidth="200px" grow={1} />
+    </BoxContainer>
   ));

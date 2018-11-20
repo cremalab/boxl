@@ -1,0 +1,121 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`cssInfo returns valid cssInfo object for all supported CSS lengths 1`] = `
+Object {
+  "raw": "10%",
+  "unit": "%",
+  "value": 10,
+}
+`;
+
+exports[`cssInfo returns valid cssInfo object for all supported CSS lengths 2`] = `
+Object {
+  "raw": "10ch",
+  "unit": "ch",
+  "value": 10,
+}
+`;
+
+exports[`cssInfo returns valid cssInfo object for all supported CSS lengths 3`] = `
+Object {
+  "raw": "10cm",
+  "unit": "cm",
+  "value": 10,
+}
+`;
+
+exports[`cssInfo returns valid cssInfo object for all supported CSS lengths 4`] = `
+Object {
+  "raw": "10em",
+  "unit": "em",
+  "value": 10,
+}
+`;
+
+exports[`cssInfo returns valid cssInfo object for all supported CSS lengths 5`] = `
+Object {
+  "raw": "10ex",
+  "unit": "ex",
+  "value": 10,
+}
+`;
+
+exports[`cssInfo returns valid cssInfo object for all supported CSS lengths 6`] = `
+Object {
+  "raw": "10in",
+  "unit": "in",
+  "value": 10,
+}
+`;
+
+exports[`cssInfo returns valid cssInfo object for all supported CSS lengths 7`] = `
+Object {
+  "raw": "10mm",
+  "unit": "mm",
+  "value": 10,
+}
+`;
+
+exports[`cssInfo returns valid cssInfo object for all supported CSS lengths 8`] = `
+Object {
+  "raw": "10pc",
+  "unit": "pc",
+  "value": 10,
+}
+`;
+
+exports[`cssInfo returns valid cssInfo object for all supported CSS lengths 9`] = `
+Object {
+  "raw": "10pt",
+  "unit": "pt",
+  "value": 10,
+}
+`;
+
+exports[`cssInfo returns valid cssInfo object for all supported CSS lengths 10`] = `
+Object {
+  "raw": "10px",
+  "unit": "px",
+  "value": 10,
+}
+`;
+
+exports[`cssInfo returns valid cssInfo object for all supported CSS lengths 11`] = `
+Object {
+  "raw": "10rem",
+  "unit": "rem",
+  "value": 10,
+}
+`;
+
+exports[`cssInfo returns valid cssInfo object for all supported CSS lengths 12`] = `
+Object {
+  "raw": "10vh",
+  "unit": "vh",
+  "value": 10,
+}
+`;
+
+exports[`cssInfo returns valid cssInfo object for all supported CSS lengths 13`] = `
+Object {
+  "raw": "10vmax",
+  "unit": "vmax",
+  "value": 10,
+}
+`;
+
+exports[`cssInfo returns valid cssInfo object for all supported CSS lengths 14`] = `
+Object {
+  "raw": "10vmin",
+  "unit": "vmin",
+  "value": 10,
+}
+`;
+
+exports[`cssInfo returns valid cssInfo object for all supported CSS lengths 15`] = `
+Object {
+  "raw": "10vw",
+  "unit": "vw",
+  "value": 10,
+}
+`;

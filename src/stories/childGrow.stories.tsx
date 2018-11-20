@@ -3,11 +3,11 @@ import * as React from "react";
 import {
   BoxChild,
   BoxContainer,
-  BoxPropsThemed,
+  BoxlPropsThemed,
   decoratorFlex,
 } from "./config";
 
-const Example = (props: BoxPropsThemed) => (
+const Example = (props: BoxlPropsThemed) => (
   <BoxContainer {...props}>
     <BoxChild />
     <BoxChild />

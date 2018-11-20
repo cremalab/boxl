@@ -1,7 +1,9 @@
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
-import { Box } from "..";
+import { boxl } from "..";
 import { BoxChild, BoxContainer, decoratorFlex } from "./config";
+
+const BoxlComponent = boxl();
 
 storiesOf("01 Base", module)
   .addDecorator(decoratorFlex)
@@ -12,13 +14,13 @@ storiesOf("01 Base", module)
         <BoxContainer spacing="1em" direction="horizontal" grow={1}>
           <BoxChild grow={1} />
           <BoxChild>
-            <BoxContainer spacing="1em" grow={1} verticalAlign="bottom">
+            <BoxContainer spacing="1em" grow={1} alignVertical="bottom">
               <BoxChild grow={0.5} />
               <BoxChild />
             </BoxContainer>
           </BoxChild>
           <BoxChild grow={1}>
-            <BoxContainer spacing="1em" grow={1} verticalAlign="top">
+            <BoxContainer spacing="1em" grow={1} alignVertical="top">
               <BoxChild grow={0.5} />
               <BoxChild />
               <BoxChild />
@@ -51,13 +53,13 @@ storiesOf("01 Base", module)
     </BoxContainer>
   ))
   .add("02 content", () => (
-    <Box
+    <BoxlComponent
       spacing="2em"
       direction="horizontal"
       style={`padding: 2em;`}
       childIdealWidth={"50%"}
     >
-      <Box idealWidth="200%">
+      <BoxlComponent idealWidth="200%">
         <h1>Title Here</h1>
         <p>
           Deserunt enim reprehenderit dolore magna aliqua aliqua fugiat tempor
@@ -77,8 +79,8 @@ storiesOf("01 Base", module)
           qui consectetur sunt ex do non officia. Consectetur velit Lorem
           nostrud duis enim. Cillum aliqua nulla aute aliqua cillum in.
         </p>
-      </Box>
-      <Box grow={1}>
+      </BoxlComponent>
+      <BoxlComponent grow={1}>
         <h1>Title Here</h1>
         <p>
           Deserunt enim reprehenderit dolore magna aliqua aliqua fugiat tempor
@@ -86,6 +88,12 @@ storiesOf("01 Base", module)
           sunt qui consectetur sunt ex do non officia. Consectetur velit Lorem
           nostrud.
         </p>
-      </Box>
-    </Box>
+      </BoxlComponent>
+    </BoxlComponent>
+  ))
+  .add("03 divs", () => (
+    <BoxlComponent spacing="1em">
+      <div>Text 1</div>
+      <div>Text 2</div>
+    </BoxlComponent>
   ));

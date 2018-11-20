@@ -1,16 +1,16 @@
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
-import { BoxProps } from "../types/Box";
+import { BoxlComponentProps } from "../types/Boxl";
 import { BoxChild, BoxContainer, decoratorFlex, Dot } from "./config";
 
 interface Props {
-  h?: BoxProps["horizontalAlign"];
-  v?: BoxProps["verticalAlign"];
+  h?: BoxlComponentProps["alignHorizontal"];
+  v?: BoxlComponentProps["alignVertical"];
 }
 
 const Example = ({ h, v }: Props) => (
   <BoxContainer>
-    <BoxChild grow={1} horizontalAlign={h} verticalAlign={v}>
+    <BoxChild grow={1} alignHorizontal={h} alignVertical={v}>
       <Dot />
     </BoxChild>
   </BoxContainer>

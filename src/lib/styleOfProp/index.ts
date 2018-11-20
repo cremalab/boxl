@@ -1,42 +1,52 @@
-import { BoxProp, BoxPropsThemed, BoxPropThemeFn } from "../../types/Box";
+import {
+  BoxlComponentPropsThemed,
+  BoxlProp,
+  BoxlPropThemeFn,
+} from "../../types/Boxl";
 
 export function styleOfProp<A, P, T>(
   attribute: string,
-  prop: BoxProp<A, P, T>,
-  props?: BoxPropsThemed<P, T>,
-  translate: ((prop: BoxProp<A, P, T>) => string | undefined) = (x: any) => x
+  prop: BoxlProp<A, P, T>,
+  props: BoxlComponentPropsThemed<P, T>,
+  translate: ((x: BoxlProp<A, P, T>) => string | undefined) = x =>
+    x ? x.toString() : ""
 ): string {
   switch (typeof prop) {
     case "function": {
-      const propTyped = prop as BoxPropThemeFn<A, P, T>;
-      const result = props && propTyped(props);
-      return result && props
-        ? typeof result === "object"
-          ? styleOfProp(attribute, result, props, translate)
-          : `${attribute}: ${translate(result)};`
-        : ``;
+      const propTyped = prop as BoxlPropThemeFn<A, P, T>;
+      const value = propTyped(props);
+      return value
+        ? typeof value === "object"
+          ? styleOfProp(attribute, value, props, translate)
+          : `${attribute}: ${translate(value)};`
+        : "";
     }
     case "object": {
       return Object.entries(prop).reduce(
-        (acc, [key, value]: [string, BoxProp<A, P, T>]) => {
-          switch (typeof value) {
+        (acc, [key, val]: [string, BoxlProp<A, P, T>]) => {
+          switch (typeof val) {
             case "function": {
-              const valueTyped = value as BoxPropThemeFn<A, P, T>;
+              const value = val as BoxlPropThemeFn<A, P, T>;
+              const valueTranslated = translate(value(props));
               return (acc +=
-                typeof value === "function" && props
-                  ? `${key} { ${attribute}: ${translate(valueTyped(props))}; }`
+                valueTranslated && typeof value === "function"
+                  ? `${key} { ${attribute}: ${valueTranslated}; }`
                   : ``);
             }
-            default:
-              return (acc += `${key} { ${attribute}: ${translate(value)}; }`);
+            default: {
+              const valueTranslated = translate(val);
+              return (acc += valueTranslated
+                ? `${key} { ${attribute}: ${translate(val)}; }`
+                : "");
+            }
           }
         },
         ""
       );
     }
     default: {
-      const value = translate(prop);
-      return value ? `${attribute}: ${value};` : "";
+      const valueTranslated = translate(prop);
+      return valueTranslated ? `${attribute}: ${valueTranslated};` : "";
     }
   }
 }

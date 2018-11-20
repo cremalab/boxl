@@ -1,14 +1,7 @@
-export class CSSInfo {
-  public raw: string;
-  public unit: string;
-  public value: number;
-
-  constructor(raw: string) {
-    const [, value, unit] = raw.match(
-      /^([+-]?[0-9\.]+)(cm|em|in|mm|pc|%|pt|px|rem)$/
-    ) || [raw, raw, "px"];
-    this.raw = raw;
-    this.unit = unit;
-    this.value = +value;
-  }
+export function cssInfo(raw: string) {
+  const [, value, unit] = raw.match(
+    /^([+-]?[0-9\.]+)(%|ch|cm|em|ex|in|mm|pc|pt|px|rem|vh|vmax|vmin|vw)$/
+  ) || [raw, raw, "px"];
+  const parsedValue = parseFloat(value);
+  return { raw, unit, value: parsedValue };
 }

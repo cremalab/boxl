@@ -1,11 +1,14 @@
 import * as React from "react";
 import * as styledComponents from "styled-components"; // tslint:disable-line
 import { ThemedStyledComponentsModule } from "styled-components"; // tslint:disable-line
-import { Box } from "..";
-import { BoxProps } from "../types/Box";
+import { boxl as boxlUnthemed, BoxlProps } from "../types/Boxl";
 
 export const decoratorFlex = (story: any) => {
   return <div style={{ minHeight: "100vh", display: "flex" }}>{story()}</div>;
+};
+
+export const decoratorBlock = (story: any) => {
+  return <div style={{ overflow: "auto" }}>{story()}</div>;
 };
 
 export type Scale = "1" | "2" | "3" | "4";
@@ -66,50 +69,49 @@ const {
 
 export { css, createGlobalStyle, keyframes, ThemeProvider };
 
-export type BoxPropsThemed<P = {}> = BoxProps<P, Theme>;
+export type BoxlPropsThemed<P = {}> = BoxlProps<P, Theme>;
 
-export const BoxContainer = <P extends {}>(
-  props: BoxPropsThemed<{ testProp?: boolean } & P>
-) => (
-  <Box
-    {...props}
-    grow={1}
-    style={s => s`
-    ${({ theme: { color, spacing, transitions, roundness }, testProp }) => `
-        border-radius: ${roundness["3"]}
-        background: ${testProp ? color.tertiary : color.primary};
-        padding: ${spacing["3"]};
-        ${transitions.fast};
-      `}
+function boxl<P = {}>(props?: BoxlPropsThemed<P>) {
+  return boxlUnthemed(props);
+}
+
+interface BoxContainerProps {
+  test1?: boolean;
+  test2?: Scale;
+}
+
+export const BoxContainer = boxl<BoxContainerProps>({
+  grow: 1,
+  style: s => s`
+    ${({ theme: { color, spacing, transitions, roundness }, test1 }) => `
+      border-radius: ${roundness["3"]}
+      background: ${test1 ? color.tertiary : color.primary};
+      padding: ${spacing["3"]};
+      ${transitions.fast};
     `}
-  />
-);
+  `,
+  test2: "1",
+});
 
-export const BoxChild = <P extends {}>(props: BoxPropsThemed<P>) => (
-  <Box
-    {...props}
-    style={s => s`
-      ${({ theme: { color, roundness, transitions, spacing } }) => `
-        ${transitions.fast};
-        padding: ${spacing["2"]}
-        border-radius: ${roundness["2"]}
-        background: ${color.secondary}
-      `}
-`}
-  />
-);
+export const BoxChild = boxl({
+  style: s => s`
+    ${({ theme: { color, roundness, transitions, spacing } }) => `
+    ${transitions.fast};
+    padding: ${spacing["2"]}
+    border-radius: ${roundness["2"]}
+    background: ${color.secondary}
+  `}
+  `,
+});
 
-export const Dot = <P extends {}>(props: BoxPropsThemed<P>) => (
-  <Box
-    {...props}
-    grow={0}
-    style={s => s`
-      ${({ theme: { spacing, color } }) => `
-        height: ${spacing["3"]};
-        width: ${spacing["3"]};
-        border-radius: ${spacing["3"]};
-        background: ${color.tertiary}
-      `}
-`}
-  />
-);
+export const Dot = boxl({
+  grow: 0,
+  style: s => s`
+    ${({ theme: { spacing, color } }) => `
+      height: ${spacing["3"]};
+      width: ${spacing["3"]};
+      border-radius: ${spacing["3"]};
+      background: ${color.tertiary}
+    `}
+  `,
+});

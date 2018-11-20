@@ -1,5 +1,5 @@
 import { flatten } from ".";
-import { BoxThemeThunkReturn } from "../../types/Box";
+import { BoxlThemeThunkReturn } from "../../types/Boxl";
 
 interface T {
   spacing: { [key in "3"]: string };
@@ -7,7 +7,7 @@ interface T {
 
 describe("flatten", () => {
   it("works", () => {
-    const stringArray: BoxThemeThunkReturn<{}, T> = {
+    const stringArray: BoxlThemeThunkReturn<{}, T> = {
       interpolations: [
         function (p) { // tslint:disable-line
           return p.theme.spacing["3"];

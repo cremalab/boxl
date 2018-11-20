@@ -1,10 +1,10 @@
 {
   "name": "react-boxl",
-  "version": "0.8.0",
-  "description": "A thing",
+  "version": "0.9.0",
+  "description": "Layout primitives for the styled component age.",
   "author": "Crema",
   "license": "ISC",
-  "types": "dist/types/Box.d.ts",
+  "types": "dist/types/Boxl.d.ts",
   "main": "dist/index.js",
   "files": [
     "dist/types",
@@ -20,24 +20,27 @@
     }
   },
   "scripts": {
-    "clean": "rm -rf ./dist",
-    "start": "npm run test:playground",
     "build": "npm run clean && rollup -c rollup.config.js",
     "build:watch": "npm run build -- -w",
+    "clean": "rm -rf ./dist",
     "jest": "jest",
+    "prepublishOnly": "npm run prepush",
+    "prepush": "run-s build test:unit test:visual",
+    "start": "npm run test:playground",
+    "test:example": "loki test --configurationFilter example --storiesFilter ^Example.+$",
+    "test:example:approve": "loki approve --configurationFilter example --storiesFilter ^Example.+$",
+    "test:example:update": "loki update --configurationFilter example --storiesFilter=^Example.+$",
+    "test:playground": "start-storybook -p 6006",
+    "test:playground:build": "build-storybook",
     "test:unit": "run-s build jest",
     "test:unit:coverage": "jest --coverage",
     "test:unit:watch": "jest --watch",
-    "test:unit:watch:coverage": "jest --coverage --watch",
-    "test:playground": "start-storybook -p 6006",
-    "test:playground:build": "build-storybook",
-    "test:visual": "loki test",
+    "test:unit:watch:coverage": "jest --watch --coverage",
+    "test:visual": "loki test --configurationFilter box",
+    "test:visual:approve": "loki approve --configurationFilter box",
+    "test:visual:update": "loki update --configurationFilter box",
     "test:visual:watch": "npm run watch",
-    "test:visual:update": "loki update",
-    "test:visual:approve": "loki approve",
-    "watch": "npm-watch",
-    "prepush": "run-s build test:unit test:visual",
-    "prepublishOnly": "npm run prepush"
+    "watch": "npm-watch"
   },
   "dependencies": {},
   "peerDependencies": {
@@ -84,6 +87,14 @@
         "target": "chrome.docker",
         "width": 500,
         "height": 500,
+        "deviceScaleFactor": 1,
+        "mobile": false,
+        "fitWindow": false
+      },
+      "example": {
+        "target": "chrome.docker",
+        "width": 898,
+        "height": 186,
         "deviceScaleFactor": 1,
         "mobile": false,
         "fitWindow": false

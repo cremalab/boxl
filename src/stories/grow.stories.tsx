@@ -1,14 +1,16 @@
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
-import { Box } from "..";
+import { boxl } from "..";
 import {
   BoxChild,
   BoxContainer,
-  BoxPropsThemed,
+  BoxlPropsThemed,
   decoratorFlex,
 } from "./config";
 
-const Example = (props: BoxPropsThemed) => (
+const BoxlComponent = boxl();
+
+const Example = (props: BoxlPropsThemed) => (
   <BoxContainer grow={1} spacing={"1em"} {...props} />
 );
 
@@ -40,7 +42,7 @@ storiesOf("grow", module)
   ))
   .add("04 without spacing", () => (
     <Example direction="horizontal" spacing={undefined}>
-      <Box grow={1} style={`background: lightblue;`} />
-      <Box style={`background: salmon; width: 100px;`} />
+      <BoxlComponent grow={1} style={`background: lightblue;`} />
+      <BoxlComponent style={`background: salmon; width: 100px;`} />
     </Example>
   ));

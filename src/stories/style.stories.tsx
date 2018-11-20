@@ -1,13 +1,17 @@
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
-import { Box } from "..";
+import { boxl } from "..";
 import { decoratorFlex, Theme } from "./config";
+
+const BoxlComponent = boxl<{}, Theme>();
 
 storiesOf("style", module)
   .addDecorator(decoratorFlex)
-  .add("00 string", () => <Box grow={1} style="background: salmon;" />)
+  .add("00 string", () => (
+    <BoxlComponent grow={1} style="background: salmon;" />
+  ))
   .add("01 template", () => (
-    <Box
+    <BoxlComponent
       grow={1}
       style={`
         background: #7DCEA0;
@@ -15,7 +19,7 @@ storiesOf("style", module)
     />
   ))
   .add("02 tagged template", () => (
-    <Box
+    <BoxlComponent
       grow={1}
       style={s => s`
         background: goldenrod;
@@ -23,7 +27,7 @@ storiesOf("style", module)
     />
   ))
   .add("03 tagged template w/ interpolation", () => (
-    <Box<{}, Theme>
+    <BoxlComponent
       grow={1}
       style={s => s`
         background: ${p => p.theme.color.primary};

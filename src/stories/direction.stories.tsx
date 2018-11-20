@@ -1,8 +1,8 @@
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
-import { BoxChild, BoxContainer, BoxPropsThemed } from "./config";
+import { BoxChild, BoxContainer, BoxlPropsThemed } from "./config";
 
-const Example = (props: BoxPropsThemed) => (
+const Example = (props: BoxlPropsThemed) => (
   <BoxContainer {...props}>
     <BoxChild />
     <BoxChild />

@@ -1,15 +1,15 @@
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
-import { BoxChild, BoxContainer, decoratorFlex, Scale } from "./config";
+import { BoxChild, BoxContainer, decoratorFlex } from "./config";
 
 storiesOf("ownProps", module)
   .addDecorator(decoratorFlex)
   .add("00 are passed to interpolations", () => (
-    <BoxContainer<{ test2: Scale }>
-      testProp={true}
+    <BoxContainer
+      test1={true}
       test2={"1"}
-      padding={p => (p.testProp ? "1em" : "2em")}
-      spacing={p => p.theme.spacing[p.test2]}
+      padding={p => (p.test1 ? "1em" : "2em")}
+      spacing={p => p.theme.spacing[p.test2 ? p.test2 : "1"]}
     >
       <BoxChild />
       <BoxChild />
@@ -17,11 +17,11 @@ storiesOf("ownProps", module)
     </BoxContainer>
   ))
   .add("01 are passed to interpolations confirmed", () => (
-    <BoxContainer<{ test2: Scale }>
-      testProp={false}
+    <BoxContainer
+      test1={false}
       test2={"4"}
-      padding={p => (p.testProp ? "1em" : "2em")}
-      spacing={p => p.theme.spacing[p.test2]}
+      padding={p => (p.test1 ? "1em" : "2em")}
+      spacing={p => p.theme.spacing[p.test2 ? p.test2 : "1"]}
     >
       <BoxChild />
       <BoxChild />

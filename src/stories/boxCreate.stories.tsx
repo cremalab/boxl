@@ -1,14 +1,14 @@
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
-import { boxCreate as boxCreateUnthemed } from "..";
-import { BoxCreateProps } from "../types/Box";
+import { boxl as boxlUnthemed } from "..";
+import { BoxlProps } from "../types/Boxl";
 import { decoratorFlex, Scale, Theme } from "./config";
 
-function boxCreate<P>(props: BoxCreateProps<P, Theme>) {
-  return boxCreateUnthemed(props);
+function boxl<P = {}>(props: BoxlProps<P, Theme>) {
+  return boxlUnthemed(props);
 }
 
-const Container = boxCreate<{ ownPropTest: Scale }>({
+const Container = boxl<{ ownPropTest: Scale }>({
   grow: 1,
   padding: p => p.theme.spacing[p.ownPropTest],
   spacing: p => p.theme.spacing[p.ownPropTest],
@@ -17,7 +17,7 @@ const Container = boxCreate<{ ownPropTest: Scale }>({
   `,
 });
 
-const Section = boxCreate<{ rounded: boolean }>({
+const Section = boxl<{ rounded: boolean }>({
   grow: 1,
   padding: p => p.theme.spacing[3],
   style: s => s`
@@ -29,7 +29,7 @@ const Section = boxCreate<{ rounded: boolean }>({
 storiesOf("boxCreate", module)
   .addDecorator(decoratorFlex)
   .add("00 default", () => (
-    <Container ownPropTest={"3"}>
+    <Container ownPropTest={"3"} grow={1}>
       <Section rounded={true} />
       <Section rounded={false} />
     </Container>

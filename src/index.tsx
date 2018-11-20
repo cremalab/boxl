@@ -10,14 +10,16 @@ import {
   translateWrap,
 } from "./lib/translate";
 import {
-  BoxChildProps,
-  BoxCreateProps,
-  BoxProps,
-  BoxThemeThunk,
-} from "./types/Box";
+  BoxlChildProps,
+  BoxlComponentProps,
+  BoxlProps,
+  BoxlThemeThunk,
+} from "./types/Boxl";
 
-export function Box<P, T>(props: BoxProps<P, T>) {
+function BoxlComponent<P, T>(props: BoxlComponentProps<P, T>) {
   const {
+    alignHorizontal,
+    alignVertical,
     childGrow,
     childIdealWidth,
     childWrap,
@@ -25,13 +27,11 @@ export function Box<P, T>(props: BoxProps<P, T>) {
     direction = "vertical",
     element = "div",
     grow: growUncomputed,
-    horizontalAlign,
     idealWidth,
     isChild = false,
     padding,
     spacing,
     style,
-    verticalAlign,
     ...propsRest
   } = props;
 
@@ -55,7 +55,10 @@ export function Box<P, T>(props: BoxProps<P, T>) {
    * Utilities
    */
 
-  const boxThemeThunk: BoxThemeThunk<P, T> = (literals, ...interpolations) => ({
+  const boxThemeThunk: BoxlThemeThunk<P, T> = (
+    literals,
+    ...interpolations
+  ) => ({
     interpolations,
     literals,
   });
@@ -64,7 +67,7 @@ export function Box<P, T>(props: BoxProps<P, T>) {
    * Internal Components
    */
 
-  const BoxContainer = styled[spacing && element ? element! : "div"]`
+  const BoxlContainer = styled[spacing && element ? element! : "div"]`
     ${({ theme }) => {
       const propsWithTheme = { ...props, theme };
       const styleString = shouldUseFullStructure
@@ -79,14 +82,15 @@ export function Box<P, T>(props: BoxProps<P, T>) {
         ${styleOfProp(
           "flex-grow",
           isChild && grow && grow < 1 ? 1 : grow,
-          propsWithTheme
+          propsWithTheme,
+          x => x.toString()
         )};
         ${styleOfProp("padding", padding, propsWithTheme)};
       `;
     }};
   `;
 
-  const BoxChildren = styled[!spacing && element ? element : "div"]`
+  const BoxlChildren = styled[!spacing && element ? element : "div"]`
     ${({ theme }) => {
       const propsWithTheme = { ...props, theme };
       const styleString = shouldUseFullStructure
@@ -97,7 +101,7 @@ export function Box<P, T>(props: BoxProps<P, T>) {
       return css`
       ${styleString};
       ${grow !== undefined && styleOfProp("flex-grow", grow, propsWithTheme)};
-      ${!style && grow === undefined && "flex-grow: 1;"}
+      ${shouldUseFullStructure && "flex-grow: 1;"}
       box-sizing: border-box;
       display: flex;
       ${styleOfProp(
@@ -112,43 +116,44 @@ export function Box<P, T>(props: BoxProps<P, T>) {
           ? `
             ${styleOfProp(
               "align-items",
-              horizontalAlign,
+              alignHorizontal,
               propsWithTheme,
               translateHorizontalAlign
             )}
             ${styleOfProp(
               "justify-content",
-              verticalAlign,
+              alignVertical,
               propsWithTheme,
               translateVerticalAlign
             )}`
           : `
           ${styleOfProp(
             "justify-content",
-            horizontalAlign,
+            alignHorizontal,
             propsWithTheme,
             translateHorizontalAlign
           )}
           ${styleOfProp(
             "align-items",
-            verticalAlign,
+            alignVertical,
             propsWithTheme,
             translateVerticalAlign
           )}`
       } 
-      ${styleOfProp(
-        "margin",
-        spacing,
-        propsWithTheme,
-        translateBoxSpacingHalf(true)
-      )}
+      ${shouldUseFullStructure &&
+        styleOfProp(
+          "margin",
+          spacing,
+          propsWithTheme,
+          translateBoxSpacingHalf(true)
+        )}
       ${!shouldUseFullStructure &&
         styleOfProp("padding", padding, propsWithTheme)}
     `;
     }};
   `;
 
-  const BoxChild = styled.div<BoxChildProps<P, T>>`
+  const BoxlChild = styled.div<BoxlChildProps<P, T>>`
     ${myProps => {
       const {
         grow: myGrow,
@@ -167,7 +172,7 @@ export function Box<P, T>(props: BoxProps<P, T>) {
       ${myIdealWidth && styleOfProp("flex-basis", myIdealWidth, propsWithTheme)}
       ${isDummy ? "height: 0;" : ""}
       ${
-        spacing && !isDummy
+        shouldUseFullStructure && spacing && !isDummy
           ? styleOfProp(
               "padding",
               spacing,
@@ -190,9 +195,8 @@ export function Box<P, T>(props: BoxProps<P, T>) {
       typeof child === "object" &&
       child.hasOwnProperty("props")
     ) {
-      const isBox =
-        (typeof child.type === "function" && child.type.name === "Box") ||
-        (typeof child.type === "function" && child.type.name === "BoxCreated");
+      const isBoxl =
+        typeof child.type === "function" && child.type.name === "Boxl";
       const myGrow = (child && child.props && child.props.grow) || childGrow;
       const myIdealWidth =
         (child && child.props && child.props.idealWidth) || childIdealWidth;
@@ -203,19 +207,23 @@ export function Box<P, T>(props: BoxProps<P, T>) {
         hasGrow || hasIdealWidth || (hasSpacing && useFullStructure);
 
       const templateWrapWithChild = shouldWrapWithChild ? (
-        <BoxChild
-          data-name="BoxChild"
+        <BoxlChild
+          data-name="BoxlChild"
           grow={myGrow}
           idealWidth={myIdealWidth}
           isDummy={isDummy}
         >
-          {isDummy ? null : React.cloneElement(child, { isChild: true })}
-        </BoxChild>
+          {isDummy
+            ? null
+            : isBoxl
+              ? React.cloneElement(child, { isChild: true })
+              : child}
+        </BoxlChild>
       ) : null;
 
       const templateNoWrapWithChild = isDummy
         ? null
-        : isBox
+        : isBoxl
           ? React.cloneElement(child, { isChild: false })
           : child;
 
@@ -242,24 +250,24 @@ export function Box<P, T>(props: BoxProps<P, T>) {
   const childrenFinal = [...childrenWrapped, ...childrenDummies];
 
   const structureFull = (
-    <BoxContainer data-name="Box" {...propsRest}>
-      <BoxChildren data-name="BoxChildren">{childrenFinal}</BoxChildren>
-    </BoxContainer>
+    <BoxlContainer data-name="Boxl" {...propsRest}>
+      <BoxlChildren data-name="BoxlChildren">{childrenFinal}</BoxlChildren>
+    </BoxlContainer>
   );
 
   const structureMinimal = (
-    <BoxChildren data-name="Box" {...propsRest}>
+    <BoxlChildren data-name="Boxl" {...propsRest}>
       {childrenFinal}
-    </BoxChildren>
+    </BoxlChildren>
   );
 
   return shouldUseFullStructure ? structureFull : structureMinimal;
 }
 
-export function boxCreate<P = {}, T = {}>(defaultProps: BoxCreateProps<P, T>) {
-  function BoxCreated(props: BoxProps<P, T> & P) {
-    return <Box<P, T> {...defaultProps} {...props} />;
+export function boxl<P1 = {}, T = {}>(defaultProps?: BoxlProps<P1, T>) {
+  function Boxl<P2 = P1, T2 = T>(props: BoxlComponentProps<P2, T2> & P2) {
+    return <BoxlComponent {...defaultProps} {...props} />;
   }
-  BoxCreated.displayName = "Box";
-  return BoxCreated;
+  Boxl.displayName = "Boxl";
+  return Boxl;
 }

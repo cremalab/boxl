@@ -24,7 +24,8 @@
     "interface-name": [
       true,
       "never-prefix"
-    ]
+    ],
+    "interface-over-type-literal": false
   },
   "rulesDirectory": []
 }
