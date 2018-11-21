@@ -14,12 +14,11 @@ $ npm i react-boxl styled-components
 Create components with the `boxl` function passing default props and styling.
 
 ```jsx
-// Examples.tsx
 import * as React from "react";
-import { boxl } from "boxl";
+import { boxl } from "../..";
 
 const Container = boxl({
-  spacing: "16px", // ⬅︎ adds spacing between children
+  spacing: "16px",
   style: `
     background: white;
     border: 8px solid black;
@@ -29,29 +28,23 @@ const Container = boxl({
   `,
 });
 
-/**
- * Additional props may be statically defined
- * using an optional type parameter.
- */
-
 interface SectionProps {
   primary?: boolean;
 }
 
 const Section = boxl<SectionProps>({
-  style: styled => styled` // ⬅︎ tagged template literal à la styled-components
-    ${props => (props.primary ? `background: black;` : ``)};
-    background: white;
+  style: styled => styled`
+    background: ${props => (props.primary ? `black;` : `white`)};
     border: 8px solid black;
     padding: 32px;
   `,
 });
 ```
 
-#### Direction Vertical (default)
-![Example 1](.loki/reference/example_example_01.png)
+#### Direction: Vertical (default)
+![Example 001](.loki/reference/example_example_001.png)
 ```jsx
-const Vertical = () => (
+export const Example001 = () => (
   <Container>
     <Section primary={true} />
     <Section />
@@ -60,10 +53,10 @@ const Vertical = () => (
 );
 ```
 
-#### Direction Horizontal
-![Example 2](.loki/reference/example_example_02.png)
+#### Direction: Horizontal
+![Example 002](.loki/reference/example_example_002.png)
 ```jsx
-const Horizontal = () => (
+export const Example002 = () => (
   <Container direction="horizontal">
     <Section grow={1} primary={true} />
     <Section />
