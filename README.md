@@ -5,7 +5,7 @@ Layout primitives for the [styled component](https://www.styled-components.com) 
 ## Installation
 
 ```shell
-$ npm i react-boxl styled-components
+$ npm i boxl styled-components
 ```
 >Built with [styled components](https://www.styled-components.com) which is required as a peer dependency
 
@@ -15,7 +15,7 @@ Create components with the `boxl` function passing default props and styling.
 
 ```jsx
 import * as React from "react";
-import { boxl } from "../..";
+import { boxl } from "boxl";
 
 const Container = boxl({
   spacing: "16px",
@@ -34,7 +34,7 @@ interface SectionProps {
 
 const Section = boxl<SectionProps>({
   style: styled => styled`
-    background: ${props => (props.primary ? `black;` : `white`)};
+    background: ${props => props.primary ? `black;` : `white`};
     border: 8px solid black;
     padding: 32px;
   `,

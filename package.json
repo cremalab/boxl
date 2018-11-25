@@ -1,11 +1,11 @@
 {
   "name": "boxl",
-  "version": "0.13.0",
+  "version": "0.14.0",
   "description": "Layout primitives for the styled component age.",
   "author": "Crema",
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/cremalab/boxl"
+    "type": "git",
+    "url": "https://github.com/cremalab/boxl"
   },
   "license": "ISC",
   "types": "dist/types/Boxl.d.ts",
