@@ -30,4 +30,23 @@ storiesOf("boxCreate", module)
       <Section rounded={true} />
       <Section rounded={false} />
     </Container>
-  ));
+  ))
+  .add("01 default props apply/override", () => {
+    const Test = boxl({
+      padding: p => p.theme.spacing[3],
+      style: s => s`
+        background: ${p => p.theme.color.secondary}
+      `,
+    });
+    return (
+      <Container ownPropTest={"3"} grow={1}>
+        <Test />
+        <Test
+          style={s => s`
+            background: ${p => p.theme.color.tertiary}
+          `}
+          padding="1em"
+        />
+      </Container>
+    );
+  });

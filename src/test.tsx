@@ -1,5 +1,6 @@
 import React from "react";
 import TestRenderer from "react-test-renderer";
+import { cleanup, fireEvent, render } from "react-testing-library";
 import { boxl as b, boxlThemed } from ".";
 
 describe("boxl", () => {
@@ -112,5 +113,34 @@ describe("boxlThemed", () => {
     const Test = boxl();
     const received = TestRenderer.create(<Test />);
     expect(received).toMatchSnapshot();
+  });
+});
+
+describe("rerender", () => {
+  afterEach(cleanup);
+
+  it("maintains element instance between renders", () => {
+    const Input = b({ element: "input" });
+    class Form extends React.Component {
+      public state = {
+        value: "",
+      };
+      public render() {
+        return (
+          <Input
+            placeholder="test"
+            value={this.state.value}
+            onChange={e => this.setState({ value: (e.target as any).value })}
+          />
+        );
+      }
+    }
+    const { getByPlaceholderText } = render(<Form />);
+    const input = getByPlaceholderText("test") as HTMLInputElement;
+    const value = "Great advice, I love your posts!";
+    fireEvent.change(input, {
+      target: { value },
+    });
+    expect(input).toMatchSnapshot();
   });
 });

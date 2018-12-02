@@ -79,7 +79,7 @@ const {
 export { css, createGlobalStyle, keyframes, ThemeProvider };
 
 export type BoxlPropsThemed<P = {}> = BoxlProps<P, Theme>;
-const boxl = boxlThemed<Theme>();
+export const boxl = boxlThemed<Theme>();
 
 interface BoxContainerProps {
   test1?: boolean;

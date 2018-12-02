@@ -22,6 +22,7 @@ export interface BoxlNativeProps<P = {}, T = {}> {
   padding?: BoxlPropPadding<P, T>;
   spacing?: BoxlPropSpacing<P, T>;
   style?: BoxlPropStyle<P, T>;
+  forwardedRef?: any;
 }
 
 export type BoxlComponentProps<P = {}, T = {}> = BoxlNativeProps<P, T> &
@@ -51,7 +52,7 @@ export type BoxlPropDirection<P, T> = BoxlProp<"horizontal" | "vertical", P, T>;
 
 export type BoxlPropElement = keyof React.ReactHTML;
 
-export type BoxlPropGrow<P, T> = BoxlProp<number, P, T>;
+export type BoxlPropGrow<P, T> = BoxlProp<number | undefined, P, T>;
 
 export type BoxlPropIdealWidth<P, T> = BoxlProp<string, P, T>;
 
