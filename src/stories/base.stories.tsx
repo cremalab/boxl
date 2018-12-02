@@ -1,6 +1,7 @@
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 import { boxl } from "..";
+import { Omit } from "../types/Boxl";
 import { BoxChild, BoxContainer, decoratorFlex } from "./config";
 
 const BoxlComponent = boxl();
@@ -96,4 +97,54 @@ storiesOf("01 Base", module)
       <div>Text 1</div>
       <div>Text 2</div>
     </BoxlComponent>
-  ));
+  ))
+  .add("04 complex form", () => {
+    const FormContainer = boxl({
+      element: "form",
+      spacing: "1em",
+      style: `
+        padding: 1em;
+      `,
+    });
+    const FieldContainer = boxl({ spacing: "0.5em" });
+    const FieldLabel = boxl({ element: "label" });
+    const FieldInput = boxl();
+    const Input = boxl({ element: "input" });
+    const Field = ({
+      label,
+      ...rest
+    }: {
+      label: string;
+    } & Omit<React.AllHTMLAttributes<HTMLInputElement>, "style">) => {
+      return (
+        <FieldContainer>
+          <FieldLabel>{label}</FieldLabel>
+          <FieldInput>
+            <Input {...rest} />
+          </FieldInput>
+        </FieldContainer>
+      );
+    };
+    class Form extends React.Component {
+      public state = { email: "", password: "" };
+      public handleChange = (key: string) => (e: React.ChangeEvent) =>
+        this.setState({ [key]: (e.target as any).value });
+      public render() {
+        return (
+          <FormContainer>
+            <Field
+              label="Email"
+              value={this.state.email}
+              onChange={this.handleChange("email")}
+            />
+            <Field
+              label="Password"
+              value={this.state.password}
+              onChange={this.handleChange("password")}
+            />
+          </FormContainer>
+        );
+      }
+    }
+    return <Form />;
+  });
