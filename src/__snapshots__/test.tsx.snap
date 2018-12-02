@@ -6,7 +6,7 @@ exports[`boxl childWrap auto 1`] = `
   data-name="Boxl"
 >
   <div
-    className="sc-eHgmQL cHBupC"
+    className="sc-eHgmQL etONgX"
     data-name="BoxlChild"
   >
     <div>
@@ -14,7 +14,7 @@ exports[`boxl childWrap auto 1`] = `
     </div>
   </div>
   <div
-    className="sc-eHgmQL cHBupC"
+    className="sc-eHgmQL etONgX"
     data-name="BoxlChild"
   >
     <div>
@@ -30,7 +30,7 @@ exports[`boxl childWrap even 1`] = `
   data-name="Boxl"
 >
   <div
-    className="sc-brqgnP iYbJlM"
+    className="sc-brqgnP lalXKE"
     data-name="BoxlChild"
   >
     <div>
@@ -38,7 +38,7 @@ exports[`boxl childWrap even 1`] = `
     </div>
   </div>
   <div
-    className="sc-brqgnP iYbJlM"
+    className="sc-brqgnP lalXKE"
     data-name="BoxlChild"
   >
     <div>
@@ -46,11 +46,11 @@ exports[`boxl childWrap even 1`] = `
     </div>
   </div>
   <div
-    className="sc-brqgnP caUJbn"
+    className="sc-brqgnP bTMaFV"
     data-name="BoxlChild"
   />
   <div
-    className="sc-brqgnP caUJbn"
+    className="sc-brqgnP bTMaFV"
     data-name="BoxlChild"
   />
 </div>
@@ -124,7 +124,7 @@ exports[`boxl structure Renders correct structure when spacing AND children leng
     data-name="BoxlChildren"
   >
     <div
-      className="sc-htoDjs iLRHtH"
+      className="sc-htoDjs hLIqUR"
       data-name="BoxlChild"
     >
       <div>
@@ -132,7 +132,7 @@ exports[`boxl structure Renders correct structure when spacing AND children leng
       </div>
     </div>
     <div
-      className="sc-htoDjs iLRHtH"
+      className="sc-htoDjs hLIqUR"
       data-name="BoxlChild"
     >
       <div>
@@ -153,7 +153,7 @@ exports[`boxl structure Renders correct structure when spacing AND children leng
     data-name="BoxlChildren"
   >
     <div
-      className="sc-gZMcBi cEOehB"
+      className="sc-gZMcBi bLxssF"
       data-name="BoxlChild"
     >
       <div
@@ -164,7 +164,7 @@ exports[`boxl structure Renders correct structure when spacing AND children leng
       </div>
     </div>
     <div
-      className="sc-gZMcBi cEOehB"
+      className="sc-gZMcBi bLxssF"
       data-name="BoxlChild"
     >
       <div
@@ -196,9 +196,18 @@ exports[`boxlThemed can call returned boxl 1`] = `
 
 exports[`rerender maintains element instance between renders 1`] = `
 <input
-  class="sc-iRbamj AKYrC"
+  class="sc-csuQGl dpahvW"
   data-name="Boxl"
-  placeholder="test"
-  value="Great advice, I love your posts!"
+  placeholder="test1"
+  value="My password is PASSWORD"
+/>
+`;
+
+exports[`rerender maintains element instance between renders 2`] = `
+<input
+  class="sc-hzDkRC coWNud"
+  data-name="Boxl"
+  placeholder="test2"
+  value="My password is PASSWORD"
 />
 `;
