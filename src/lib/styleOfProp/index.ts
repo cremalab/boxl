@@ -1,18 +1,17 @@
-import { BoxlProp, BoxlPropsThemed, BoxlPropThemeFn } from "../../types/Boxl";
+import { BoxlProp, BoxlPropsBaseThemed } from "../../types/Boxl";
 
 export function styleOfProp<A, P, T>(
   attribute: string,
   prop: BoxlProp<A, P, T>,
-  props: BoxlPropsThemed<P, T>,
-  translate: ((x: BoxlProp<A, P, T>) => string | undefined) = x =>
+  props: BoxlPropsBaseThemed<P, T>,
+  translate: ((x?: BoxlProp<A, P, T>) => string | undefined) = x =>
     x ? x.toString() : ""
 ): string {
   switch (typeof prop) {
     case "function": {
-      const propTyped = prop as BoxlPropThemeFn<A, P, T>;
-      const value = propTyped(props);
+      const value = prop instanceof Function ? prop(props) : prop;
       return value
-        ? typeof value === "object"
+        ? value instanceof Object
           ? styleOfProp(attribute, value, props, translate)
           : `${attribute}: ${translate(value)};`
         : "";
@@ -22,7 +21,7 @@ export function styleOfProp<A, P, T>(
         (acc, [key, val]: [string, BoxlProp<A, P, T>]) => {
           switch (typeof val) {
             case "function": {
-              const value = val as BoxlPropThemeFn<A, P, T>;
+              const value = val as any;
               const valueTranslated = translate(value(props));
               return (acc +=
                 valueTranslated && typeof value === "function"

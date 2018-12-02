@@ -1,7 +1,7 @@
 import React from "react";
 import TestRenderer from "react-test-renderer";
 import { cleanup, fireEvent, render } from "react-testing-library";
-import { boxl as b, boxlThemed } from ".";
+import { boxl as b } from ".";
 
 describe("boxl", () => {
   const Boxl = b();
@@ -102,24 +102,11 @@ describe("boxl", () => {
   });
 });
 
-describe("boxlThemed", () => {
-  it("returns instance of boxl", () => {
-    const boxl = boxlThemed<{}>();
-    expect(boxl).toBeInstanceOf(Function);
-  });
-
-  it("can call returned boxl", () => {
-    const boxl = boxlThemed<{}>();
-    const Test = boxl();
-    const received = TestRenderer.create(<Test />);
-    expect(received).toMatchSnapshot();
-  });
-});
-
 describe("rerender", () => {
   afterEach(cleanup);
 
   it("maintains element instance between renders", () => {
+    const Container = b({ element: "form", spacing: "1em" });
     const Input = b({ element: "input" });
     class Form extends React.Component {
       public state = {
@@ -127,20 +114,36 @@ describe("rerender", () => {
       };
       public render() {
         return (
-          <Input
-            placeholder="test"
-            value={this.state.value}
-            onChange={e => this.setState({ value: (e.target as any).value })}
-          />
+          <Container>
+            <Input
+              placeholder="test1"
+              value={this.state.value}
+              onChange={e => this.setState({ value: (e.target as any).value })}
+            />
+            <Input
+              placeholder="test2"
+              value={this.state.value}
+              onChange={(e: any) =>
+                this.setState({ value: (e.target as any).value })
+              }
+            />
+          </Container>
         );
       }
     }
     const { getByPlaceholderText } = render(<Form />);
-    const input = getByPlaceholderText("test") as HTMLInputElement;
-    const value = "Great advice, I love your posts!";
-    fireEvent.change(input, {
-      target: { value },
+    const input1 = getByPlaceholderText("test1") as HTMLInputElement;
+    const value1 = "Great advice, I love your posts!";
+    fireEvent.change(input1, {
+      target: { value: value1 },
     });
-    expect(input).toMatchSnapshot();
+    const input2 = getByPlaceholderText("test2") as HTMLInputElement;
+    const value2 = "My password is PASSWORD";
+    fireEvent.change(input2, {
+      target: { value: value2 },
+    });
+
+    expect(input1).toMatchSnapshot();
+    expect(input2).toMatchSnapshot();
   });
 });
