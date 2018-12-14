@@ -221,17 +221,23 @@ export const boxl = b as Boxl<Theme>;
 
 <details>
   <summary>
-    <code><strong>element?: string (HTML element—"a", "h1", etc.)</strong></code>
+    <code><strong>component?: string (HTML element—"a", "h1", etc.)</strong></code>
   </summary>
   <br>
   
-  HTML element to be rendered ***(default "div")***
+  HTML component to be rendered ***(default "div")***
 
   *Example:*
   
   ```tsx
-    // Anchor element will be rendered
-    <Box element="a" href="http://google.com">
+    // Anchor component will be rendered
+    <Box component="a" href="http://google.com">
+      Take me to google...
+    </Box>
+    
+    // Custom component will be rendered
+    const Thing = (props) => <div {...props}>Thing</div>;
+    <Box component={Thing}>
       Take me to google...
     </Box>
   ```
