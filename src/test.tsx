@@ -106,8 +106,8 @@ describe("rerender", () => {
   afterEach(cleanup);
 
   it("maintains element instance between renders", () => {
-    const Container = b({ element: "form", spacing: "1em" });
-    const Input = b({ element: "input" });
+    const Container = b({ component: "form", spacing: "1em" });
+    const Input = b({ component: "input" });
     class Form extends React.Component {
       public state = {
         value: "",

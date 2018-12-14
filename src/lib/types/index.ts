@@ -7,7 +7,10 @@ import {
 
 export type Omit<T, K> = Pick<T, Exclude<keyof T, K>>;
 
-export type BoxlElement<E> = Omit<E, "style">;
+export type BoxlElement<E> = Omit<
+  E,
+  "style" | "propTypes" | "contextTypes" | "defaultProps" | "displayName"
+>;
 
 export type BoxlProp<A, P, T> =
   | (A | undefined)
@@ -28,7 +31,9 @@ export type BoxlPropAlignmentVertical<P, T> = BoxlProp<
 
 export type BoxlPropDirection<P, T> = BoxlProp<"horizontal" | "vertical", P, T>;
 
-export type BoxlPropElement = keyof JSX.IntrinsicElements;
+export type BoxlPropElement<P> =
+  | keyof JSX.IntrinsicElements
+  | React.ComponentType<P>;
 
 export type BoxlPropGrow<P, T> = BoxlProp<number, P, T>;
 
@@ -74,7 +79,7 @@ export interface BoxlPropsBase<P = {}, T = {}> {
   childIdealWidth?: BoxlPropIdealWidth<P, T>;
   childWrap?: BoxlPropWrap<P, T>;
   direction?: BoxlPropDirection<P, T>;
-  element?: BoxlPropElement;
+  component?: BoxlPropElement<P>;
   grow?: BoxlPropGrow<P, T>;
   idealWidth?: BoxlPropIdealWidth<P, T>;
   isChild?: boolean;

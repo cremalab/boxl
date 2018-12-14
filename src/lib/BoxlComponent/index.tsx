@@ -44,11 +44,13 @@ const boxThemeThunk = <P, T>(
 const createBoxlContainer = <P, T>(
   styledComponents: ThemedBaseStyledInterface<T>,
   spacing: BoxlPropSpacing<P, T>,
-  el?: BoxlPropElement
+  el?: BoxlPropElement<P>
 ) => {
-  return styledComponents[spacing && el ? el : "div"]<
-    BoxlComponentInnerProps<P, T>
-  >`
+  const component =
+    el !== undefined && typeof el !== "string"
+      ? styledComponents(el)
+      : styledComponents[spacing && el ? el : "div"];
+  return component<BoxlComponentInnerProps<P, T>>`
     ${({ theme, boxlPropsInner }) => {
       const propsPreTyped = { theme, ...boxlPropsInner };
       const props = propsPreTyped as BoxlPropsBaseThemed<P, T>;
@@ -79,11 +81,14 @@ const createBoxlContainer = <P, T>(
 const createBoxlChildren = <P, T>(
   styledComponents: ThemedBaseStyledInterface<T>,
   spacingInitial: BoxlPropSpacing<P, T>,
-  el?: BoxlPropElement
+  el?: BoxlPropElement<P>
 ) => {
-  return styledComponents[!spacingInitial && el ? el : "div"]<
-    BoxlComponentInnerProps<P, T>
-  >`
+  const component =
+    el !== undefined && typeof el !== "string"
+      ? styledComponents(el)
+      : styledComponents[!spacingInitial && el ? el : "div"];
+
+  return component<BoxlComponentInnerProps<P, T>>`
     ${({ theme, boxlPropsInner }) => {
       const propsPreTyped = {
         theme,
@@ -197,12 +202,12 @@ export class BoxlComponent<P, T, E> extends React.Component<
     this.BoxlContainer = createBoxlContainer<P, T>(
       styled,
       this.props.spacing,
-      this.props.element
+      this.props.component
     );
     this.BoxlChildren = createBoxlChildren<P, T>(
       styled,
       this.props.spacing,
-      this.props.element
+      this.props.component
     );
     this.BoxlChild = createBoxlChild<P, T>(styled);
   }
@@ -217,8 +222,8 @@ export class BoxlComponent<P, T, E> extends React.Component<
       "childIdealWidth",
       "childWrap",
       "children",
+      "component",
       "direction",
-      "element",
       "grow",
       "idealWidth",
       "isChild",

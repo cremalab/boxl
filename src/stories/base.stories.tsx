@@ -107,9 +107,9 @@ storiesOf("01 Base", module)
       `,
     });
     const FieldContainer = boxl({ spacing: "0.5em" });
-    const FieldLabel = boxl({ element: "label" });
+    const FieldLabel = boxl({ component: "label" });
     const FieldInput = boxl();
-    const Input = boxl({ element: "input" });
+    const Input = boxl({ component: "input" });
     const Field = ({
       label,
       ...rest
