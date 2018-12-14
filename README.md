@@ -39,11 +39,17 @@ const Section = boxl<SectionProps>({
     padding: 32px;
   `,
 });
+
+// See example usage below...
 ```
+
+### Examples
 
 #### Direction: Vertical (default)
 ![Example 001](.loki/reference/example_example_001.png)
 ```jsx
+// Composes components defined above
+
 export const Example001 = () => (
   <Container>
     <Section primary={true} />
@@ -56,6 +62,8 @@ export const Example001 = () => (
 #### Direction: Horizontal
 ![Example 002](.loki/reference/example_example_002.png)
 ```jsx
+// Composes components defined above
+
 export const Example002 = () => (
   <Container direction="horizontal">
     <Section grow={1} primary={true} />
@@ -63,6 +71,17 @@ export const Example002 = () => (
     <Section />
   </Container>
 );
+```
+
+### Theme
+
+As with [Styled Components](https://www.styled-components.com/docs/api#define-a-theme-interface), we need to annotate our local `boxl` with our theme interface in order to have full type support for our theme wherever we use `boxl`. A common pattern is to re-export the annotated `boxl` function from your code for use.
+
+```jsx
+import { Boxl, boxl as b } from "boxl";
+import { Theme } from "../types/Theme";
+
+export const boxl = b as Boxl<Theme>;
 ```
 
 
