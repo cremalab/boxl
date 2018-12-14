@@ -1,6 +1,6 @@
 import React from "react";
-import { BoxlProps, BoxlPropsPartial } from "../../types/Boxl";
 import { BoxlComponent } from "../BoxlComponent";
+import { BoxlProps, BoxlPropsPartial } from "../types";
 
 // tslint:disable
 

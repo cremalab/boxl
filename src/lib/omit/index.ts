@@ -1,4 +1,4 @@
-import { Omit } from "../../types/Boxl";
+import { Omit } from "../types";
 
 export function omit<A, B extends Array<keyof A>>(obj: A, keys: B) {
   const target: any = {};

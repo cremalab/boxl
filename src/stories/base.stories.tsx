@@ -1,7 +1,7 @@
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 import { boxl } from "..";
-import { Omit } from "../types/Boxl";
+import { Omit } from "../lib/types";
 import { BoxChild, BoxContainer, decoratorFlex } from "./config";
 
 const BoxlComponent = boxl();

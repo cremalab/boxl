@@ -1,4 +1,4 @@
-import { BoxlProp, BoxlPropsBaseThemed } from "../../types/Boxl";
+import { BoxlProp, BoxlPropsBaseThemed } from "../types";
 
 export function styleOfProp<A, P, T>(
   attribute: string,

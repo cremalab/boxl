@@ -3,7 +3,7 @@ import * as styledComponents from "styled-components"; // tslint:disable-line
 import { ThemedStyledComponentsModule } from "styled-components"; // tslint:disable-line
 import { boxl as b } from "..";
 import { Boxl } from "../lib/boxl";
-import { BoxlProps } from "../types/Boxl";
+import { BoxlProps } from "../lib/types";
 
 export const decoratorFlex = (story: any) => {
   return <div style={{ minHeight: "100vh", display: "flex" }}>{story()}</div>;

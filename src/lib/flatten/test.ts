@@ -1,5 +1,5 @@
 import { flatten } from ".";
-import { BoxlThemeThunkReturn } from "../../types/Boxl";
+import { BoxlThemeThunkReturn } from "../types";
 
 interface T {
   spacing: { [key in "3"]: string };

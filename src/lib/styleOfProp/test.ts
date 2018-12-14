@@ -1,5 +1,5 @@
 import { styleOfProp } from ".";
-import { BoxlPropDirection } from "../../types/Boxl";
+import { BoxlPropDirection } from "../types";
 
 interface Props {
   theme: {

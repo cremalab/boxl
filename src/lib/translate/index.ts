@@ -1,11 +1,11 @@
+import { cssInfo } from "../cssInfo";
 import {
   BoxlPropAlignmentHorizontal,
   BoxlPropAlignmentVertical,
   BoxlPropDirection,
   BoxlPropSpacing,
   BoxlPropWrap,
-} from "../../types/Boxl";
-import { cssInfo } from "../cssInfo";
+} from "../types";
 
 export const translateDirection = <P, T>(x: BoxlPropDirection<P, T>) =>
   x === "vertical" ? "column" : "row";

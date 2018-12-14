@@ -1,10 +1,9 @@
-import * as React from "react";
+import React from "react";
 import {
   InterpolationFunction,
   StyledComponentClass,
   ThemeProps,
 } from "styled-components";
-export * from "..";
 
 export type Omit<T, K> = Pick<T, Exclude<keyof T, K>>;
 
@@ -100,5 +99,7 @@ export type BoxlComponentInnerProps<P = {}, T = {}> = {
 export type BoxlProps<P = {}, T = {}, E = {}> = BoxlPropsBase<P, T> &
   BoxlElement<E> &
   P;
+
+export type BoxlPropsThemed<T, P = {}> = BoxlProps<P, T>;
 
 export type BoxlPropsPartial<P, T, E = {}> = BoxlProps<Partial<P>, T, E>;

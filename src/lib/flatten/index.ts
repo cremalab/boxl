@@ -1,4 +1,4 @@
-import { BoxlPropsBaseThemed, BoxlThemeThunkReturn } from "../../types/Boxl";
+import { BoxlPropsBaseThemed, BoxlThemeThunkReturn } from "../types";
 
 export function flatten<P, T>(
   o: BoxlThemeThunkReturn<P, T>,

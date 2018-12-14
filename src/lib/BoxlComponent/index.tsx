@@ -4,14 +4,6 @@ import styled, {
   InterpolationFunction,
   ThemedBaseStyledInterface,
 } from "styled-components";
-import {
-  BoxlComponentInnerProps,
-  BoxlPropElement,
-  BoxlProps,
-  BoxlPropsBaseThemed,
-  BoxlPropSpacing,
-  BoxlStyledComponent,
-} from "../../types/Boxl";
 import { flatten } from "../flatten";
 import { omit } from "../omit";
 import { styleOfProp } from "../styleOfProp";
@@ -22,6 +14,14 @@ import {
   translateVerticalAlign,
   translateWrap,
 } from "../translate";
+import {
+  BoxlComponentInnerProps,
+  BoxlPropElement,
+  BoxlProps,
+  BoxlPropsBaseThemed,
+  BoxlPropSpacing,
+  BoxlStyledComponent,
+} from "../types";
 
 const boxThemeThunk = <P, T>(
   literals: ReadonlyArray<string>,
