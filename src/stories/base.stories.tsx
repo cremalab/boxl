@@ -155,4 +155,50 @@ storiesOf("01 Base", module)
       }
     }
     return <Form />;
+  })
+  .add("05 async children", () => {
+    const Item = boxl<{ name: string }>({
+      style: s => s`
+        background: slategrey;
+        padding: 1em;
+      `,
+    });
+
+    const Items = boxl({
+      grow: 1,
+      spacing: "1em",
+    });
+
+    interface State {
+      items: Array<{ name: string }>;
+    }
+
+    // tslint:disable max-classes-per-file
+    class Example extends React.Component<{}, State> {
+      public state = {
+        items: [],
+      };
+
+      public componentDidMount() {
+        this.setState({
+          items: [{ name: "foo" }, { name: "bar" }, { name: "baz" }],
+        });
+      }
+
+      public render() {
+        const { items } = this.state;
+
+        return (
+          <Items>
+            {items.map(({ name }) => (
+              <Item key={name} name={name}>
+                {name}
+              </Item>
+            ))}
+          </Items>
+        );
+      }
+    }
+
+    return <Example />;
   });
