@@ -1,8 +1,8 @@
-import { BoxlPropsThemed, BoxlThemeThunkReturn } from "../../types/Boxl";
+import { BoxlPropsBaseThemed, BoxlThemeThunkReturn } from "../../types/Boxl";
 
 export function flatten<P, T>(
   o: BoxlThemeThunkReturn<P, T>,
-  props: BoxlPropsThemed<P, T>
+  props: BoxlPropsBaseThemed<P, T>
 ) {
   return o.literals.reduce((acc, x, i) => {
     const interpolation = o.interpolations[i];

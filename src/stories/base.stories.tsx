@@ -126,12 +126,20 @@ storiesOf("01 Base", module)
       );
     };
     class Form extends React.Component {
-      public state = { email: "", password: "" };
+      public state = { email: "", password: "", range: 1 };
       public handleChange = (key: string) => (e: React.ChangeEvent) =>
         this.setState({ [key]: (e.target as any).value });
       public render() {
         return (
-          <FormContainer>
+          <FormContainer spacing={this.state.range + "em"}>
+            <Field
+              label="Spacing"
+              type="range"
+              min={1}
+              max={5}
+              value={this.state.range}
+              onChange={this.handleChange("range")}
+            />
             <Field
               label="Email"
               value={this.state.email}

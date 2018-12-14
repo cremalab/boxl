@@ -1,7 +1,7 @@
 import React from "react";
 import TestRenderer from "react-test-renderer";
 import { cleanup, fireEvent, render } from "react-testing-library";
-import { boxl as b, boxlThemed } from ".";
+import { boxl as b } from ".";
 
 describe("boxl", () => {
   const Boxl = b();
@@ -102,20 +102,6 @@ describe("boxl", () => {
   });
 });
 
-describe("boxlThemed", () => {
-  it("returns instance of boxl", () => {
-    const boxl = boxlThemed<{}>();
-    expect(boxl).toBeInstanceOf(Function);
-  });
-
-  it("can call returned boxl", () => {
-    const boxl = boxlThemed<{}>();
-    const Test = boxl();
-    const received = TestRenderer.create(<Test />);
-    expect(received).toMatchSnapshot();
-  });
-});
-
 describe("rerender", () => {
   afterEach(cleanup);
 
@@ -137,7 +123,9 @@ describe("rerender", () => {
             <Input
               placeholder="test2"
               value={this.state.value}
-              onChange={e => this.setState({ value: (e.target as any).value })}
+              onChange={(e: any) =>
+                this.setState({ value: (e.target as any).value })
+              }
             />
           </Container>
         );

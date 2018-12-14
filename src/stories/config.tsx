@@ -1,7 +1,8 @@
 import * as React from "react";
 import * as styledComponents from "styled-components"; // tslint:disable-line
 import { ThemedStyledComponentsModule } from "styled-components"; // tslint:disable-line
-import { boxlThemed } from "..";
+import { boxl as b } from "..";
+import { Boxl } from "../lib/boxl";
 import { BoxlProps } from "../types/Boxl";
 
 export const decoratorFlex = (story: any) => {
@@ -78,8 +79,9 @@ const {
 
 export { css, createGlobalStyle, keyframes, ThemeProvider };
 
+export type BoxlThemed = Boxl<Theme>;
 export type BoxlPropsThemed<P = {}> = BoxlProps<P, Theme>;
-export const boxl = boxlThemed<Theme>();
+export const boxl = b as BoxlThemed;
 
 interface BoxContainerProps {
   test1?: boolean;

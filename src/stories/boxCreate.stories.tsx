@@ -1,9 +1,10 @@
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
-import { boxlThemed } from "..";
+import { boxl as b } from "..";
+import { Boxl } from "../lib/boxl";
 import { decoratorFlex, Scale, Theme } from "./config";
 
-const boxl = boxlThemed<Theme>();
+const boxl = b as Boxl<Theme>;
 
 const Container = boxl<{ ownPropTest?: Scale }>({
   grow: 1,
