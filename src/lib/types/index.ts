@@ -102,4 +102,4 @@ export type BoxlProps<P = {}, T = {}, E = {}> = BoxlPropsBase<P, T> &
 
 export type BoxlPropsThemed<T, P = {}> = BoxlProps<P, T>;
 
-export type BoxlPropsPartial<P, T, E = {}> = BoxlProps<Partial<P>, T, E>;
+export type BoxlPropsPartial<P, T, E = {}> = Partial<BoxlProps<P, T, E>>;
