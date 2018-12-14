@@ -23,6 +23,14 @@ import {
   BoxlStyledComponent,
 } from "../types";
 
+function computeShouldUseFullStructure<P, T, E>(props: BoxlProps<P, T, E>) {
+  return (
+    props.spacing !== undefined &&
+    Array.isArray(props.children) &&
+    props.children.length > 1
+  );
+}
+
 const boxThemeThunk = <P, T>(
   literals: ReadonlyArray<string>,
   ...interpolations: Array<
@@ -35,7 +43,6 @@ const boxThemeThunk = <P, T>(
 
 const createBoxlContainer = <P, T>(
   styledComponents: ThemedBaseStyledInterface<T>,
-  shouldUseFullStructure: boolean,
   spacing: BoxlPropSpacing<P, T>,
   el?: BoxlPropElement
 ) => {
@@ -47,6 +54,7 @@ const createBoxlContainer = <P, T>(
       const props = propsPreTyped as BoxlPropsBaseThemed<P, T>;
       const { style, grow: myGrow, isChild, padding } = props;
       const grow = isChild ? 1 : myGrow === undefined ? 0 : myGrow;
+      const shouldUseFullStructure = computeShouldUseFullStructure(props);
       const styleString = !shouldUseFullStructure
         ? undefined
         : style instanceof Function
@@ -70,7 +78,6 @@ const createBoxlContainer = <P, T>(
 
 const createBoxlChildren = <P, T>(
   styledComponents: ThemedBaseStyledInterface<T>,
-  shouldUseFullStructure: boolean,
   spacingInitial: BoxlPropSpacing<P, T>,
   el?: BoxlPropElement
 ) => {
@@ -96,6 +103,7 @@ const createBoxlChildren = <P, T>(
       } = props;
       const direction = myDirection || "vertical";
       const grow = isChild ? 1 : myGrow === undefined ? 0 : myGrow;
+      const shouldUseFullStructure = computeShouldUseFullStructure(props);
       const styleString = shouldUseFullStructure
         ? undefined
         : style instanceof Function
@@ -147,8 +155,7 @@ const createBoxlChildren = <P, T>(
 };
 
 const createBoxlChild = <P, T>(
-  styledComponents: ThemedBaseStyledInterface<T>,
-  shouldUseFullStructure: boolean
+  styledComponents: ThemedBaseStyledInterface<T>
 ) => {
   return styledComponents.div<BoxlComponentInnerProps<P, T>>`
     ${({ theme, boxlPropsInner }) => {
@@ -160,6 +167,7 @@ const createBoxlChild = <P, T>(
         isDummy,
         spacing,
       } = props;
+      const shouldUseFullStructure = computeShouldUseFullStructure(props);
       return css`
         box-sizing: border-box;
         display: flex;
@@ -180,13 +188,6 @@ const createBoxlChild = <P, T>(
 export class BoxlComponent<P, T, E> extends React.Component<
   BoxlProps<P, T, E>
 > {
-  private shouldUseFullStructure =
-    this.props.spacing !== undefined &&
-    Array.isArray(this.props.children) &&
-    this.props.children.length > 1;
-
-  private shouldIncludeDummies = this.props.childWrap === "even";
-
   private BoxlContainer: BoxlStyledComponent<P, T>;
   private BoxlChildren: BoxlStyledComponent<P, T>;
   private BoxlChild: BoxlStyledComponent<P, T>;
@@ -195,17 +196,15 @@ export class BoxlComponent<P, T, E> extends React.Component<
     super(props);
     this.BoxlContainer = createBoxlContainer<P, T>(
       styled,
-      this.shouldUseFullStructure,
       this.props.spacing,
       this.props.element
     );
     this.BoxlChildren = createBoxlChildren<P, T>(
       styled,
-      this.shouldUseFullStructure,
       this.props.spacing,
       this.props.element
     );
-    this.BoxlChild = createBoxlChild<P, T>(styled, this.shouldUseFullStructure);
+    this.BoxlChild = createBoxlChild<P, T>(styled);
   }
 
   public render() {
@@ -227,6 +226,8 @@ export class BoxlComponent<P, T, E> extends React.Component<
       "spacing",
       "style",
     ]);
+    const shouldUseFullStructure = computeShouldUseFullStructure(props);
+    const shouldIncludeDummies = props.childWrap === "even";
 
     const childToBoxChild = (isDummy: any, useFullStructure: boolean) => (
       child: React.ReactChild | null
@@ -283,13 +284,13 @@ export class BoxlComponent<P, T, E> extends React.Component<
 
     const childrenWrapped = React.Children.map(
       [children],
-      childToBoxChild(false, this.shouldUseFullStructure)
+      childToBoxChild(false, shouldUseFullStructure)
     );
 
-    const childrenDummies = this.shouldIncludeDummies
+    const childrenDummies = shouldIncludeDummies
       ? React.Children.map(
           children,
-          childToBoxChild(true, this.shouldUseFullStructure)
+          childToBoxChild(true, shouldUseFullStructure)
         )
       : [];
 
@@ -314,6 +315,6 @@ export class BoxlComponent<P, T, E> extends React.Component<
       </this.BoxlChildren>
     );
 
-    return this.shouldUseFullStructure ? structureFull : structureMinimal;
+    return shouldUseFullStructure ? structureFull : structureMinimal;
   }
 }
