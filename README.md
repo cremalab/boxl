@@ -2,6 +2,11 @@
 
 Layout primitives for the [styled component](https://www.styled-components.com) age.
 
+[![npm version](https://badge.fury.io/js/boxl.svg)](https://badge.fury.io/js/boxl)
+[![Build Status](https://travis-ci.com/cremalab/boxl.svg?branch=develop)](https://travis-ci.com/cremalab/boxl)
+[![codecov](https://codecov.io/gh/cremalab/boxl/branch/develop/graph/badge.svg)](https://codecov.io/gh/cremalab/boxl)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 ## Installation
 
 ```shell
