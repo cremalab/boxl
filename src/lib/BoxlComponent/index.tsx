@@ -1,10 +1,6 @@
 import * as React from "react";
-import styled, {
-  css,
-  InterpolationFunction,
-  ThemedBaseStyledInterface,
-} from "styled-components";
-import { flatten } from "../flatten";
+import styled, { css, ThemedBaseStyledInterface } from "styled-components";
+import { computeStyle } from "../computeStyle";
 import { omit } from "../omit";
 import { styleOfProp } from "../styleOfProp";
 import {
@@ -31,16 +27,6 @@ function computeShouldUseFullStructure<P, T, E>(props: BoxlProps<P, T, E>) {
   );
 }
 
-const boxThemeThunk = <P, T>(
-  literals: ReadonlyArray<string>,
-  ...interpolations: Array<
-    InterpolationFunction<BoxlPropsBaseThemed<P, T>> | string
-  >
-) => ({
-  interpolations,
-  literals,
-});
-
 const createBoxlContainer = <P, T>(
   styledComponents: ThemedBaseStyledInterface<T>,
   spacing: BoxlPropSpacing<P, T>,
@@ -54,14 +40,12 @@ const createBoxlContainer = <P, T>(
     ${({ theme, boxlPropsInner }) => {
       const propsPreTyped = { theme, ...boxlPropsInner };
       const props = propsPreTyped as BoxlPropsBaseThemed<P, T>;
-      const { style, grow: myGrow, isChild, padding } = props;
+      const { grow: myGrow, isChild, padding } = props;
       const grow = isChild ? 1 : myGrow === undefined ? 0 : myGrow;
       const shouldUseFullStructure = computeShouldUseFullStructure(props);
       const styleString = !shouldUseFullStructure
         ? undefined
-        : style instanceof Function
-          ? flatten<P, T>(style(boxThemeThunk), props)
-          : style;
+        : computeStyle(props);
       return css`
         ${styleString};
         box-sizing: border-box;
@@ -102,7 +86,6 @@ const createBoxlChildren = <P, T>(
         direction: myDirection,
         grow: myGrow,
         isChild,
-        style,
         padding,
         spacing,
       } = props;
@@ -111,9 +94,7 @@ const createBoxlChildren = <P, T>(
       const shouldUseFullStructure = computeShouldUseFullStructure(props);
       const styleString = shouldUseFullStructure
         ? undefined
-        : style instanceof Function
-          ? flatten<P, T>(style(boxThemeThunk), props)
-          : style;
+        : computeStyle(props);
       return css`
       ${styleString};
       ${grow !== undefined && styleOfProp("flex-grow", grow, props)};
