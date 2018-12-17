@@ -1,5 +1,5 @@
 import * as React from "react";
-import styled, { css, ThemedBaseStyledInterface } from "styled-components";
+import styled, { css } from "styled-components";
 import { computeStyle } from "../computeStyle";
 import { omit } from "../omit";
 import { styleOfProp } from "../styleOfProp";
@@ -28,15 +28,10 @@ function computeShouldUseFullStructure<P, T, E>(props: BoxlProps<P, T, E>) {
 }
 
 const createBoxlContainer = <P, T>(
-  styledComponents: ThemedBaseStyledInterface<T>,
   spacing: BoxlPropSpacing<P, T>,
   el?: BoxlPropElement<P>
 ) => {
-  const component =
-    el !== undefined && typeof el !== "string"
-      ? styledComponents(el)
-      : styledComponents[spacing && el ? el : "div"];
-  return component<BoxlComponentInnerProps<P, T>>`
+  return styled(spacing && el ? el : "div")<BoxlComponentInnerProps<P, T>>`
     ${({ theme, boxlPropsInner }) => {
       const propsPreTyped = { theme, ...boxlPropsInner };
       const props = propsPreTyped as BoxlPropsBaseThemed<P, T>;
@@ -63,16 +58,12 @@ const createBoxlContainer = <P, T>(
 };
 
 const createBoxlChildren = <P, T>(
-  styledComponents: ThemedBaseStyledInterface<T>,
   spacingInitial: BoxlPropSpacing<P, T>,
   el?: BoxlPropElement<P>
 ) => {
-  const component =
-    el !== undefined && typeof el !== "string"
-      ? styledComponents(el)
-      : styledComponents[!spacingInitial && el ? el : "div"];
-
-  return component<BoxlComponentInnerProps<P, T>>`
+  return styled(!spacingInitial && el ? el : "div")<
+    BoxlComponentInnerProps<P, T>
+  >`
     ${({ theme, boxlPropsInner }) => {
       const propsPreTyped = {
         theme,
@@ -140,10 +131,8 @@ const createBoxlChildren = <P, T>(
   `;
 };
 
-const createBoxlChild = <P, T>(
-  styledComponents: ThemedBaseStyledInterface<T>
-) => {
-  return styledComponents.div<BoxlComponentInnerProps<P, T>>`
+const createBoxlChild = <P, T>() => {
+  return styled.div<BoxlComponentInnerProps<P, T>>`
     ${({ theme, boxlPropsInner }) => {
       const propsPreTyped = { theme, ...boxlPropsInner };
       const props = propsPreTyped as BoxlPropsBaseThemed<P, T>;
@@ -174,23 +163,21 @@ const createBoxlChild = <P, T>(
 export class BoxlComponent<P, T, E> extends React.Component<
   BoxlProps<P, T, E>
 > {
-  private BoxlContainer: BoxlStyledComponent<P, T>;
-  private BoxlChildren: BoxlStyledComponent<P, T>;
-  private BoxlChild: BoxlStyledComponent<P, T>;
+  private BoxlContainer: BoxlStyledComponent;
+  private BoxlChildren: BoxlStyledComponent;
+  private BoxlChild: BoxlStyledComponent;
 
   constructor(props: BoxlProps<P, T, E>) {
     super(props);
     this.BoxlContainer = createBoxlContainer<P, T>(
-      styled,
       this.props.spacing,
       this.props.component
     );
     this.BoxlChildren = createBoxlChildren<P, T>(
-      styled,
       this.props.spacing,
       this.props.component
     );
-    this.BoxlChild = createBoxlChild<P, T>(styled);
+    this.BoxlChild = createBoxlChild<P, T>();
   }
 
   public render() {

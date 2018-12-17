@@ -1,8 +1,8 @@
 import React from "react";
 import { Child, Parent } from "./Base";
 
-export const Example001 = () => (
-  <Parent>
+export const Spacing001 = () => (
+  <Parent childGrow={1} direction="horizontal" spacing="100px">
     <Child />
     <Child />
     <Child />
