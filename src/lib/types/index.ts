@@ -6,6 +6,7 @@ import {
 } from "styled-components";
 
 export type Omit<T, K> = Pick<T, Exclude<keyof T, K>>;
+export type Entry<O, P extends keyof O = keyof O> = [P, O[P]];
 
 export type BoxlElement<E> = Omit<
   E,

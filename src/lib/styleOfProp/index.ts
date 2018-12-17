@@ -1,4 +1,4 @@
-import { BoxlProp, BoxlPropsBaseThemed } from "../types";
+import { BoxlProp, BoxlPropsBaseThemed, BoxlPropThemeFn } from "../types";
 
 export function styleOfProp<A, P, T>(
   attribute: string,
@@ -9,7 +9,7 @@ export function styleOfProp<A, P, T>(
 ): string {
   switch (typeof prop) {
     case "function": {
-      const value = prop instanceof Function ? prop(props) : prop;
+      const value = prop instanceof Function && prop(props);
       return value
         ? value instanceof Object
           ? styleOfProp(attribute, value, props, translate)
@@ -21,7 +21,7 @@ export function styleOfProp<A, P, T>(
         (acc, [key, val]: [string, BoxlProp<A, P, T>]) => {
           switch (typeof val) {
             case "function": {
-              const value = val as any;
+              const value = val as BoxlPropThemeFn<A, P, T>;
               const valueTranslated = translate(value(props));
               return (acc +=
                 valueTranslated && typeof value === "function"
