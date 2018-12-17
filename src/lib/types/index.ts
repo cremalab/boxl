@@ -1,7 +1,8 @@
 import React from "react";
 import {
+  AnyStyledComponent,
+  CSSObject,
   InterpolationFunction,
-  StyledComponentClass,
   ThemeProps,
 } from "styled-components";
 
@@ -50,6 +51,7 @@ export type BoxlPropSpacing<P, T> = BoxlProp<string | number, P, T>;
 
 export type BoxlPropStyle<P, T> =
   | string
+  | CSSObject
   | ReadonlyArray<string>
   | ((styleFn: BoxlThemeThunk<P, T>) => BoxlThemeThunkReturn<P, T>);
 
@@ -93,10 +95,7 @@ export interface BoxlPropsBase<P = {}, T = {}> {
 
 export type BoxlPropsBaseThemed<P, T> = BoxlPropsBase<P, T> & ThemeProps<T> & P;
 
-export type BoxlStyledComponent<P, T> = StyledComponentClass<
-  { boxlPropsInner: BoxlPropsBase<P, T> },
-  T
->;
+export type BoxlStyledComponent = AnyStyledComponent;
 
 export type BoxlComponentInnerProps<P = {}, T = {}> = {
   boxlPropsInner: BoxlPropsBase<P, T>;

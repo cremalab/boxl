@@ -1,8 +1,9 @@
 import React from "react";
 import { Child, Parent } from "./Base";
 
-export const Example001 = () => (
-  <Parent>
+export const ChildIdealWidth001 = () => (
+  <Parent direction="horizontal" childIdealWidth="150px">
+    <Child />
     <Child />
     <Child />
     <Child />

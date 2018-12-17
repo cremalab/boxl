@@ -1,10 +1,10 @@
 import React from "react";
 import { Child, Parent } from "./Base";
 
-export const Example002 = () => (
+export const Grow001 = () => (
   <Parent direction="horizontal">
+    <Child />
     <Child grow={1} />
-    <Child secondary={true} />
-    <Child secondary={true} />
+    <Child />
   </Parent>
 );

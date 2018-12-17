@@ -1,10 +1,8 @@
 import React from "react";
 import { Child, Parent } from "./Base";
 
-export const Example001 = () => (
-  <Parent>
-    <Child />
-    <Child />
+export const AlignVertical001 = () => (
+  <Parent alignVertical="bottom" withHeight={true}>
     <Child />
   </Parent>
 );

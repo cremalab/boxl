@@ -1,6 +1,6 @@
 # B ❐ X L
 
-Layout primitives for the [styled component](https://www.styled-components.com) age.
+A layout primitive for the [styled component](https://www.styled-components.com) age.
 
 [![npm version](https://badge.fury.io/js/boxl.svg)](https://badge.fury.io/js/boxl)
 [![Build Status](https://travis-ci.com/cremalab/boxl.svg?branch=develop)](https://travis-ci.com/cremalab/boxl)
@@ -16,71 +16,97 @@ $ npm i boxl styled-components
 
 ## Usage
 
-Create components with the `boxl` function passing default props and styling.
+>Examples are written in TypeScript
 
-```jsx
-import * as React from "react";
+### Define Components
+
+Create components with the `boxl` function passing default props and styling. (All following examples use these components.)
+
+```tsx
+// Base.tsx
 import { boxl } from "boxl";
 
-const Container = boxl({
-  spacing: "16px",
-  style: `
+interface ParentProps {
+  withHeight?: boolean;
+}
+
+export const Parent = boxl<ParentProps>({
+  spacing: "14px",
+  style: styled => styled`
+    height: ${props => (props.withHeight ? "449px" : "auto")};
     background: white;
     border: 8px solid black;
     box-shadow: 12px -12px 0 0 black;
     margin: 12px 12px 0 0;
-    padding: 24px;
+    padding: 20px;
   `,
 });
 
-interface SectionProps {
-  primary?: boolean;
+interface ChildProps {
+  secondary?: boolean;
 }
 
-const Section = boxl<SectionProps>({
+export const Child = boxl<ChildProps>({
   style: styled => styled`
-    background: ${props => props.primary ? `black;` : `white`};
+    background: ${props => (props.secondary ? "white" : "black")};
     border: 8px solid black;
-    padding: 32px;
+    color: ${props => (props.secondary ? "white" : "black")};
+    padding: 20px;
   `,
 });
-
-// See example usage below...
 ```
 
 ### Examples
 
-#### Direction: Vertical (default)
-![Example 001](.loki/reference/example_example_001.png)
-```jsx
-// Composes components defined above
+<table>
+  <tr align="left">
+    <th><code>direction: vertical</code> (default)</th>
+    <th><code>direction: horizontal</code></th>
+  </tr>
+<tr valign="top">
+<td>
+<img src=".loki/reference/example_example_001.png" alt="Example 001" width="100%"/>
+
+```tsx
+import React from "react";
+import { Child, Parent } from "./Base";
 
 export const Example001 = () => (
-  <Container>
-    <Section primary={true} />
-    <Section />
-    <Section />
-  </Container>
+  <Parent>
+    <Child />
+    <Child />
+    <Child />
+  </Parent>
 );
 ```
+</td>
+<td>
 
-#### Direction: Horizontal
-![Example 002](.loki/reference/example_example_002.png)
-```jsx
-// Composes components defined above
+<img src=".loki/reference/example_example_002.png" alt="Example 002" width="100%"/>
+
+```tsx
+import React from "react";
+import { Child, Parent } from "./Base";
 
 export const Example002 = () => (
-  <Container direction="horizontal">
-    <Section grow={1} primary={true} />
-    <Section />
-    <Section />
-  </Container>
+  <Parent direction="horizontal">
+    <Child grow={1} />
+    <Child secondary={true} />
+    <Child secondary={true} />
+  </Parent>
 );
 ```
+</td>
+</tr>
+</table>
 
-### Theme
+[![Edit boxl](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/m72l34p3p?autoresize=1&hidenavigation=1&module=%2Fsrc%2FExample001.tsx&moduleview=1)
 
-As with [Styled Components](https://www.styled-components.com/docs/api#define-a-theme-interface), we need to annotate our local `boxl` with our theme interface in order to have full type support for our theme wherever we use `boxl`. A common pattern is to re-export the annotated `boxl` function from your code for use.
+### Theme Setup
+
+First, follow [Styled Components](https://www.styled-components.com/docs/api#define-a-theme-interface) instructions on setting up a theme with TypeScript.
+
+Once you have defined a theme, we must annotate `boxl` with it using the provided `Boxl<T>` interface. A common pattern is to re-export the annotated `boxl` function for reuse.
 
 ```jsx
 import { Boxl, boxl as b } from "boxl";
@@ -92,249 +118,482 @@ export const boxl = b as Boxl<Theme>;
 
 ## API
 
-### Box
+### Component Props
 
-<details>
-  <summary>
-    <code><strong>alignHorizontal?: "left" | "center" | "right"</strong></code>
-  </summary>
-  <br>
-  
-  Aligns children horizontally regardless of `direction` ***(default: "left")***
+>With the exception of `component` and `style`, props are defined as <a href="BoxlProp">`BoxlProp<A, P, T>`</a>.
 
+<details >
+<summary>
+<strong><code>alignHorizontal: "left" | "center" | "right" (default: undefined)</code></strong>
+</summary>
+
+#### Description
+
+Control horizontal alignment of children. If value is undefined, Child fills available Parent space.
+
+#### Example: `"center"`
+```tsx
+// AlignHorizontal.tsx
+
+import React from "react";
+import { Child, Parent } from "./Base";
+
+export const AlignHorizontal001 = () => (
+  <Parent alignHorizontal="center">
+    <Child />
+  </Parent>
+);
+```
+![alignHorizontal: example 1](.loki/reference/example_example_AlignHorizontal001.png)
 </details>
 
-<details>
-  <summary>
-    <code><strong>alignVertical?: "top" | "center" | "bottom"</strong></code>
-  </summary>
-  <br>
-  
-  Aligns children vertically regardless of `direction` ***(default: "top")***
+<details >
+<summary>
+<strong><code>alignVertical: "top" | "center" | "bottom" (default: "top")</code></strong>
+</summary>
 
+#### Description
+
+Aligns children vertically regardless of `direction`.
+
+#### Example: `"bottom"`
+```tsx
+// AlignVertical.tsx
+import React from "react";
+import { Child, Parent } from "./Base";
+
+export const AlignVertical001 = () => (
+  <Parent alignVertical="center" withHeight={true}>
+    <Child />
+  </Parent>
+);
+```
+![alignHorizontal: example 1](.loki/reference/example_example_AlignVertical001.png)
 </details>
 
-<details>
-  <summary>
-    <code><strong>childGrow?: number</strong></code>
-  </summary>
-  <br>
-  
-  Sets `grow` on all children. Useful in combination with `childWrap`.
+<details >
+<summary>
+  <code><strong>childGrow?: number</strong></code>
+</summary>
 
-  *Example:*
-  
-  ```tsx
-  <Box childGrow={1}>
-    <Box>1</Box> // grow: 1
-    <Box>2</Box> // grow: 1
-  </Box>
-  ```
+#### Description 
 
+Sets grow amount on all children equally. Useful in combination with `childWrap`.
+
+#### Example
+
+`childGrow={1}` causes Child components to fill available Parent space evenly if possible.
+
+```tsx
+// ChildGrow.tsx
+import React from "react";
+import { Child, Parent } from "./Base";
+
+export const ChildGrow001 = () => (
+  <Parent direction="horizontal" childGrow={1}>
+    <Child />
+    <Child />
+  </Parent>
+);
+```
+![alignHorizontal: example 1](.loki/reference/example_example_ChildGrow001.png)
 </details>
 
-<details>
-  <summary>
-    <code><strong>childIdealWidth?: string (CSS length)</strong></code>
-  </summary>
-  <br>
-  
-  Sets `idealWith` on all children. Useful in combination with `childWrap`.
+<details >
+<summary>
+  <code><strong>childIdealWidth: string (CSS length)</strong></code>
+</summary>
 
-  *Example:*
-  
-  ```tsx
-  <Box childIdealWidth="20%">
-    <Box>1</Box> // idealWidth: 20%
-    <Box>2</Box> // idealWidth: 20%
-  </Box>
-  ```
+#### Description 
 
+Sets `idealWith` on all children. Useful in combination with `childWrap`.
+
+#### Example
+
+`childIdealWidth="150px"` causes Child components to _prefer_ 150 pixel width if possible.
+
+```tsx
+import React from "react";
+import { Child, Parent } from "./Base";
+
+export const ChildIdealWidth001 = () => (
+  <Parent direction="horizontal" childIdealWidth="150px">
+    <Child />
+    <Child />
+    <Child />
+    <Child />
+  </Parent>
+);
+```
+![childIdealWidth: example 1](.loki/reference/example_example_ChildIdealWidth001.png)
 </details>
 
-<details>
-  <summary>
-    <code><strong>childWrap?: "auto" | "even"</strong></code>
-  </summary>
-  <br>
-  
-  Allows children to wrap when available space is exceeded
+<details >
+<summary>
+<code><strong>childWrap: "auto" | "even" (default: undefined)</strong></code>
+</summary>
 
-  - **"auto":** children to wrap naturally
-  - **"even":** children that wrap maintain any set `idealWidth` or `childIdealWidth` which is useful for achieving an even grid layout
+#### Description 
 
-  *Example:*
-  
-  ```tsx
-  // Children wrap naturally
-  <Box 
+Allows Child components to wrap if needed.
+
+#### Example 1: `childWrap="auto"`
+
+```tsx
+import React from "react";
+import { Child, Parent } from "./Base";
+
+export const ChildWrap001 = () => (
+  <Parent
+    grow={1}
+    direction="horizontal"
+    childIdealWidth="200px"
+    childWrap="auto"
+  >
+    <Child />
+    <Child />
+    <Child />
+    <Child />
+  </Parent>
+);
+```
+![childWrap: example 1](.loki/reference/example_example_ChildWrap001.png)
+
+#### Example 2: `childWrap="auto"` with `childGrow={1}`
+```tsx
+import React from "react";
+import { Child, Parent } from "./Base";
+
+export const ChildWrap002 = () => (
+  <Parent
+    grow={1}
+    direction="horizontal"
+    childIdealWidth="200px"
     childGrow={1}
     childWrap="auto"
-    direction="horizontal" 
   >
-    <Box>1</Box>
-    <Box>2</Box>
-    <Box>3</Box>
-    <Box>4</Box>
-  </Box>
+    <Child />
+    <Child />
+    <Child />
+    <Child />
+  </Parent>
+);
+```
+![childWrap: example 2](.loki/reference/example_example_ChildWrap002.png)
 
-  // Children wrap evenly (orphans maintain idealWidth)
-  <Box 
-    childGrow={1}
+#### Example 3: `childWrap="even"` with `childGrow={1}`
+```tsx
+import React from "react";
+import { Child, Parent } from "./Base";
+
+export const ChildWrap003 = () => (
+  <Parent
+    grow={1}
+    direction="horizontal"
     childIdealWidth="200px"
+    childGrow={1}
     childWrap="even"
-    direction="horizontal" 
   >
-    <Box>1</Box>
-    <Box>2</Box>
-    <Box>3</Box>
-    <Box>4</Box>
-  </Box>
-  ```
-
+    <Child />
+    <Child />
+    <Child />
+    <Child />
+  </Parent>
+);
+```
+![childWrap: example 3](.loki/reference/example_example_ChildWrap003.png)
 </details>
 
-<details>
-  <summary>
-    <code><strong>direction?: "horizontal" | "vertical"</strong></code>
-  </summary>
-  <br>
-  
-  Direction children will flow—stacked or side-by-side. ***(default "vertical")***
+<details >
+<summary>
+<code><strong>component: string | React.ComponentType</strong></code>
+</summary>
 
-  *Example:*
-  
-  ```tsx
-    // Children are stacked
-    <Box direction="vertical">
-      <Box>1</Box>
-      <Box>2</Box>
-      <Box>3</Box>
-      <Box>4</Box>
-    </Box>
+#### Description 
 
-    // Children are side-by-side
-    <Box direction="horizontal">
-      <Box>1</Box>
-      <Box>2</Box>
-      <Box>3</Box>
-      <Box>4</Box>
-    </Box>
-  ```
+Aligns children vertically regardless of `direction` ***(default: "top")***
 
+#### Example 1: `"a"`
+
+```tsx
+import React from "react";
+import { boxl } from "boxl";
+import { Parent } from "./Base";
+
+const Link = boxl({ component: "a" });
+
+export const Component001 = () => (
+  <Parent
+    grow={1}
+    direction="horizontal"
+    childIdealWidth="200px"
+    childWrap="auto"
+  >
+    <Link href="http://google.com">Google it</Link>
+  </Parent>
+);
+```
+![component: example 3](.loki/reference/example_example_Component001.png)
+
+#### Example 2: `MyButton`
+
+```tsx
+import React, { SFC } from "react";
+import { boxl } from "../..";
+import { Parent } from "./Base";
+
+const MyButton: SFC = props => <button {...props} />;
+
+const MyButtonBoxled = boxl({
+  component: MyButton,
+  style: styled => styled`
+    background: hsl(200, 100%, 50%);
+    border-radius: 0.25em;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 0.75em;
+    outline: none;
+    padding: 0.5em 1em;
+    &:active {
+      background: hsl(200, 100%, 40%);
+    }
+    &:hover {
+      background: hsl(200, 100%, 60%);
+    }
+  `,
+});
+
+export const Component002 = () => (
+  <Parent alignHorizontal="center">
+    <MyButton>Old Button</MyButton>
+    <MyButtonBoxled>New Button</MyButtonBoxled>
+  </Parent>
+);
+```
+![component: example 3](.loki/reference/example_example_Component002.png)
 </details>
 
-<details>
-  <summary>
-    <code><strong>component?: string (HTML element—"a", "h1", etc.)</strong></code>
-  </summary>
-  <br>
-  
-  HTML component to be rendered ***(default "div")***
+<details >
+<summary>
+<code><strong>direction: "horizontal" | "vertical" (default: "vertical")</strong></code>
+</summary>
 
-  *Example:*
-  
-  ```tsx
-    // Anchor component will be rendered
-    <Box component="a" href="http://google.com">
-      Take me to google...
-    </Box>
-    
-    // Custom component will be rendered
-    const Thing = (props) => <div {...props}>Thing</div>;
-    <Box component={Thing}>
-      Take me to google...
-    </Box>
-  ```
+#### Description 
 
+Controls the direction that children flow.
+
+#### Example 1: `"vertical"`
+
+```tsx
+import React from "react";
+import { Child, Parent } from "./Base";
+
+export const Direction001 = () => (
+  <Parent direction="vertical">
+    <Child />
+    <Child />
+    <Child />
+  </Parent>
+);
+```
+![direction: example 1](.loki/reference/example_example_Direction001.png)
+
+#### Example 2: `"horizontal"`
+
+```tsx
+import React from "react";
+import { Child, Parent } from "./Base";
+
+export const Direction002 = () => (
+  <Parent direction="horizontal">
+    <Child />
+    <Child />
+    <Child />
+  </Parent>
+);
+```
+![direction: example 2](.loki/reference/example_example_Direction002.png)
 </details>
 
-<details>
-  <summary>
-    <code><strong>grow?: number</strong></code>
-  </summary>
-  <br>
-  
-  Amount that Box should grow in relation to available space or siblings ***(default: 0)***
+<details >
+<summary>
+<code><strong>grow: number (default: undefined)</strong></code>
+</summary>
 
-  *Example:*
-  
-  ```tsx
-    <Parent>
-      <Box grow={1}>1</Box> // fills available space
-      <Box>2</Box>
-      <Box>3</Box>
-    </Parent>
-  ```
+#### Description 
 
+Determines how the component expands in relation to its parent and siblings.
+
+#### Example 
+
+```tsx
+import React from "react";
+import { Child, Parent } from "./Base";
+
+export const Grow001 = () => (
+  <Parent direction="horizontal">
+    <Child />
+    <Child grow={1} />
+    <Child />
+  </Parent>
+);
+```
+![grow: example 1](.loki/reference/example_example_Grow001.png)
 </details>
 
-<details>
-  <summary>
-    <code><strong>idealWidth?: string (CSS length)</strong></code>
-  </summary>
-  <br>
-  
-  Optimal width considering content size and available space (i.e. flex-basis) ***(default: "left")***
+<details >
+<summary>
+<code><strong>idealWidth: string (default: undefined)</strong></code>
+</summary>
 
-  >Note: Use alongside width or max/min-width styles
+#### Description 
 
+Defines the preferred/ideal width of the component a may need to be combined with min-/max-/width via the style property to achieve the desired result.
+
+#### Example 
+
+```tsx
+import React from "react";
+import { Child, Parent } from "./Base";
+
+export const IdealWidth001 = () => (
+  <Parent direction="horizontal">
+    <Child idealWidth="50%" />
+  </Parent>
+);
+```
+![idealWidth: example 1](.loki/reference/example_example_IdealWidth001.png)
 </details>
 
-<details>
-  <summary>
-    <code><strong>padding?: string (CSS length)</strong></code>
-  </summary>
-  <br>
-  
-  Adds padding and takes priority over padding set via `style`
+<details >
+<summary>
+<code><strong>spacing: string (default: undefined)</strong></code>
+</summary>
 
+#### Description 
+
+Defines the space between children without affecting their distance from the edge of their parent.
+
+#### Example 
+
+```tsx
+import React from "react";
+import { Child, Parent } from "./Base";
+
+export const Spacing001 = () => (
+  <Parent childGrow={1} direction="horizontal" spacing="100px">
+    <Child />
+    <Child />
+    <Child />
+  </Parent>
+);
+```
+![spacing: example 1](.loki/reference/example_example_Spacing001.png)
 </details>
 
-<details>
-  <summary>
-    <code><strong>spacing?: string (CSS length)</strong></code>
-  </summary>
-  <br>
-  
-  Defines gap between children
+<details >
+<summary>
+<code><strong>style: string | CSSObject | template literal | (style) => style`tagged template literal`</strong></code>
+</summary>
 
+#### Description 
+
+Applies style to the component.
+
+#### Example 
+
+```tsx
+import React from "react";
+import { boxl } from "../../lib/boxl";
+import { Parent } from "./Base";
+
+const StyleString = boxl({
+  style: "background: black; border-radius: 10px; height: 50px;",
+});
+
+const StyleObject = boxl({
+  style: {
+    background: "black",
+    borderRadius: 10,
+    height: 50,
+  },
+});
+
+const TemplateLiteral = boxl({
+  style: `
+    background: black;
+    border-radius: 10px;
+    height: 50px;
+  `,
+});
+
+const TaggedTemplateLiteral = boxl({
+  style: styled => styled`
+    background: black;
+    border-radius: 10px;
+    height: 50px;
+  `,
+});
+
+export const Style001 = () => (
+  <Parent>
+    <StyleString />
+    <StyleObject />
+    <TemplateLiteral />
+    <TaggedTemplateLiteral />
+  </Parent>
+);
+```
+![style: example 1](.loki/reference/example_example_Style001.png)
 </details>
 
-<details>
-  <summary>
-    <code><strong>style?: string | template literal | (style) => style`tagged template literal` </strong></code>
-  </summary>
-  <br>
-  
-  Defines styling via plain string, template literal, or tagged template literal function. The last option allows interpolation of props including a theme if a `styled-components` theme provider is present.
+### `BoxlProp<A, P, T>`<a name="BoxlProp"></a>
 
-  >Note: See [styled components docs](https://www.styled-components.com/docs/api#taggedtemplateliteral) for more info
+`BoxlProp<A, P, T>` is an interface where parameter `A` is a primitive value (e.g. `"left" | "center" | "right"`), `P` is props, and `T` is theme:
 
-  *Example:*
+```ts
+type BoxlProp<A, P, T> =
+  | (A | undefined)
+  | (BoxlPropThemeFn<A | undefined, P, T>)
+  | (BoxlPropMediaQuery<A | undefined, P, T>);
 
-  ```tsx
-    // string
-    <Box style="background: red; color: white;" />
-    
-    // template literal
-    <Box 
-      style={`
-        background: red; 
-        color: white;
-      `} 
-    />
-    
-    // tagged template literal function
-    <Box 
-      style={style => style`
-        background: ${props => props.theme.color.primary}; 
-        color: white;
-      `}
-    />
-  ```
+type BoxlPropThemeFn<A, P, T> = (
+  props: BoxlPropsBaseThemed<P, T>
+) => BoxlProp<A, P, T>;
 
-</details>
+type BoxlPropMediaQuery<A, P, T> = {
+  [key: string]: BoxlProp<A, P, T>;
+};
+```
+`BoxlProp` is the union of three types:
+1. `| (A | undefined)` - a primitive value (or undefined)
+2. `| (BoxlPropThemeFn<A | undefined, P, T>)` - a function that receives component props and returns `BoxlProp`
+3. `| (BoxlPropMediaQuery<A | undefined, P, T>)` - an object with keys corresponding to a media query string and values that are `BoxlProp`
+
+#### Example Usage:
+
+```tsx
+// alignHorizontal as A
+const Example01 = boxl({
+  alignHorizontal: "left"
+})
+
+// alignHorizontal as BoxlPropThemeFn
+const Example02 = boxl<{ foo: boolean }>({
+  alignHorizontal: props => props.foo ? "left" : "right",
+})
+
+// alignHorizontal as BoxlPropMediaQuery
+const Example03 = boxl<{ foo: boolean }>({
+  alignHorizontal: { 
+    "@media (max-width: 600px)": "left",
+    "@media (max-width: 800px)": (props) => 
+      props.foo ? "left" : "center",
+  },
+})
+
+```
 
 ## Develop
 
