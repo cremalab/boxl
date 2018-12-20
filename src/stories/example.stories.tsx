@@ -8,8 +8,9 @@ import { AlignVertical001 } from "./examples/AlignVertical";
 import { ChildGrow001 } from "./examples/ChildGrow";
 import { ChildIdealWidth001 } from "./examples/ChildIdealWidth";
 import { ChildWrap001, ChildWrap002, ChildWrap003 } from "./examples/ChildWrap";
-import { Component001, Component002 } from "./examples/Component";
+import { Component001 } from "./examples/Component";
 import { Direction001, Direction002 } from "./examples/Direction";
+import { Element001 } from "./examples/Element";
 import { Grow001 } from "./examples/Grow";
 import { IdealWidth001 } from "./examples/IdealWidth";
 import { Spacing001 } from "./examples/Spacing";
@@ -28,9 +29,9 @@ storiesOf("example", module)
   .add("ChildWrap002", () => <ChildWrap002 />)
   .add("ChildWrap003", () => <ChildWrap003 />)
   .add("Component001", () => <Component001 />)
-  .add("Component002", () => <Component002 />)
   .add("Direction001", () => <Direction001 />)
   .add("Direction002", () => <Direction002 />)
+  .add("Element001", () => <Element001 />)
   .add("Grow001", () => <Grow001 />)
   .add("IdealWidth001", () => <IdealWidth001 />)
   .add("Spacing001", () => <Spacing001 />)

@@ -100,8 +100,6 @@ export const Example002 = () => (
 </tr>
 </table>
 
-[![Edit boxl](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/m72l34p3p?autoresize=1&hidenavigation=1&module=%2Fsrc%2FExample001.tsx&moduleview=1)
-
 ### Theme Setup
 
 First, follow [Styled Components](https://www.styled-components.com/docs/api#define-a-theme-interface) instructions on setting up a theme with TypeScript.
@@ -124,7 +122,7 @@ export const boxl = b as Boxl<Theme>;
 
 <details >
 <summary>
-<strong><code>alignHorizontal: "left" | "center" | "right" (default: undefined)</code></strong>
+<code><strong>alignHorizontal:</strong> "left" | "center" | "right" (default: undefined)</code>
 </summary>
 
 #### Description
@@ -149,7 +147,7 @@ export const AlignHorizontal001 = () => (
 
 <details >
 <summary>
-<strong><code>alignVertical: "top" | "center" | "bottom" (default: "top")</code></strong>
+<code><strong>alignVertical:</strong> "top" | "center" | "bottom" (default: "top")</code>
 </summary>
 
 #### Description
@@ -173,7 +171,7 @@ export const AlignVertical001 = () => (
 
 <details >
 <summary>
-  <code><strong>childGrow?: number</strong></code>
+  <code><strong>childGrow:</strong> number</code>
 </summary>
 
 #### Description 
@@ -201,7 +199,7 @@ export const ChildGrow001 = () => (
 
 <details >
 <summary>
-  <code><strong>childIdealWidth: string (CSS length)</strong></code>
+  <code><strong>childIdealWidth:</strong> string (CSS length)</code>
 </summary>
 
 #### Description 
@@ -230,7 +228,7 @@ export const ChildIdealWidth001 = () => (
 
 <details >
 <summary>
-<code><strong>childWrap: "auto" | "even" (default: undefined)</strong></code>
+<code><strong>childWrap:</strong> "auto" | "even" (default: undefined)</code>
 </summary>
 
 #### Description 
@@ -306,40 +304,16 @@ export const ChildWrap003 = () => (
 
 <details >
 <summary>
-<code><strong>component: string | React.ComponentType</strong></code>
+<code><strong>component:</strong> React.ComponentType</code>
 </summary>
 
 #### Description 
 
-Aligns children vertically regardless of `direction` ***(default: "top")***
-
-#### Example 1: `"a"`
-
-```tsx
-import React from "react";
-import { boxl } from "boxl";
-import { Parent } from "./Base";
-
-const Link = boxl({ component: "a" });
-
-export const Component001 = () => (
-  <Parent
-    grow={1}
-    direction="horizontal"
-    childIdealWidth="200px"
-    childWrap="auto"
-  >
-    <Link href="http://google.com">Google it</Link>
-  </Parent>
-);
-```
-![component: example 3](.loki/reference/example_example_Component001.png)
-
-#### Example 2: `MyButton`
+Allows another component to be passed for styling. This is useful when you need to style a 3rd party component (e.g. react-router's `<Link />`)
 
 ```tsx
 import React, { SFC } from "react";
-import { boxl } from "../..";
+import { boxl } from "boxl";
 import { Parent } from "./Base";
 
 const MyButton: SFC = props => <button {...props} />;
@@ -364,19 +338,19 @@ const MyButtonBoxled = boxl({
   `,
 });
 
-export const Component002 = () => (
+export const Component001 = () => (
   <Parent alignHorizontal="center">
     <MyButton>Old Button</MyButton>
     <MyButtonBoxled>New Button</MyButtonBoxled>
   </Parent>
 );
 ```
-![component: example 3](.loki/reference/example_example_Component002.png)
+![component: example 1](.loki/reference/example_example_Component001.png)
 </details>
 
 <details >
 <summary>
-<code><strong>direction: "horizontal" | "vertical" (default: "vertical")</strong></code>
+<code><strong>direction:</strong> "horizontal" | "vertical" (default: "vertical")</code>
 </summary>
 
 #### Description 
@@ -418,7 +392,39 @@ export const Direction002 = () => (
 
 <details >
 <summary>
-<code><strong>grow: number (default: undefined)</strong></code>
+<code><strong>element:</strong> "a" | "div" | etc. (default: "div")</code>
+</summary>
+
+#### Description 
+
+Determines what HTML element is rendered.
+
+>If `component` is set this property is ignored
+
+```tsx
+import React from "react";
+import { boxl } from "boxl";
+import { Parent } from "./Base";
+
+const Link = boxl({ element: "a" });
+
+export const Element001 = () => (
+  <Parent
+    grow={1}
+    direction="horizontal"
+    childIdealWidth="200px"
+    childWrap="auto"
+  >
+    <Link href="http://google.com">Google it</Link>
+  </Parent>
+);
+```
+![component: example 1](.loki/reference/example_example_Element001.png)
+</details>
+
+<details >
+<summary>
+<code><strong>grow:</strong> number (default: undefined)</code>
 </summary>
 
 #### Description 
@@ -444,7 +450,7 @@ export const Grow001 = () => (
 
 <details >
 <summary>
-<code><strong>idealWidth: string (default: undefined)</strong></code>
+<code><strong>idealWidth:</strong> string (default: undefined)</code>
 </summary>
 
 #### Description 
@@ -468,7 +474,7 @@ export const IdealWidth001 = () => (
 
 <details >
 <summary>
-<code><strong>spacing: string (default: undefined)</strong></code>
+<code><strong>spacing:</strong> string (default: undefined)</code>
 </summary>
 
 #### Description 
@@ -494,7 +500,7 @@ export const Spacing001 = () => (
 
 <details >
 <summary>
-<code><strong>style: string | CSSObject | template literal | (style) => style`tagged template literal`</strong></code>
+<code><strong>style:</strong> string | CSSObject | template literal | (style) => style`tagged template literal`</code>
 </summary>
 
 #### Description 

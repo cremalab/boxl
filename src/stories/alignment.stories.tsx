@@ -3,14 +3,14 @@ import * as React from "react";
 import {
   BoxChild,
   BoxContainer,
-  BoxlPropsThemed,
+  BoxlProps,
   decoratorFlex,
   Dot,
 } from "./config";
 
 interface Props {
-  h?: BoxlPropsThemed["alignHorizontal"];
-  v?: BoxlPropsThemed["alignVertical"];
+  h?: BoxlProps["alignHorizontal"];
+  v?: BoxlProps["alignVertical"];
 }
 
 const Example = ({ h, v }: Props) => (

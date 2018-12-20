@@ -7,17 +7,17 @@ describe("boxl", () => {
   const Boxl = b();
 
   describe("structure", () => {
-    it("Renders correct structure when no spacing", () => {
+    it("renders correct structure when no spacing", () => {
       const received = TestRenderer.create(<Boxl>Text</Boxl>);
       expect(received).toMatchSnapshot();
     });
 
-    it("Renders correct structure when spacing BUT children length === 1", () => {
+    it("renders correct structure when spacing BUT children length === 1", () => {
       const received = TestRenderer.create(<Boxl spacing="1em">Text</Boxl>);
       expect(received).toMatchSnapshot();
     });
 
-    it("Renders correct structure when spacing AND children length > 1", () => {
+    it("renders correct structure when spacing AND children length > 1", () => {
       const received = TestRenderer.create(
         <Boxl spacing="1em">
           <div>Text 1</div>
@@ -27,7 +27,7 @@ describe("boxl", () => {
       expect(received).toMatchSnapshot();
     });
 
-    it("Renders correct structure when spacing AND children length > 1 and children are Boxl", () => {
+    it("renders correct structure when spacing AND children length > 1 and children are Boxl", () => {
       const received = TestRenderer.create(
         <Boxl spacing="1em">
           <Boxl>Text 1</Boxl>
@@ -38,12 +38,32 @@ describe("boxl", () => {
     });
   });
 
-  describe("edge-cases", () => {
+  describe("edge-case", () => {
     it("handles null child in children array", () => {
       const received = TestRenderer.create(
         <Boxl grow={1} spacing={"10px"} children={[null]} />
       );
       expect(received).toMatchSnapshot();
+    });
+
+    describe("naked text node", () => {
+      it("is not wrapped when spacing undefined", () => {
+        const received = TestRenderer.create(
+          <Boxl alignVertical="center" grow={1}>
+            <div key="1">1</div>2<div key="3">3</div>
+          </Boxl>
+        );
+        expect(received).toMatchSnapshot();
+      });
+
+      it("is wrapped when spacing defined", () => {
+        const received = TestRenderer.create(
+          <Boxl alignVertical="center" grow={1} spacing={"10px"}>
+            <div key="1">1</div>2<div key="3">3</div>
+          </Boxl>
+        );
+        expect(received).toMatchSnapshot();
+      });
     });
   });
 
@@ -106,8 +126,8 @@ describe("rerender", () => {
   afterEach(cleanup);
 
   it("maintains element instance between renders", () => {
-    const Container = b({ component: "form", spacing: "1em" });
-    const Input = b({ component: "input" });
+    const Container = b({ element: "form", spacing: "1em" });
+    const Input = b({ element: "input" });
     class Form extends React.Component {
       public state = {
         value: "",
@@ -118,7 +138,9 @@ describe("rerender", () => {
             <Input
               placeholder="test1"
               value={this.state.value}
-              onChange={e => this.setState({ value: (e.target as any).value })}
+              onChange={(e: any) =>
+                this.setState({ value: (e.target as any).value })
+              }
             />
             <Input
               placeholder="test2"

@@ -1,16 +1,11 @@
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 import { boxl } from "..";
-import {
-  BoxChild,
-  BoxContainer,
-  BoxlPropsThemed,
-  decoratorFlex,
-} from "./config";
+import { BoxChild, BoxContainer, BoxlProps, decoratorFlex } from "./config";
 
 const BoxlComponent = boxl();
 
-const Example = (props: BoxlPropsThemed) => (
+const Example = (props: BoxlProps) => (
   <BoxContainer grow={1} spacing={"1em"} {...props} />
 );
 

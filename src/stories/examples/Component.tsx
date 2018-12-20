@@ -2,19 +2,6 @@ import React, { SFC } from "react";
 import { boxl } from "../..";
 import { Parent } from "./Base";
 
-const Link = boxl({ component: "a" });
-
-export const Component001 = () => (
-  <Parent
-    grow={1}
-    direction="horizontal"
-    childIdealWidth="200px"
-    childWrap="auto"
-  >
-    <Link href="http://google.com">Google it</Link>
-  </Parent>
-);
-
 const MyButton: SFC = props => <button {...props} />;
 
 const MyButtonBoxled = boxl({
@@ -37,7 +24,7 @@ const MyButtonBoxled = boxl({
   `,
 });
 
-export const Component002 = () => (
+export const Component001 = () => (
   <Parent alignHorizontal="center">
     <MyButton>Old Button</MyButton>
     <MyButtonBoxled>New Button</MyButtonBoxled>
