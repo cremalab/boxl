@@ -3,7 +3,7 @@ import * as React from "react";
 import { boxl } from "..";
 import { decoratorFlex } from "./config";
 
-const BoxlComponent = boxl({ component: "a" });
+const BoxlComponent = boxl({ element: "a" });
 
 storiesOf("component", module)
   .addDecorator(decoratorFlex)
@@ -13,11 +13,14 @@ storiesOf("component", module)
     </BoxlComponent>
   ))
   .add("01 component", () => {
-    const Thing = (props: { foo: string }) => {
-      return <div {...props}>{props.foo}</div>;
+    type Props = { foo: string };
+
+    const Thing = (props: Props) => {
+      return <a {...props}>{props.foo}</a>;
     };
-    const FieldLabel = boxl({
+    const FieldLabel = boxl<Props>({
       component: Thing,
+      element: "div",
       style: `
         background: blue;
         padding: 2em;

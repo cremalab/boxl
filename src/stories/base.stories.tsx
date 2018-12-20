@@ -107,9 +107,9 @@ storiesOf("01 Base", module)
       `,
     });
     const FieldContainer = boxl({ spacing: "0.5em" });
-    const FieldLabel = boxl({ component: "label" });
+    const FieldLabel = boxl({ element: "label" });
     const FieldInput = boxl();
-    const Input = boxl({ component: "input" });
+    const Input = boxl({ element: "input" });
     const Field = ({
       label,
       ...rest
@@ -201,4 +201,41 @@ storiesOf("01 Base", module)
     }
 
     return <Example />;
+  })
+  .add("06 default props maintained", () => {
+    const Parent = boxl({
+      childGrow: 1,
+      grow: 1,
+      style: s => s`
+        padding: 1em;
+        background: salmon;
+      `,
+    });
+    const Child = boxl({
+      grow: 1,
+      style: s => s`
+        padding: 1em;
+        background: blue;
+      `,
+    });
+    return (
+      <Parent childGrow={0}>
+        <Child />
+      </Parent>
+    );
+  })
+  .add("07 naked text node", () => {
+    const Parent = boxl({
+      childGrow: 1,
+      direction: "horizontal",
+      spacing: "1em",
+      style: s => s`
+        padding: 1em;
+      `,
+    });
+    return (
+      <Parent childGrow={0}>
+        <div>1</div>2<div>3</div>
+      </Parent>
+    );
   });

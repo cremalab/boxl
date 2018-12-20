@@ -33,9 +33,9 @@ export type BoxlPropAlignmentVertical<P, T> = BoxlProp<
 
 export type BoxlPropDirection<P, T> = BoxlProp<"horizontal" | "vertical", P, T>;
 
-export type BoxlPropElement<P> =
-  | keyof JSX.IntrinsicElements
-  | React.ComponentType<P>;
+export type BoxlPropElement = keyof JSX.IntrinsicElements;
+
+export type BoxlPropComponent<P> = React.ComponentType<P>;
 
 export type BoxlPropGrow<P, T> = BoxlProp<number, P, T>;
 
@@ -82,7 +82,8 @@ export interface BoxlPropsBase<P = {}, T = {}> {
   childIdealWidth?: BoxlPropIdealWidth<P, T>;
   childWrap?: BoxlPropWrap<P, T>;
   direction?: BoxlPropDirection<P, T>;
-  component?: BoxlPropElement<P>;
+  element?: BoxlPropElement;
+  component?: BoxlPropComponent<P>;
   grow?: BoxlPropGrow<P, T>;
   idealWidth?: BoxlPropIdealWidth<P, T>;
   isChild?: boolean;
