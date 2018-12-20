@@ -1,3 +1,4 @@
+import "jest-styled-components";
 import React from "react";
 import TestRenderer from "react-test-renderer";
 import { cleanup, fireEvent, render } from "react-testing-library";
@@ -34,6 +35,17 @@ describe("boxl", () => {
           <Boxl>Text 2</Boxl>
         </Boxl>
       );
+      expect(received).toMatchSnapshot();
+    });
+
+    it("renders defined `element`", () => {
+      const received = TestRenderer.create(<Boxl element="a" />);
+      expect(received).toMatchSnapshot();
+    });
+
+    it("renders defined `component`", () => {
+      const P = (props: {}) => <p {...props} />;
+      const received = TestRenderer.create(<Boxl component={P} />);
       expect(received).toMatchSnapshot();
     });
   });
