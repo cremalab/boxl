@@ -35,23 +35,17 @@ const createBoxlContainer = <P, T>(
     ${({ theme, boxlPropsInner }) => {
       const propsPreTyped = { theme, ...boxlPropsInner };
       const props = propsPreTyped as BoxlPropsBaseThemed<P, T>;
-      const { grow: myGrow, isChild, padding } = props;
+      const { grow: myGrow, isChild, padding, idealWidth } = props;
       const grow = isChild ? 1 : myGrow === undefined ? 0 : myGrow;
-      const shouldUseFullStructure = computeShouldUseFullStructure(props);
-      const styleString = !shouldUseFullStructure
-        ? undefined
-        : computeStyle(props);
+      const styleString = computeStyle(props);
+
       return css`
         ${styleString};
         box-sizing: border-box;
         display: flex;
-        ${styleOfProp(
-          "flex-grow",
-          isChild && grow && grow < 1 ? 1 : grow,
-          props,
-          x => (x ? x.toString() : "0")
-        )};
+        ${styleOfProp("flex-grow", grow, props, x => (x ? x.toString() : "0"))};
         ${styleOfProp("padding", padding, props)};
+        ${styleOfProp("flex-basis", idealWidth, props)};
       `;
     }};
   `;
@@ -79,6 +73,7 @@ const createBoxlChildren = <P, T>(
         isChild,
         padding,
         spacing,
+        idealWidth,
       } = props;
       const direction = myDirection || "vertical";
       const grow = isChild ? 1 : myGrow === undefined ? 0 : myGrow;
@@ -126,6 +121,7 @@ const createBoxlChildren = <P, T>(
       ${shouldUseFullStructure &&
         styleOfProp("margin", spacing, props, translateBoxSpacingHalf(true))}
       ${!shouldUseFullStructure && styleOfProp("padding", padding, props)}
+      ${styleOfProp("flex-basis", idealWidth, props)}
     `;
     }};
   `;
@@ -136,19 +132,13 @@ const createBoxlChild = <P, T>() => {
     ${({ theme, boxlPropsInner }) => {
       const propsPreTyped = { theme, ...boxlPropsInner };
       const props = propsPreTyped as BoxlPropsBaseThemed<P, T>;
-      const {
-        grow: myGrow,
-        idealWidth: myIdealWidth,
-        isDummy,
-        spacing,
-      } = props;
+      const { grow: myGrow, idealWidth, isDummy, spacing } = props;
       const shouldUseFullStructure = computeShouldUseFullStructure(props);
       return css`
         box-sizing: border-box;
         display: flex;
         ${styleOfProp<number, P, T>("flex-grow", myGrow, props)}
-        ${myIdealWidth &&
-          styleOfProp<string, P, T>("flex-basis", myIdealWidth, props)}
+        ${styleOfProp<string, P, T>("flex-basis", idealWidth, props)}
         ${isDummy ? "height: 0;" : ""}
         ${
           shouldUseFullStructure && spacing && !isDummy
