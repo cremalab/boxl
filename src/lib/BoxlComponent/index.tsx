@@ -1,7 +1,7 @@
 import * as React from "react";
 import styled, { css } from "styled-components";
 import { computeStyle } from "../computeStyle";
-import { omit } from "../omit";
+import { split } from "../split";
 import { styleOfProp } from "../styleOfProp";
 import {
   translateBoxSpacingHalf,
@@ -12,10 +12,9 @@ import {
 } from "../translate";
 import {
   BoxlComponentInnerProps,
-  BoxlPropElement,
   BoxlProps,
   BoxlPropsBaseThemed,
-  BoxlPropSpacing,
+  BoxlPropsPartial,
   BoxlStyledComponent,
 } from "../types";
 
@@ -27,15 +26,21 @@ function computeShouldUseFullStructure<P, T, E>(props: BoxlProps<P, T, E>) {
   );
 }
 
-const createBoxlContainer = <P, T>(
-  spacing: BoxlPropSpacing<P, T>,
-  el?: BoxlPropElement | React.ComponentType<P>
-) => {
-  return styled(spacing && el ? el : "div")<BoxlComponentInnerProps<P, T>>`
+const createBoxlContainer = <P, T>() => {
+  return styled(
+    ({
+      boxlPropsInner: { element, component },
+      ...rest
+    }: BoxlComponentInnerProps<P, T>) => {
+      const props = rest as P & React.Attributes;
+      const el = component ? component : element || "div";
+      return React.createElement(el, props);
+    }
+  )<BoxlComponentInnerProps<P, T>>`
     ${({ theme, boxlPropsInner }) => {
       const propsPreTyped = { theme, ...boxlPropsInner };
       const props = propsPreTyped as BoxlPropsBaseThemed<P, T>;
-      const { grow: myGrow, isChild, padding, idealWidth } = props;
+      const { grow: myGrow, idealSize, isChild, padding } = props;
       const grow = isChild ? 1 : myGrow === undefined ? 0 : myGrow;
       const styleString = computeStyle(props);
 
@@ -43,21 +48,25 @@ const createBoxlContainer = <P, T>(
         ${styleString};
         box-sizing: border-box;
         display: flex;
-        ${styleOfProp("flex-grow", grow, props, x => (x ? x.toString() : "0"))};
-        ${styleOfProp("padding", padding, props)};
-        ${styleOfProp("flex-basis", idealWidth, props)};
+        ${styleOfProp("flex-grow", grow, props, x => (x ? x.toString() : "0"))}
+        ${styleOfProp("padding", padding, props)}
+        ${styleOfProp("flex-basis", idealSize, props)}
       `;
     }};
   `;
 };
 
-const createBoxlChildren = <P, T>(
-  spacingInitial: BoxlPropSpacing<P, T>,
-  el?: BoxlPropElement | React.ComponentType<P>
-) => {
-  return styled(!spacingInitial && el ? el : "div")<
-    BoxlComponentInnerProps<P, T>
-  >`
+const createBoxlChildren = <P, T>() => {
+  return styled(
+    ({
+      boxlPropsInner: { element, component, spacing },
+      ...rest
+    }: BoxlComponentInnerProps<P, T>) => {
+      const props = rest as P & React.Attributes;
+      const el = !spacing ? (component ? component : element || "div") : "div";
+      return React.createElement(el, props);
+    }
+  )<BoxlComponentInnerProps<P, T>>`
     ${({ theme, boxlPropsInner }) => {
       const propsPreTyped = {
         theme,
@@ -68,20 +77,27 @@ const createBoxlChildren = <P, T>(
         alignHorizontal,
         alignVertical,
         childWrap,
-        direction: myDirection,
+        direction,
         grow: myGrow,
+        idealSize,
+        propsParent,
         isChild,
         padding,
         spacing,
-        idealWidth,
       } = props;
-      const direction = myDirection || "vertical";
       const grow = isChild ? 1 : myGrow === undefined ? 0 : myGrow;
       const shouldUseFullStructure = computeShouldUseFullStructure(props);
       const styleString = shouldUseFullStructure
         ? undefined
         : computeStyle(props);
       return css`
+      ${
+        propsParent &&
+        propsParent.direction === "vertical" &&
+        propsParent.childWrap
+          ? "width: min-content;"
+          : ""
+      }
       ${styleString};
       ${grow !== undefined && styleOfProp("flex-grow", grow, props)};
       ${shouldUseFullStructure && "flex-grow: 1;"}
@@ -118,10 +134,14 @@ const createBoxlChildren = <P, T>(
             translateVerticalAlign
           )}`
       } 
+      ${
+        !isChild || !shouldUseFullStructure
+          ? styleOfProp("flex-basis", idealSize, props)
+          : ""
+      }
       ${shouldUseFullStructure &&
         styleOfProp("margin", spacing, props, translateBoxSpacingHalf(true))}
       ${!shouldUseFullStructure && styleOfProp("padding", padding, props)}
-      ${styleOfProp("flex-basis", idealWidth, props)}
     `;
     }};
   `;
@@ -132,19 +152,18 @@ const createBoxlChild = <P, T>() => {
     ${({ theme, boxlPropsInner }) => {
       const propsPreTyped = { theme, ...boxlPropsInner };
       const props = propsPreTyped as BoxlPropsBaseThemed<P, T>;
-      const { grow: myGrow, idealWidth, isDummy, spacing } = props;
+      const { grow: myGrow, idealSize, isDummy, spacing } = props;
       const shouldUseFullStructure = computeShouldUseFullStructure(props);
       return css`
         box-sizing: border-box;
         display: flex;
-        ${styleOfProp<number, P, T>("flex-grow", myGrow, props)}
-        ${styleOfProp<string, P, T>("flex-basis", idealWidth, props)}
-        ${isDummy ? "height: 0;" : ""}
-        ${
-          shouldUseFullStructure && spacing && !isDummy
-            ? styleOfProp("padding", spacing, props, translateBoxSpacingHalf())
-            : undefined
-        };
+        ${styleOfProp("flex-grow", myGrow, props)}
+        ${styleOfProp("flex-basis", idealSize, props)}
+        ${isDummy ? "height: 0;" : ""} ${
+        shouldUseFullStructure && spacing && !isDummy
+          ? styleOfProp("padding", spacing, props, translateBoxSpacingHalf())
+          : undefined
+      };
       `;
     }};
   `;
@@ -153,39 +172,41 @@ const createBoxlChild = <P, T>() => {
 export class BoxlComponent<P, T, E> extends React.Component<
   BoxlProps<P, T, E>
 > {
+  public static defaultProps: BoxlPropsPartial = {
+    direction: "vertical",
+  };
   private BoxlContainer: BoxlStyledComponent;
   private BoxlChildren: BoxlStyledComponent;
   private BoxlChild: BoxlStyledComponent;
 
   constructor(props: BoxlProps<P, T, E>) {
     super(props);
-    const { spacing, element, component } = props;
-    const el = component ? component : element;
-    this.BoxlContainer = createBoxlContainer<P, T>(spacing, el);
-    this.BoxlChildren = createBoxlChildren<P, T>(spacing, el);
+    this.BoxlContainer = createBoxlContainer<P, T>();
+    this.BoxlChildren = createBoxlChildren<P, T>();
     this.BoxlChild = createBoxlChild<P, T>();
   }
 
   public render() {
     const props = this.props;
-    const { childGrow, childIdealWidth, children, spacing } = props;
-    const propsRest = omit(props, [
+    const { omit: propsRest, pick: propsParent } = split(props, [
       "alignHorizontal",
       "alignVertical",
       "childGrow",
-      "childIdealWidth",
+      "childIdealSize",
       "childWrap",
       "children",
       "component",
       "direction",
+      "propsParent",
       "element",
       "grow",
-      "idealWidth",
+      "idealSize",
       "isChild",
       "padding",
       "spacing",
       "style",
     ]);
+    const { childGrow, childIdealSize, children, spacing } = props;
     const shouldUseFullStructure = computeShouldUseFullStructure(props);
     const shouldIncludeDummies = props.childWrap === "even";
 
@@ -194,7 +215,7 @@ export class BoxlComponent<P, T, E> extends React.Component<
     ) => {
       let isBoxl: boolean = false;
       let myGrow: BoxlProps<P, T, E>["childGrow"] | undefined;
-      let myIdealWidth: BoxlProps<P, T, E>["childIdealWidth"] | undefined;
+      let myIdealSize: BoxlProps<P, T, E>["childIdealSize"] | undefined;
       if (
         child !== null &&
         typeof child !== "number" &&
@@ -202,23 +223,28 @@ export class BoxlComponent<P, T, E> extends React.Component<
         child.hasOwnProperty("props")
       ) {
         isBoxl = typeof child.type === "function" && child.type.name === "Boxl";
-        myGrow = (child && child.props && child.props.grow) || childGrow;
-        myIdealWidth =
-          (child && child.props && child.props.idealWidth) || childIdealWidth;
+        myGrow = child.props.grow !== undefined ? child.props.grow : childGrow;
+        myIdealSize =
+          child.props.idealSize !== undefined
+            ? child.props.idealSize
+            : childIdealSize;
       }
 
       if (child !== null) {
-        const hasGrow = myGrow !== undefined;
-        const hasIdealWidth = myIdealWidth !== undefined;
+        const hasGrow = myGrow !== undefined && myGrow !== 0;
+        const hasIdealSize = myIdealSize !== undefined;
         const hasSpacing = spacing !== undefined;
         const shouldWrapWithChild =
-          hasGrow || hasIdealWidth || (hasSpacing && useFullStructure);
+          hasGrow || hasIdealSize || (hasSpacing && useFullStructure);
 
         const computeTemplateInner = (isChild: boolean) =>
           isDummy
             ? null
             : isBoxl && typeof child !== "string" && typeof child !== "number"
-              ? React.cloneElement(child, { isChild })
+              ? React.cloneElement(child, {
+                  isChild,
+                  propsParent,
+                })
               : child;
 
         const templateWrapWithChild = shouldWrapWithChild ? (
@@ -228,7 +254,7 @@ export class BoxlComponent<P, T, E> extends React.Component<
             boxlPropsInner={{
               ...props,
               grow: myGrow,
-              idealWidth: myIdealWidth,
+              idealSize: myIdealSize,
               isDummy,
             }}
           >

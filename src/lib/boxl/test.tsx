@@ -5,7 +5,7 @@ import { cleanup, fireEvent, render } from "react-testing-library";
 import { boxl as b } from ".";
 
 describe("boxl", () => {
-  const Boxl = b();
+  const Boxl = b.div();
 
   describe("structure", () => {
     it("renders correct structure when no spacing", () => {
@@ -114,7 +114,7 @@ describe("boxl", () => {
   describe("childWrap", () => {
     it("auto", () => {
       const received = TestRenderer.create(
-        <Boxl childWrap="auto" childIdealWidth="200px">
+        <Boxl direction="horizontal" childWrap="auto" childIdealSize="200px">
           <div>1</div>
           <div>2</div>
         </Boxl>
@@ -124,7 +124,7 @@ describe("boxl", () => {
 
     it("even", () => {
       const received = TestRenderer.create(
-        <Boxl childWrap="even" childIdealWidth="200px">
+        <Boxl direction="horizontal" childWrap="even" childIdealSize="200px">
           <div>1</div>
           <div>2</div>
         </Boxl>
@@ -137,8 +137,8 @@ describe("boxl", () => {
     afterEach(cleanup);
 
     it("maintains element instance between renders", () => {
-      const Container = b({ element: "form", spacing: "1em" });
-      const Input = b({ element: "input" });
+      const Container = b.form({ spacing: "1em" });
+      const Input = b.input();
       class Form extends React.Component {
         public state = {
           value: "",
@@ -238,10 +238,19 @@ describe("boxl", () => {
       });
     });
 
-    describe("childIdealWidth", () => {
-      it("works", () => {
+    describe("childIdealSize", () => {
+      it("with direction vertical (no flex-basis)", () => {
         const received = TestRenderer.create(
-          <Boxl childIdealWidth="50%">
+          <Boxl childIdealSize="50%">
+            <div>1</div>
+            <div>2</div>
+          </Boxl>
+        );
+        expect(received).toMatchSnapshot();
+      });
+      it("with direction horizontal (adds flex-basis)", () => {
+        const received = TestRenderer.create(
+          <Boxl direction="horizontal" childIdealSize="50%">
             <div>1</div>
             <div>2</div>
           </Boxl>
@@ -251,9 +260,19 @@ describe("boxl", () => {
     });
 
     describe("childWrap", () => {
-      it("auto", () => {
+      it("vertical", () => {
         const received = TestRenderer.create(
           <Boxl childWrap="auto">
+            <Boxl>1</Boxl>
+            <Boxl>2</Boxl>
+          </Boxl>
+        );
+        expect(received).toMatchSnapshot();
+      });
+
+      it("auto", () => {
+        const received = TestRenderer.create(
+          <Boxl direction="horizontal" childWrap="auto">
             <div>1</div>
             <div>2</div>
           </Boxl>
@@ -263,7 +282,7 @@ describe("boxl", () => {
 
       it("even", () => {
         const received = TestRenderer.create(
-          <Boxl childWrap="even">
+          <Boxl direction="horizontal" childWrap="even">
             <div>1</div>
             <div>2</div>
           </Boxl>
@@ -273,7 +292,7 @@ describe("boxl", () => {
 
       it("even:spacing", () => {
         const received = TestRenderer.create(
-          <Boxl childWrap="even" spacing="2px">
+          <Boxl direction="horizontal" childWrap="even" spacing="2px">
             <div>1</div>
             <div>2</div>
           </Boxl>
@@ -281,9 +300,14 @@ describe("boxl", () => {
         expect(received).toMatchSnapshot();
       });
 
-      it("even:spacing:childIdealWidth", () => {
+      it("even:spacing:childIdealSize", () => {
         const received = TestRenderer.create(
-          <Boxl childWrap="even" spacing="2px" childIdealWidth="100px">
+          <Boxl
+            direction="horizontal"
+            childWrap="even"
+            spacing="2px"
+            childIdealSize="100px"
+          >
             <div>1</div>
             <div>2</div>
           </Boxl>
@@ -293,9 +317,60 @@ describe("boxl", () => {
     });
 
     describe("component", () => {
-      it("works", () => {
-        const P = (props: {}) => <p {...props} />;
-        const received = TestRenderer.create(<Boxl component={P} />);
+      it("no argument w/ spacing", () => {
+        const B = b()({ spacing: "1em" });
+        const received = TestRenderer.create(
+          <B direction="horizontal">
+            <div>1</div>
+            <div>2</div>
+          </B>
+        );
+        expect(received).toMatchSnapshot();
+      });
+
+      it("no argument no spacing", () => {
+        const B = b()();
+        const received = TestRenderer.create(
+          <B direction="horizontal">
+            <div>1</div>
+            <div>2</div>
+          </B>
+        );
+        expect(received).toMatchSnapshot();
+      });
+
+      it("function", () => {
+        const P = (props: { color: string }) => <p {...props} />;
+        const B = b(P)();
+        const received = TestRenderer.create(
+          <B color="red" direction="horizontal" />
+        );
+        expect(received).toMatchSnapshot();
+      });
+
+      it("function w/ spacing", () => {
+        const P = (props: { color: string }) => <p {...props} />;
+        const B = b(P)({ spacing: "1em" });
+        const received = TestRenderer.create(
+          <B color="red" direction="horizontal">
+            <div>1</div>
+            <div>2</div>
+          </B>
+        );
+        expect(received).toMatchSnapshot();
+      });
+
+      it("class", () => {
+        // tslint:disable-next-line
+        class P extends React.Component<{ color: string }> {
+          public render() {
+            return <p {...this.props} />;
+          }
+        }
+        const B = b(P)<{ test: boolean }>();
+        const received = TestRenderer.create(
+          <B color="red" test={false} direction="horizontal" />
+        );
         expect(received).toMatchSnapshot();
       });
     });
@@ -322,8 +397,9 @@ describe("boxl", () => {
 
     describe("element", () => {
       it("a", () => {
+        const A = b.a();
         const received = TestRenderer.create(
-          <Boxl element="a">google.com</Boxl>
+          <A href="google.com">google.com</A>
         );
         expect(received).toMatchSnapshot();
       });
@@ -342,11 +418,31 @@ describe("boxl", () => {
         );
         expect(received).toMatchSnapshot();
       });
+
+      it("child grow is set on BoxlChild", () => {
+        const received = TestRenderer.create(
+          <Boxl spacing="2px">
+            <Boxl />
+            <Boxl grow={1} />
+          </Boxl>
+        );
+        expect(received).toMatchSnapshot();
+      });
     });
 
-    describe("idealWidth", () => {
+    describe("idealSize", () => {
       it("works", () => {
-        const received = TestRenderer.create(<Boxl idealWidth="100px" />);
+        const received = TestRenderer.create(<Boxl idealSize="100px" />);
+        expect(received).toMatchSnapshot();
+      });
+
+      it("child idealSize is set on BoxlChild", () => {
+        const received = TestRenderer.create(
+          <Boxl spacing="2px">
+            <Boxl idealSize="100px" />
+            <Boxl grow={1} />
+          </Boxl>
+        );
         expect(received).toMatchSnapshot();
       });
     });
@@ -401,7 +497,7 @@ describe("boxl", () => {
       });
 
       it("style function w/ props interpolated", () => {
-        const B = b<{ color: string }>();
+        const B = b.div<{ color: string }>();
 
         const received = TestRenderer.create(
           <B color="red" style={s => s`color: ${props => props.color}`} />

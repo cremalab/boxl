@@ -2,7 +2,7 @@ import { storiesOf } from "@storybook/react";
 import * as React from "react";
 import { BoxChild, BoxContainer, BoxlProps } from "./config";
 
-const Example = (props: BoxlProps) => (
+const Example: React.SFC<BoxlProps> = props => (
   <BoxContainer {...props}>
     <BoxChild />
     <BoxChild />

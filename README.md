@@ -199,23 +199,23 @@ export const ChildGrow001 = () => (
 
 <details >
 <summary>
-  <code><strong>childIdealWidth:</strong> string (CSS length)</code>
+  <code><strong>childIdealSize:</strong> string (CSS length)</code>
 </summary>
 
 #### Description 
 
-Sets `idealWith` on all children. Useful in combination with `childWrap`.
+Sets `idealSize` on all children. Useful in combination with `childWrap`.
 
 #### Example
 
-`childIdealWidth="150px"` causes Child components to _prefer_ 150 pixel width if possible.
+`childIdealSize="150px"` causes Child components to _prefer_ 150 pixel width if possible.
 
 ```tsx
 import React from "react";
 import { Child, Parent } from "./Base";
 
-export const ChildIdealWidth001 = () => (
-  <Parent direction="horizontal" childIdealWidth="150px">
+export const ChildIdealSize001 = () => (
+  <Parent direction="horizontal" childIdealSize="150px">
     <Child />
     <Child />
     <Child />
@@ -223,7 +223,7 @@ export const ChildIdealWidth001 = () => (
   </Parent>
 );
 ```
-![childIdealWidth: example 1](.loki/reference/example_example_ChildIdealWidth001.png)
+![childIdealSize: example 1](.loki/reference/example_example_ChildIdealSize001.png)
 </details>
 
 <details >
@@ -245,7 +245,7 @@ export const ChildWrap001 = () => (
   <Parent
     grow={1}
     direction="horizontal"
-    childIdealWidth="200px"
+    childIdealSize="200px"
     childWrap="auto"
   >
     <Child />
@@ -266,7 +266,7 @@ export const ChildWrap002 = () => (
   <Parent
     grow={1}
     direction="horizontal"
-    childIdealWidth="200px"
+    childIdealSize="200px"
     childGrow={1}
     childWrap="auto"
   >
@@ -288,7 +288,7 @@ export const ChildWrap003 = () => (
   <Parent
     grow={1}
     direction="horizontal"
-    childIdealWidth="200px"
+    childIdealSize="200px"
     childGrow={1}
     childWrap="even"
   >
@@ -412,7 +412,7 @@ export const Element001 = () => (
   <Parent
     grow={1}
     direction="horizontal"
-    childIdealWidth="200px"
+    childIdealSize="200px"
     childWrap="auto"
   >
     <Link href="http://google.com">Google it</Link>
@@ -450,12 +450,14 @@ export const Grow001 = () => (
 
 <details >
 <summary>
-<code><strong>idealWidth:</strong> string (default: undefined)</code>
+<code><strong>idealSize:</strong> string (default: undefined)</code>
 </summary>
 
 #### Description 
 
-Defines the preferred/ideal width of the component a may need to be combined with min-/max-/width via the style property to achieve the desired result.
+Defines the preferred/ideal width or hight (depending on the parent's `direction`) of the component and may need to be combined with min-/max-/width via the style property to achieve the desired result.
+
+If the parent direction is "vertical" (default), `idealSize` will affect the _height_ of the component. If the parent direction is "horizontal", `idealSize` will affect the _width_ of the component.
 
 #### Example 
 
@@ -463,13 +465,13 @@ Defines the preferred/ideal width of the component a may need to be combined wit
 import React from "react";
 import { Child, Parent } from "./Base";
 
-export const IdealWidth001 = () => (
+export const IdealSize001 = () => (
   <Parent direction="horizontal">
-    <Child idealWidth="50%" />
+    <Child idealSize="50%" />
   </Parent>
 );
 ```
-![idealWidth: example 1](.loki/reference/example_example_IdealWidth001.png)
+![idealSize: example 1](.loki/reference/example_example_IdealSize001.png)
 </details>
 
 <details >

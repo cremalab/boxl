@@ -5,7 +5,7 @@ export const ChildWrap001 = () => (
   <Parent
     grow={1}
     direction="horizontal"
-    childIdealWidth="200px"
+    childIdealSize="200px"
     childWrap="auto"
   >
     <Child />
@@ -19,7 +19,7 @@ export const ChildWrap002 = () => (
   <Parent
     grow={1}
     direction="horizontal"
-    childIdealWidth="200px"
+    childIdealSize="200px"
     childGrow={1}
     childWrap="auto"
   >
@@ -34,7 +34,7 @@ export const ChildWrap003 = () => (
   <Parent
     grow={1}
     direction="horizontal"
-    childIdealWidth="200px"
+    childIdealSize="200px"
     childGrow={1}
     childWrap="even"
   >

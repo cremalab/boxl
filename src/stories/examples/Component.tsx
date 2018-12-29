@@ -4,8 +4,7 @@ import { Parent } from "./Base";
 
 const MyButton: SFC = props => <button {...props} />;
 
-const MyButtonBoxled = boxl({
-  component: MyButton,
+const MyButtonBoxled = boxl(MyButton)({
   style: styled => styled`
     background: hsl(200, 100%, 50%);
     border-radius: 0.25em;

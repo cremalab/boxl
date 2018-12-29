@@ -3,7 +3,7 @@ import * as React from "react";
 import { boxl } from "..";
 import { BoxChild, BoxContainer, BoxlProps, decoratorFlex } from "./config";
 
-const BoxlComponent = boxl();
+const BoxlComponent = boxl.div();
 
 const Example = (props: BoxlProps) => (
   <BoxContainer grow={1} spacing={"1em"} {...props} />

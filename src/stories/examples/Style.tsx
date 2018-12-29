@@ -2,11 +2,11 @@ import React from "react";
 import { boxl } from "../../lib/boxl";
 import { Parent } from "./Base";
 
-const StyleString = boxl({
+const StyleString = boxl.div({
   style: "background: black; border-radius: 10px; height: 50px;",
 });
 
-const StyleObject = boxl({
+const StyleObject = boxl.div({
   style: {
     background: "black",
     borderRadius: 10,
@@ -14,7 +14,7 @@ const StyleObject = boxl({
   },
 });
 
-const TemplateLiteral = boxl({
+const TemplateLiteral = boxl.div({
   style: `
     background: black;
     border-radius: 10px;
@@ -22,7 +22,7 @@ const TemplateLiteral = boxl({
   `,
 });
 
-const TaggedTemplateLiteral = boxl({
+const TaggedTemplateLiteral = boxl.div({
   style: styled => styled`
     background: black;
     border-radius: 10px;

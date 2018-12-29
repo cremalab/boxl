@@ -4,7 +4,7 @@ import { boxl } from "..";
 import { Omit } from "../lib/types";
 import { BoxChild, BoxContainer, decoratorFlex } from "./config";
 
-const BoxlComponent = boxl();
+const BoxlComponent = boxl.div();
 
 storiesOf("01 Base", module)
   .addDecorator(decoratorFlex)
@@ -58,9 +58,9 @@ storiesOf("01 Base", module)
       spacing="2em"
       direction="horizontal"
       style={`padding: 2em;`}
-      childIdealWidth={"50%"}
+      childIdealSize={"50%"}
     >
-      <BoxlComponent idealWidth="200%">
+      <BoxlComponent idealSize="200%">
         <h1>Title Here</h1>
         <p>
           Deserunt enim reprehenderit dolore magna aliqua aliqua fugiat tempor
@@ -99,17 +99,16 @@ storiesOf("01 Base", module)
     </BoxlComponent>
   ))
   .add("04 complex form", () => {
-    const FormContainer = boxl({
-      element: "form",
+    const FormContainer = boxl.form({
       spacing: "1em",
       style: `
         padding: 1em;
       `,
     });
-    const FieldContainer = boxl({ spacing: "0.5em" });
-    const FieldLabel = boxl({ element: "label" });
-    const FieldInput = boxl();
-    const Input = boxl({ element: "input" });
+    const FieldContainer = boxl.div({ spacing: "0.5em" });
+    const FieldLabel = boxl.label();
+    const FieldInput = boxl.div();
+    const Input = boxl.input();
     const Field = ({
       label,
       ...rest
@@ -157,14 +156,14 @@ storiesOf("01 Base", module)
     return <Form />;
   })
   .add("05 async children", () => {
-    const Item = boxl<{ name: string }>({
+    const Item = boxl.div<{ name: string }>({
       style: s => s`
         background: slategrey;
         padding: 1em;
       `,
     });
 
-    const Items = boxl({
+    const Items = boxl.div({
       grow: 1,
       spacing: "1em",
     });
@@ -203,7 +202,7 @@ storiesOf("01 Base", module)
     return <Example />;
   })
   .add("06 default props maintained", () => {
-    const Parent = boxl({
+    const Parent = boxl.div({
       childGrow: 1,
       grow: 1,
       style: s => s`
@@ -211,7 +210,7 @@ storiesOf("01 Base", module)
         background: salmon;
       `,
     });
-    const Child = boxl({
+    const Child = boxl.div({
       grow: 1,
       style: s => s`
         padding: 1em;
@@ -225,7 +224,7 @@ storiesOf("01 Base", module)
     );
   })
   .add("07 naked text node", () => {
-    const Parent = boxl({
+    const Parent = boxl.div({
       childGrow: 1,
       direction: "horizontal",
       spacing: "1em",

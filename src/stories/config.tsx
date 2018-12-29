@@ -1,8 +1,7 @@
 import * as React from "react";
 import * as styledComponents from "styled-components"; // tslint:disable-line
 import { ThemedStyledComponentsModule } from "styled-components"; // tslint:disable-line
-import { boxl as b } from "..";
-import { Boxl } from "../lib/boxl";
+import { Boxl, boxl as b } from "..";
 import { BoxlProps, BoxlPropsThemed } from "../lib/types";
 
 export const decoratorFlex = (story: any) => {
@@ -83,25 +82,31 @@ export type BoxlThemed = Boxl<Theme>;
 export type BoxlProps = BoxlPropsThemed<Theme>;
 export const boxl = b as BoxlThemed;
 
-interface BoxContainerProps {
+interface ContainerProps {
   test1?: boolean;
   test2?: Scale;
+  fixedHeight?: boolean;
 }
 
-export const BoxContainer = boxl<BoxContainerProps>({
+export const BoxContainer = boxl.div<ContainerProps>({
   grow: 1,
   style: s => s`
-    ${({ theme: { color, spacing, transitions, roundness }, test1 }) => `
+    ${({
+      theme: { color, spacing, transitions, roundness },
+      test1,
+      fixedHeight,
+    }) => `
       border-radius: ${roundness["3"]}
       background: ${test1 ? color.tertiary : color.primary};
       padding: ${spacing["3"]};
       ${transitions.fast};
+      ${fixedHeight ? "height: 100vh;" : ""}
     `}
   `,
   test2: "1",
 });
 
-export const BoxChild = boxl({
+export const BoxChild = boxl.div({
   style: s => s`
     ${({ theme: { color, roundness, transitions, spacing } }) => `
     ${transitions.fast};
@@ -112,7 +117,7 @@ export const BoxChild = boxl({
   `,
 });
 
-export const Dot = boxl({
+export const Dot = boxl.div({
   grow: 0,
   style: s => s`
     ${({ theme: { spacing, color } }) => `

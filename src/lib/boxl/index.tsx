@@ -1,29 +1,62 @@
 import React from "react";
 import { BoxlComponent } from "../BoxlComponent";
-import { BoxlProps, BoxlPropsPartial } from "../types";
+import { domElements } from "../domElements";
+import {
+  BoxlPropElement,
+  BoxlProps,
+  BoxlPropsPartial,
+  InferPropsType,
+} from "../types";
 
-export type Boxl<T = {}> = <
+type BoxlThunkReturn<T = {}, E extends React.ReactType = E> = <
   P,
-  D extends BoxlPropsPartial<P, T, E> = BoxlPropsPartial<P, T, E>,
-  EE extends keyof JSX.IntrinsicElements = "div",
-  E = JSX.IntrinsicElements[EE]
+  PP extends BoxlProps<P, T, EE> & EE = BoxlProps<P, T, EE> & EE,
+  D extends BoxlPropsPartial<P, T, EE> = BoxlPropsPartial<P, T, EE>,
+  EE extends InferPropsType<E> = InferPropsType<E>
 >(
-  d?: Partial<D> & { element?: EE }
+  d?: D | undefined
 ) => {
-  (p: BoxlProps<P, T, E>): JSX.Element;
-  defaultProps: D;
+  (p: PP): React.ReactElement<PP>;
+  defaultProps: D | undefined;
 };
 
-export function boxl<
-  P,
-  T = {},
-  D extends BoxlPropsPartial<P, T, E> = BoxlPropsPartial<P, T, E>,
-  EE extends keyof JSX.IntrinsicElements = "div",
-  E = JSX.IntrinsicElements[EE]
->(d?: Partial<D> & { element?: EE }) {
-  function Boxl(p: BoxlProps<P, T, E>) { //tslint:disable-line
-    return <BoxlComponent {...p} />;
-  }
-  Boxl.defaultProps = d;
-  return Boxl;
+function boxlThunk<T = {}, E extends React.ReactType = E>(
+  component?: E
+): BoxlThunkReturn<T, E> {
+  return <
+    P,
+    PP extends BoxlProps<P, T, EE> & EE = BoxlProps<P, T, EE> & EE,
+    D extends BoxlPropsPartial<P, T, EE> = BoxlPropsPartial<P, T, EE>,
+    EE extends InferPropsType<E> = InferPropsType<E>
+  >(
+    d?: D
+  ) => {
+    function Boxl(p: PP) { //tslint:disable-line
+      return React.createElement(BoxlComponent, {
+        ...p,
+        ...(typeof component === "string"
+          ? { element: p.element || component }
+          : { component }),
+      });
+    }
+    Boxl.defaultProps = d;
+    return Boxl;
+  };
 }
+
+type Boxls<T = {}> = { [E in BoxlPropElement]: BoxlThunkReturn<T, E> };
+
+const boxls = domElements.reduce(
+  (a, b) => {
+    a[b] = boxlThunk(b);
+    return a;
+  },
+  {} as Boxls // tslint:disable-line
+);
+
+export const boxl = Object.assign(boxlThunk, boxls); // tslint:disable-line
+
+export type Boxl<T = {}> = (<E extends React.ReactType<any> = E>(
+  component: E
+) => BoxlThunkReturn<T, E>) &
+  Boxls<T>;
