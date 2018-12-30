@@ -11,7 +11,7 @@ import {
   translateWrap,
 } from "../translate";
 import {
-  BoxlComponentInnerProps,
+  BoxlComponentProps,
   BoxlProps,
   BoxlPropsBaseThemed,
   BoxlPropsPartial,
@@ -27,19 +27,9 @@ function computeShouldUseFullStructure<P, T, E>(props: BoxlProps<P, T, E>) {
 }
 
 const createBoxlContainer = <P, T>() => {
-  return styled(
-    ({
-      boxlPropsInner: { element, component },
-      ...rest
-    }: BoxlComponentInnerProps<P, T>) => {
-      const props = rest as P & React.Attributes;
-      const el = component ? component : element || "div";
-      return React.createElement(el, props);
-    }
-  )<BoxlComponentInnerProps<P, T>>`
-    ${({ theme, boxlPropsInner }) => {
-      const propsPreTyped = { theme, ...boxlPropsInner };
-      const props = propsPreTyped as BoxlPropsBaseThemed<P, T>;
+  return styled.div<BoxlComponentProps<P, T>>`
+    ${({ boxlProps, theme }) => {
+      const props = { ...boxlProps, theme } as BoxlPropsBaseThemed<P, T>; // tslint:disable-line
       const { grow: myGrow, idealSize, isChild, padding } = props;
       const grow = isChild ? 1 : myGrow === undefined ? 0 : myGrow;
       const styleString = computeStyle(props);
@@ -57,22 +47,9 @@ const createBoxlContainer = <P, T>() => {
 };
 
 const createBoxlChildren = <P, T>() => {
-  return styled(
-    ({
-      boxlPropsInner: { element, component, spacing },
-      ...rest
-    }: BoxlComponentInnerProps<P, T>) => {
-      const props = rest as P & React.Attributes;
-      const el = !spacing ? (component ? component : element || "div") : "div";
-      return React.createElement(el, props);
-    }
-  )<BoxlComponentInnerProps<P, T>>`
-    ${({ theme, boxlPropsInner }) => {
-      const propsPreTyped = {
-        theme,
-        ...boxlPropsInner,
-      };
-      const props = propsPreTyped as BoxlPropsBaseThemed<P, T>;
+  return styled.div<BoxlComponentProps<P, T>>`
+    ${({ boxlProps, theme }) => {
+      const props = { ...boxlProps, theme } as BoxlPropsBaseThemed<P, T>; // tslint:disable-line
       const {
         alignHorizontal,
         alignVertical,
@@ -148,10 +125,9 @@ const createBoxlChildren = <P, T>() => {
 };
 
 const createBoxlChild = <P, T>() => {
-  return styled.div<BoxlComponentInnerProps<P, T>>`
-    ${({ theme, boxlPropsInner }) => {
-      const propsPreTyped = { theme, ...boxlPropsInner };
-      const props = propsPreTyped as BoxlPropsBaseThemed<P, T>;
+  return styled.div<BoxlComponentProps<P, T>>`
+    ${({ boxlProps, theme }) => {
+      const props = { ...boxlProps, theme } as BoxlPropsBaseThemed<P, T>; // tslint:disable-line
       const { grow: myGrow, idealSize, isDummy, spacing } = props;
       const shouldUseFullStructure = computeShouldUseFullStructure(props);
       return css`
@@ -188,6 +164,7 @@ export class BoxlComponent<P, T, E> extends React.Component<
 
   public render() {
     const props = this.props;
+
     const { omit: propsRest, pick: propsParent } = split(props, [
       "alignHorizontal",
       "alignVertical",
@@ -206,7 +183,14 @@ export class BoxlComponent<P, T, E> extends React.Component<
       "spacing",
       "style",
     ]);
-    const { childGrow, childIdealSize, children, spacing } = props;
+    const {
+      childGrow,
+      childIdealSize,
+      children,
+      component,
+      element,
+      spacing,
+    } = props;
     const shouldUseFullStructure = computeShouldUseFullStructure(props);
     const shouldIncludeDummies = props.childWrap === "even";
 
@@ -251,7 +235,7 @@ export class BoxlComponent<P, T, E> extends React.Component<
           <this.BoxlChild
             data-name="BoxlChild"
             key={isDummy ? "dummy" : undefined}
-            boxlPropsInner={{
+            boxlProps={{
               ...props,
               grow: myGrow,
               idealSize: myIdealSize,
@@ -291,18 +275,24 @@ export class BoxlComponent<P, T, E> extends React.Component<
 
     const structureFull = (
       <this.BoxlContainer
+        as={component || element}
         data-name="Boxl"
-        boxlPropsInner={props}
+        boxlProps={props}
         {...propsRest}
       >
-        <this.BoxlChildren data-name="BoxlChildren" boxlPropsInner={props}>
+        <this.BoxlChildren data-name="BoxlChildren" boxlProps={props}>
           {childrenFinal}
         </this.BoxlChildren>
       </this.BoxlContainer>
     );
 
     const structureMinimal = (
-      <this.BoxlChildren data-name="Boxl" boxlPropsInner={props} {...propsRest}>
+      <this.BoxlChildren
+        as={component || element}
+        data-name="Boxl"
+        boxlProps={props}
+        {...propsRest}
+      >
         {childrenFinal}
       </this.BoxlChildren>
     );

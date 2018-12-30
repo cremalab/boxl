@@ -93,27 +93,27 @@ export interface BoxlPropsBase<P = {}, T = {}> {
   childGrow?: BoxlPropGrow<P, T>;
   childIdealSize?: BoxlPropIdealSize<P, T>;
   childWrap?: BoxlPropWrap<P, T>;
+  children?: React.ReactNode;
+  component?: BoxlPropComponent<P>;
   direction?: BoxlPropDirection<P, T>;
   element?: BoxlPropElement;
-  component?: BoxlPropComponent<P>;
   grow?: BoxlPropGrow<P, T>;
   idealSize?: BoxlPropIdealSize<P, T>;
   isChild?: boolean;
-  propsParent?: BoxlPropsBase<P, T>;
+  isDummy?: boolean;
   padding?: BoxlPropPadding<P, T>;
+  propsParent?: BoxlPropsBase<P, T>;
   spacing?: BoxlPropSpacing<P, T>;
   style?: BoxlPropStyle<P, T>;
-  children?: React.ReactNode;
-  isDummy?: boolean;
 }
 
 export type BoxlPropsBaseThemed<P, T> = BoxlPropsBase<P, T> & ThemeProps<T> & P;
 
 export type BoxlStyledComponent = AnyStyledComponent;
 
-export type BoxlComponentInnerProps<P = {}, T = {}> = {
-  boxlPropsInner: BoxlPropsBase<P, T>;
-};
+export type BoxlComponentProps<P = {}, T = {}> = {
+  boxlProps?: BoxlPropsBase<P, T>;
+} & P;
 
 export type BoxlProps<P = {}, T = {}, E = {}> = BoxlPropsBase<P, T> &
   BoxlElement<E> &

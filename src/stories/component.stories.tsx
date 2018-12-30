@@ -1,6 +1,7 @@
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 import { boxl } from "..";
+import { BoxlComponentProps } from "../lib/types";
 import { decoratorFlex } from "./config";
 
 const BoxlComponent = boxl.a();
@@ -13,8 +14,11 @@ storiesOf("component", module)
     </BoxlComponent>
   ))
   .add("01 component", () => {
-    type Props = { foo: string };
-    const Thing: React.SFC<Props> = props => {
+    const Thing: React.SFC<BoxlComponentProps<{ foo: string }>> = ({
+      boxlProps,
+      foo,
+      ...props
+    }) => {
       return <a {...props}>{props.children}</a>;
     };
 

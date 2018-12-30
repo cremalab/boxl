@@ -1,2 +1,2 @@
 export { Boxl, boxl } from "./lib/boxl";
-export { BoxlProps, BoxlPropsThemed } from "./lib/types";
+export { BoxlProps, BoxlPropsThemed, BoxlComponentProps } from "./lib/types";

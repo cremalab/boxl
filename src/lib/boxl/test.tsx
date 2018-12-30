@@ -1,8 +1,9 @@
 import "jest-styled-components";
-import React from "react";
+import React, { SFC } from "react";
 import TestRenderer from "react-test-renderer";
 import { cleanup, fireEvent, render } from "react-testing-library";
 import { boxl as b } from ".";
+import { BoxlComponentProps } from "../types";
 
 describe("boxl", () => {
   const Boxl = b.div();
@@ -44,7 +45,9 @@ describe("boxl", () => {
     });
 
     it("renders defined `component`", () => {
-      const P = (props: {}) => <p {...props} />;
+      const P: SFC<BoxlComponentProps> = ({ boxlProps, ...props }) => (
+        <p {...props} />
+      );
       const received = TestRenderer.create(<Boxl component={P} />);
       expect(received).toMatchSnapshot();
     });
@@ -340,7 +343,10 @@ describe("boxl", () => {
       });
 
       it("function", () => {
-        const P = (props: { color: string }) => <p {...props} />;
+        const P: SFC<BoxlComponentProps<{ color: string }>> = ({
+          boxlProps,
+          ...props
+        }) => <p {...props} />;
         const B = b(P)();
         const received = TestRenderer.create(
           <B color="red" direction="horizontal" />
@@ -349,7 +355,10 @@ describe("boxl", () => {
       });
 
       it("function w/ spacing", () => {
-        const P = (props: { color: string }) => <p {...props} />;
+        const P: SFC<BoxlComponentProps<{ color: string }>> = ({
+          boxlProps,
+          ...props
+        }) => <p {...props} />;
         const B = b(P)({ spacing: "1em" });
         const received = TestRenderer.create(
           <B color="red" direction="horizontal">
@@ -362,9 +371,10 @@ describe("boxl", () => {
 
       it("class", () => {
         // tslint:disable-next-line
-        class P extends React.Component<{ color: string }> {
+        class P extends React.Component<BoxlComponentProps<{ color: string }>> {
           public render() {
-            return <p {...this.props} />;
+            const { boxlProps, ...props } = this.props;
+            return <p {...props} />;
           }
         }
         const B = b(P)<{ test: boolean }>();
