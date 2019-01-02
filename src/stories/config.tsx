@@ -13,11 +13,7 @@ export const decoratorBlock = (story: any) => {
 };
 
 export const decoratorExample = (story: any) => {
-  return (
-    <div style={{ background: "#f6f8fa", padding: "2em", borderRadius: "3px" }}>
-      {story()}
-    </div>
-  );
+  return story();
 };
 
 export type Scale = "1" | "2" | "3" | "4";
