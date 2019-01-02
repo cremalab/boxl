@@ -1,9 +1,10 @@
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
 import { boxl } from "..";
+import { BoxlComponentProps } from "../lib/types";
 import { decoratorFlex } from "./config";
 
-const BoxlComponent = boxl({ element: "a" });
+const BoxlComponent = boxl.a();
 
 storiesOf("component", module)
   .addDecorator(decoratorFlex)
@@ -13,18 +14,19 @@ storiesOf("component", module)
     </BoxlComponent>
   ))
   .add("01 component", () => {
-    type Props = { foo: string };
-
-    const Thing = (props: Props) => {
-      return <a {...props}>{props.foo}</a>;
+    const Thing: React.SFC<BoxlComponentProps<{ foo: string }>> = ({
+      boxlProps,
+      foo,
+      ...props
+    }) => {
+      return <a {...props}>{props.children}</a>;
     };
-    const FieldLabel = boxl<Props>({
-      component: Thing,
-      element: "div",
+
+    const ThingStyled = boxl(Thing)({
       style: `
         background: blue;
         padding: 2em;
       `,
     });
-    return <FieldLabel foo="hi" />;
+    return <ThingStyled foo="test extra props">hi</ThingStyled>;
   });

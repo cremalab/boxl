@@ -1,8 +1,8 @@
 import React from "react";
 import { Child, Parent } from "./Base";
 
-export const IdealWidth001 = () => (
+export const IdealSize001 = () => (
   <Parent direction="horizontal">
-    <Child idealWidth="50%" />
+    <Child idealSize="50%" />
   </Parent>
 );

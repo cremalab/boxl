@@ -2,7 +2,7 @@ import { storiesOf } from "@storybook/react";
 import * as React from "react";
 import { boxl, decoratorFlex } from "./config";
 
-const BoxlComponent = boxl();
+const BoxlComponent = boxl.div();
 
 storiesOf("style", module)
   .addDecorator(decoratorFlex)

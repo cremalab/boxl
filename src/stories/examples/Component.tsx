@@ -1,11 +1,13 @@
 import React, { SFC } from "react";
 import { boxl } from "../..";
+import { BoxlComponentProps } from "../../lib/types";
 import { Parent } from "./Base";
 
-const MyButton: SFC = props => <button {...props} />;
+const MyButton: SFC<BoxlComponentProps> = ({ boxlProps, ...props }) => {
+  return <button {...props} />;
+};
 
-const MyButtonBoxled = boxl({
-  component: MyButton,
+const MyButtonBoxled = boxl(MyButton)({
   style: styled => styled`
     background: hsl(200, 100%, 50%);
     border-radius: 0.25em;

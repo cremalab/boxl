@@ -6,7 +6,7 @@ import { decoratorFlex, Scale, Theme } from "./config";
 
 const boxl = b as Boxl<Theme>;
 
-const Container = boxl<{ ownPropTest?: Scale }>({
+const Container = boxl.div<{ ownPropTest?: Scale }>({
   grow: 1,
   padding: p => p.ownPropTest && p.theme.spacing[p.ownPropTest],
   spacing: p => p.ownPropTest && p.theme.spacing[p.ownPropTest],
@@ -15,7 +15,7 @@ const Container = boxl<{ ownPropTest?: Scale }>({
   `,
 });
 
-const Section = boxl<{ rounded: boolean }>({
+const Section = boxl.div<{ rounded: boolean }>({
   grow: 1,
   padding: p => p.theme.spacing[3],
   style: s => s`
@@ -33,7 +33,7 @@ storiesOf("boxCreate", module)
     </Container>
   ))
   .add("01 default props apply/override", () => {
-    const Test = boxl({
+    const Test = boxl.div({
       padding: p => p.theme.spacing[3],
       style: s => s`
         background: ${p => p.theme.color.secondary}

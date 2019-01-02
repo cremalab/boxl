@@ -4,7 +4,7 @@ interface ParentProps {
   withHeight?: boolean;
 }
 
-export const Parent = boxl<ParentProps>({
+export const Parent = boxl.div<ParentProps>({
   spacing: "14px",
   style: styled => styled`
     height: ${props => (props.withHeight ? "449px" : "auto")};
@@ -20,7 +20,7 @@ interface ChildProps {
   secondary?: boolean;
 }
 
-export const Child = boxl<ChildProps>({
+export const Child = boxl.div<ChildProps>({
   style: styled => styled`
     background: ${props => (props.secondary ? "white" : "black")};
     border: 8px solid black;
