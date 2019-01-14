@@ -23,9 +23,9 @@ storiesOf("component", module)
     };
 
     const ThingStyled = boxl(Thing)({
-      style: `
+      style: s => s`
         background: blue;
-        padding: 2em;
+        padding: ${p => (p.foo ? "2em" : "1em")};
       `,
     });
     return <ThingStyled foo="test extra props">hi</ThingStyled>;

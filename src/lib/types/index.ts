@@ -115,7 +115,7 @@ export type BoxlComponentProps<P = {}, T = {}> = {
   boxlProps?: BoxlPropsBase<P, T>;
 } & P;
 
-export type BoxlProps<P = {}, T = {}, E = {}> = BoxlPropsBase<P, T> &
+export type BoxlProps<P = {}, T = {}, E = {}> = BoxlPropsBase<P & E, T> &
   BoxlElement<E> &
   P;
 

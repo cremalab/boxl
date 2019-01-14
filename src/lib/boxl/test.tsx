@@ -48,7 +48,8 @@ describe("boxl", () => {
       const P: SFC<BoxlComponentProps> = ({ boxlProps, ...props }) => (
         <p {...props} />
       );
-      const received = TestRenderer.create(<Boxl component={P} />);
+      const B = b(P)();
+      const received = TestRenderer.create(<B />);
       expect(received).toMatchSnapshot();
     });
   });
