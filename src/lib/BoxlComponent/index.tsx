@@ -18,7 +18,9 @@ import {
   BoxlStyledComponent,
 } from "../types";
 
-function computeShouldUseFullStructure<P, T, E>(props: BoxlProps<P, T, E>) {
+function computeShouldUseFullStructure<P, T, E>(
+  props: Readonly<BoxlProps<P, T, E>>
+) {
   return (
     props.spacing !== undefined &&
     Array.isArray(props.children) &&

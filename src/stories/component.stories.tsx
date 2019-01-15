@@ -1,13 +1,12 @@
 import { storiesOf } from "@storybook/react";
 import * as React from "react";
-import { boxl } from "..";
 import { BoxlComponentProps } from "../lib/types";
-import { decoratorFlex } from "./config";
+import { boxl, decoratorPadded } from "./config";
 
 const BoxlComponent = boxl.a();
 
 storiesOf("component", module)
-  .addDecorator(decoratorFlex)
+  .addDecorator(decoratorPadded)
   .add("00 a", () => (
     <BoxlComponent href="http://google.com" target="_blank">
       Click me
@@ -29,4 +28,21 @@ storiesOf("component", module)
       `,
     });
     return <ThingStyled foo="test extra props">hi</ThingStyled>;
+  })
+  .add("02 boxl passed to boxl", () => {
+    const Input = boxl.input<{ foo?: string }>();
+    const ThingStyled = boxl(Input)({
+      style: s => s`
+        background: ${p =>
+          p.foo ? p.theme.color.primary : p.theme.color.tertiary}
+      `,
+    });
+
+    return <ThingStyled />;
+  })
+  .add("03 boxl passed to component prop", () => {
+    const Input = boxl.input<{ foo?: string }>();
+    const ThingStyled = boxl.div({});
+
+    return <ThingStyled component={Input} />;
   });
