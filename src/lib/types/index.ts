@@ -115,8 +115,10 @@ export type BoxlComponentProps<P = {}, T = {}> = {
   boxlProps?: BoxlPropsBase<P, T>;
 } & P;
 
-export type BoxlProps<P = {}, T = {}, E = {}> = BoxlPropsBase<P & E, T> &
-  BoxlElement<E> &
+export type BoxlProps<P = {}, T = {}, E = {}> = BoxlPropsBase<
+  P & Omit<E, "style">,
+  T
+> &
   P;
 
 export type BoxlPropsThemed<T, P = {}, E = {}> = BoxlProps<P, T, E>;
@@ -124,9 +126,3 @@ export type BoxlPropsThemed<T, P = {}, E = {}> = BoxlProps<P, T, E>;
 export type BoxlPropsPartial<P = {}, T = {}, E = {}> = Partial<
   BoxlProps<P, T, E>
 >;
-
-export type InferPropsType<T> = T extends (...args: infer Args) => infer _R
-  ? Args[0]
-  : T extends React.ComponentClass<infer P>
-    ? P
-    : T extends keyof JSX.IntrinsicElements ? JSX.IntrinsicElements[T] : never;

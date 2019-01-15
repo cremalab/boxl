@@ -12,6 +12,10 @@ export const decoratorBlock = (story: any) => {
   return <div style={{ overflow: "auto" }}>{story()}</div>;
 };
 
+export const decoratorPadded = (story: any) => {
+  return <div style={{ padding: "2em" }}>{story()}</div>;
+};
+
 export const decoratorExample = (story: any) => {
   return story();
 };
