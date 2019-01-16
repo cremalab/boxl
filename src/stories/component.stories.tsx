@@ -22,7 +22,7 @@ storiesOf("component", module)
     };
 
     const ThingStyled = boxl(Thing)({
-      style: s => s`
+      css: s => s`
         background: blue;
         padding: ${p => (p.foo ? "2em" : "1em")};
       `,
@@ -32,7 +32,7 @@ storiesOf("component", module)
   .add("02 boxl passed to boxl", () => {
     const Input = boxl.input<{ foo?: string }>();
     const ThingStyled = boxl(Input)({
-      style: s => s`
+      css: s => s`
         background: ${p =>
           p.foo ? p.theme.color.primary : p.theme.color.tertiary}
       `,
@@ -42,7 +42,19 @@ storiesOf("component", module)
   })
   .add("03 boxl passed to component prop", () => {
     const Input = boxl.input<{ foo?: string }>();
-    const ThingStyled = boxl.div({});
+    const ThingStyled = boxl.div();
 
     return <ThingStyled component={Input} />;
+  })
+  .add("04 default props", () => {
+    const Svg = boxl.svg({
+      css: "border: 2px solid blue",
+      height: 24,
+      style: {
+        backgroundColor: "slategray",
+      },
+      width: 24,
+    });
+
+    return <Svg height={34} />;
   });

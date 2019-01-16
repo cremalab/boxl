@@ -37,7 +37,17 @@ storiesOf("grow", module)
   ))
   .add("04 without spacing", () => (
     <Example direction="horizontal" spacing={undefined}>
-      <BoxlComponent grow={1} style={`background: lightblue;`} />
-      <BoxlComponent style={`background: salmon; width: 100px;`} />
+      <BoxlComponent
+        grow={1}
+        css={`
+          background: lightblue;
+        `}
+      />
+      <BoxlComponent
+        css={`
+          background: salmon;
+          width: 100px;
+        `}
+      />
     </Example>
   ));

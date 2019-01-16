@@ -5,8 +5,7 @@ interface ParentProps {
 }
 
 export const Parent = boxl.div<ParentProps>({
-  spacing: "14px",
-  style: styled => styled`
+  css: styled => styled`
     height: ${props => (props.withHeight ? "449px" : "auto")};
     background: white;
     border: 8px solid black;
@@ -14,6 +13,7 @@ export const Parent = boxl.div<ParentProps>({
     margin: 12px 12px 0 0;
     padding: 20px;
   `,
+  spacing: "14px",
 });
 
 interface ChildProps {
@@ -21,7 +21,7 @@ interface ChildProps {
 }
 
 export const Child = boxl.div<ChildProps>({
-  style: styled => styled`
+  css: styled => styled`
     background: ${props => (props.secondary ? "white" : "black")};
     border: 8px solid black;
     color: ${props => (props.secondary ? "white" : "black")};

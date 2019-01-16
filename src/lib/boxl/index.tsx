@@ -1,28 +1,34 @@
-import React, { ComponentProps } from "react";
+import React from "react";
 import { BoxlComponent } from "../BoxlComponent";
 import { domElements } from "../domElements";
-import { BoxlPropElement, BoxlProps, BoxlPropsPartial } from "../types";
+import {
+  BoxlPropElement,
+  BoxlProps,
+  BoxlPropsPartial,
+  InferPropsType,
+} from "../types";
 
-type BoxlThunkReturn<T = {}, E extends React.ReactType = E> = <
+type BoxlThunkReturn<
+  T = {},
+  E extends React.ReactType = E,
+  EE extends InferPropsType<E> = InferPropsType<E>
+> = <
   P,
-  PP extends BoxlProps<P, T, EE> & EE = BoxlProps<P, T, EE> & EE,
-  D extends BoxlPropsPartial<P, T, EE> = BoxlPropsPartial<P, T, EE>,
-  EE extends ComponentProps<E> = ComponentProps<E>
+  PP extends BoxlProps<P, T, EE> = BoxlProps<P, T, EE>,
+  D extends BoxlPropsPartial<P, T, EE> = BoxlPropsPartial<P, T, EE>
 >(
   d?: D | undefined
-) => {
-  (p: PP): React.ReactElement<PP>;
-  defaultProps: D | undefined;
-};
+) => React.FunctionComponent<PP>;
 
-function boxlThunk<T = {}, E extends React.ReactType = E>(
-  component?: E
-): BoxlThunkReturn<T, E> {
+function boxlThunk<
+  T = {},
+  E extends React.ReactType = E,
+  EE extends InferPropsType<E> = InferPropsType<E>
+>(component?: E): BoxlThunkReturn<T, E> {
   return <
     P,
-    PP extends BoxlProps<P, T, EE> & EE = BoxlProps<P, T, EE> & EE,
-    D extends BoxlPropsPartial<P, T, EE> = BoxlPropsPartial<P, T, EE>,
-    EE extends ComponentProps<E> = ComponentProps<E>
+    PP extends BoxlProps<P, T, EE> = BoxlProps<P, T, EE>,
+    D extends BoxlPropsPartial<P, T, EE> = BoxlPropsPartial<P, T, EE>
   >(
     d?: D
   ) => {

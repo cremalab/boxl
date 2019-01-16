@@ -8,7 +8,7 @@ const MyButton: SFC<BoxlComponentProps> = ({ boxlProps, ...props }) => {
 };
 
 const MyButtonBoxled = boxl(MyButton)({
-  style: styled => styled`
+  css: styled => styled`
     background: hsl(200, 100%, 50%);
     border-radius: 0.25em;
     border: none;

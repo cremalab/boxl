@@ -31,8 +31,7 @@ interface ParentProps {
 }
 
 export const Parent = boxl.div<ParentProps>({
-  spacing: "14px",
-  style: styled => styled`
+  css: styled => styled`
     height: ${props => props.withHeight 
       ? "449px" 
       : "auto"
@@ -43,6 +42,7 @@ export const Parent = boxl.div<ParentProps>({
     margin: 12px 12px 0 0;
     padding: 20px;
   `,
+  spacing: "14px",
 })
 
 interface ChildProps {
@@ -50,7 +50,7 @@ interface ChildProps {
 }
 
 export const Child = boxl.div<ChildProps>({
-  style: styled => styled`
+  css: styled => styled`
     background: ${props => 
       props.secondary ? "white" : "black"
     };
@@ -148,7 +148,7 @@ const SomeButton: SFC<BoxlComponentProps> =
     <button {...props} />;
 
 const MyButton = boxl(SomeButton)({
-  style: styled => styled`
+  css: styled => styled`
     background: hsl(200, 100%, 50%);
     border-radius: 0.25em;
     border: none;
@@ -177,7 +177,7 @@ export const Component001 = () =>
 
 These props may be passed as a default props object or to the returned component itself as JSX props.
 
->With the exception of `style`, each prop is defined as <a href="BoxlProp">`BoxlProp<A, P, T>`</a>.
+>With the exception of `css`, each prop is defined as <a href="BoxlProp">`BoxlProp<A, P, T>`</a>.
 
 ---
 
@@ -362,6 +362,63 @@ export const ChildWrap003 = () =>
 ```
 ---
 
+#### `css`: 
+- string
+- CSSObject
+- template literal
+- function passed a tagged template literal
+
+##### Description 
+
+Applies style to the component.
+
+##### Example
+
+![css: example 1](.loki/reference/example_example_Css001.png)
+
+```tsx
+import React from "react"
+import { boxl } from "../../lib/boxl"
+import { Parent } from "./Base"
+
+const StyleString = boxl.div({
+  css: "background: black; border-radius: 10px; height: 50px;",
+});
+
+const StyleObject = boxl.div({
+  css: {
+    background: "black",
+    borderRadius: 10,
+    height: 50,
+  },
+})
+
+const TemplateLiteral = boxl.div({
+  css: `
+    background: black;
+    border-radius: 10px;
+    height: 50px;
+  `,
+})
+
+const TaggedTemplateLiteralFn = boxl.div({
+  css: styled => styled`
+    background: black;
+    border-radius: 10px;
+    height: 50px;
+  `,
+})
+
+export const Style001 = () =>
+  <Parent>
+    <StyleString />
+    <StyleObject />
+    <TemplateLiteral />
+    <TaggedTemplateLiteralFn />
+  </Parent>
+```
+---
+
 #### `direction` - vertical | horizontal
 
 ##### Description 
@@ -428,7 +485,7 @@ export const Grow001 = () =>
 
 ##### Description 
 
-Defines the preferred/ideal width or hight (depending on the parent's `direction`) of the component and may need to be combined with min-/max-/width via the style property to achieve the desired result.
+Defines the preferred/ideal width or hight (depending on the parent's `direction`) of the component and may need to be combined with min-/max-/width via the css property to achieve the desired result.
 
 If the parent direction is "vertical" (default), `idealSize` will affect the _height_ of the component. If the parent direction is "horizontal", `idealSize` will affect the _width_ of the component.
 
@@ -470,63 +527,6 @@ export const Spacing001 = () =>
     <Child />
     <Child />
     <Child />
-  </Parent>
-```
----
-
-#### `style`: 
-- string
-- CSSObject
-- template literal
-- function passed a tagged template literal
-
-##### Description 
-
-Applies style to the component.
-
-##### Example
-
-![style: example 1](.loki/reference/example_example_Style001.png)
-
-```tsx
-import React from "react"
-import { boxl } from "../../lib/boxl"
-import { Parent } from "./Base"
-
-const StyleString = boxl.div({
-  style: "background: black; border-radius: 10px; height: 50px;",
-});
-
-const StyleObject = boxl.div({
-  style: {
-    background: "black",
-    borderRadius: 10,
-    height: 50,
-  },
-})
-
-const TemplateLiteral = boxl.div({
-  style: `
-    background: black;
-    border-radius: 10px;
-    height: 50px;
-  `,
-})
-
-const TaggedTemplateLiteralFn = boxl.div({
-  style: styled => styled`
-    background: black;
-    border-radius: 10px;
-    height: 50px;
-  `,
-})
-
-export const Style001 = () =>
-  <Parent>
-    <StyleString />
-    <StyleObject />
-    <TemplateLiteral />
-    <TaggedTemplateLiteralFn />
   </Parent>
 ```
 ---

@@ -57,7 +57,9 @@ storiesOf("01 Base", module)
     <BoxlComponent
       spacing="2em"
       direction="horizontal"
-      style={`padding: 2em;`}
+      css={`
+        padding: 2em;
+      `}
       childIdealSize={"50%"}
     >
       <BoxlComponent idealSize="200%">
@@ -100,10 +102,10 @@ storiesOf("01 Base", module)
   ))
   .add("04 complex form", () => {
     const FormContainer = boxl.form({
-      spacing: "1em",
-      style: `
+      css: `
         padding: 1em;
       `,
+      spacing: "1em",
     });
     const FieldContainer = boxl.div({ spacing: "0.5em" });
     const FieldLabel = boxl.label();
@@ -157,7 +159,7 @@ storiesOf("01 Base", module)
   })
   .add("05 async children", () => {
     const Item = boxl.div<{ name: string }>({
-      style: s => s`
+      css: s => s`
         background: slategrey;
         padding: 1em;
       `,
@@ -204,18 +206,18 @@ storiesOf("01 Base", module)
   .add("06 default props maintained", () => {
     const Parent = boxl.div({
       childGrow: 1,
-      grow: 1,
-      style: s => s`
+      css: s => s`
         padding: 1em;
         background: salmon;
       `,
+      grow: 1,
     });
     const Child = boxl.div({
-      grow: 1,
-      style: s => s`
+      css: s => s`
         padding: 1em;
         background: blue;
       `,
+      grow: 1,
     });
     return (
       <Parent childGrow={0}>
@@ -226,11 +228,11 @@ storiesOf("01 Base", module)
   .add("07 naked text node", () => {
     const Parent = boxl.div({
       childGrow: 1,
-      direction: "horizontal",
-      spacing: "1em",
-      style: s => s`
+      css: s => s`
         padding: 1em;
       `,
+      direction: "horizontal",
+      spacing: "1em",
     });
     return (
       <Parent childGrow={0}>

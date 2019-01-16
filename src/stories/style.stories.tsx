@@ -6,21 +6,19 @@ const BoxlComponent = boxl.div();
 
 storiesOf("style", module)
   .addDecorator(decoratorFlex)
-  .add("00 string", () => (
-    <BoxlComponent grow={1} style="background: salmon;" />
-  ))
+  .add("00 string", () => <BoxlComponent grow={1} css="background: salmon;" />)
   .add("01 template", () => (
     <BoxlComponent
       grow={1}
-      style={`
-        background: #7DCEA0;
+      css={`
+        background: #7dcea0;
       `}
     />
   ))
   .add("02 tagged template", () => (
     <BoxlComponent
       grow={1}
-      style={s => s`
+      css={s => s`
         background: goldenrod;
       `}
     />
@@ -28,7 +26,7 @@ storiesOf("style", module)
   .add("03 tagged template w/ interpolation", () => (
     <BoxlComponent
       grow={1}
-      style={s => s`
+      css={s => s`
         background: ${p => p.theme.color.primary};
       `}
     />

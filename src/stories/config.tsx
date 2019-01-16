@@ -89,8 +89,7 @@ interface ContainerProps {
 }
 
 export const BoxContainer = boxl.div<ContainerProps>({
-  grow: 1,
-  style: s => s`
+  css: s => s`
     ${({
       theme: { color, spacing, transitions, roundness },
       test1,
@@ -103,11 +102,12 @@ export const BoxContainer = boxl.div<ContainerProps>({
       ${fixedHeight ? "height: 100vh;" : ""}
     `}
   `,
+  grow: 1,
   test2: "1",
 });
 
 export const BoxChild = boxl.div({
-  style: s => s`
+  css: s => s`
     ${({ theme: { color, roundness, transitions, spacing } }) => `
     ${transitions.fast};
     padding: ${spacing["2"]}
@@ -118,8 +118,7 @@ export const BoxChild = boxl.div({
 });
 
 export const Dot = boxl.div({
-  grow: 0,
-  style: s => s`
+  css: s => s`
     ${({ theme: { spacing, color } }) => `
       height: ${spacing["3"]};
       width: ${spacing["3"]};
@@ -127,4 +126,5 @@ export const Dot = boxl.div({
       background: ${color.tertiary}
     `}
   `,
+  grow: 0,
 });

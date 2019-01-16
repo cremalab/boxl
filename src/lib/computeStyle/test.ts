@@ -2,14 +2,14 @@ import { computeStyle } from ".";
 
 describe("computeStyle", () => {
   it("handles string", () => {
-    const props = { style: "background: red;", theme: {} };
+    const props = { css: "background: red;", theme: {} };
     const received = computeStyle(props);
-    expect(received).toEqual(props.style);
+    expect(received).toEqual(props.css);
   });
 
   it("handles tagged template", () => {
     const received = computeStyle({
-      style: s => s`
+      css: s => s`
         background: red;
         color: ${p => p.theme.color};
       `,
