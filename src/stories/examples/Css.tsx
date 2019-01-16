@@ -3,7 +3,7 @@ import { boxl } from "../../lib/boxl";
 import { Parent } from "./Base";
 
 const StyleString = boxl.div({
-  style: "background: black; border-radius: 10px; height: 50px;",
+  css: "background: black; border-radius: 10px; height: 50px;",
 });
 
 const StyleObject = boxl.div({
@@ -15,7 +15,7 @@ const StyleObject = boxl.div({
 });
 
 const TemplateLiteral = boxl.div({
-  style: `
+  css: `
     background: black;
     border-radius: 10px;
     height: 50px;
@@ -23,14 +23,14 @@ const TemplateLiteral = boxl.div({
 });
 
 const TaggedTemplateLiteral = boxl.div({
-  style: styled => styled`
+  css: styled => styled`
     background: black;
     border-radius: 10px;
     height: 50px;
   `,
 });
 
-export const Style001 = () => (
+export const Css001 = () => (
   <Parent>
     <StyleString />
     <StyleObject />

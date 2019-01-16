@@ -6,20 +6,13 @@ import {
   ThemeProps,
 } from "styled-components";
 
+export type InferPropsType<T> = T extends (...args: infer Args) => infer _R
+  ? Args[0]
+  : T extends React.ComponentClass<infer P>
+    ? P
+    : T extends keyof JSX.IntrinsicElements ? JSX.IntrinsicElements[T] : never;
+
 export type BoxlComponentType<P, T, E> = React.Component<BoxlProps<P, T, E>>;
-
-export type BoxlThunkReturn<E extends BoxlPropElement, T = {}> = <
-  P,
-  D extends BoxlPropsPartial<P, T, EE> = BoxlPropsPartial<P, T, EE>,
-  EE = JSX.IntrinsicElements[E]
->(
-  d?: D | undefined
-) => {
-  (p: BoxlProps<P, T, EE>): React.ReactElement<BoxlProps<P, T, EE>>;
-  defaultProps: D | undefined;
-};
-
-export type BoxlTwo<T = {}> = { [E in BoxlPropElement]: BoxlThunkReturn<E, T> };
 
 export type Omit<T, K> = Pick<T, Exclude<keyof T, K>>;
 export type Entry<O, P extends keyof O = keyof O> = [P, O[P]];
@@ -95,6 +88,7 @@ export interface BoxlPropsBase<P = {}, T = {}> {
   childWrap?: BoxlPropWrap<P, T>;
   children?: React.ReactNode;
   component?: BoxlPropComponent<P>;
+  css?: BoxlPropStyle<P, T>;
   direction?: BoxlPropDirection<P, T>;
   element?: BoxlPropElement;
   grow?: BoxlPropGrow<P, T>;
@@ -104,7 +98,6 @@ export interface BoxlPropsBase<P = {}, T = {}> {
   padding?: BoxlPropPadding<P, T>;
   propsParent?: BoxlPropsBase<P, T>;
   spacing?: BoxlPropSpacing<P, T>;
-  style?: BoxlPropStyle<P, T>;
 }
 
 export type BoxlPropsBaseThemed<P, T> = BoxlPropsBase<P, T> & ThemeProps<T> & P;
@@ -115,14 +108,12 @@ export type BoxlComponentProps<P = {}, T = {}> = {
   boxlProps?: BoxlPropsBase<P, T>;
 } & P;
 
-export type BoxlProps<P = {}, T = {}, E = {}> = BoxlPropsBase<
-  P & Omit<E, "style">,
-  T
-> &
-  P;
-
 export type BoxlPropsThemed<T, P = {}, E = {}> = BoxlProps<P, T, E>;
 
 export type BoxlPropsPartial<P = {}, T = {}, E = {}> = Partial<
   BoxlProps<P, T, E>
 >;
+
+export type BoxlProps<P, T, E> = P &
+  Omit<E, keyof BoxlPropsBase> &
+  BoxlPropsBase<P & E, T>;

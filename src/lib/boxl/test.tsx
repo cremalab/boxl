@@ -484,25 +484,31 @@ describe("boxl", () => {
       });
     });
 
-    describe("style", () => {
+    describe("css", () => {
       it("string", () => {
-        const received = TestRenderer.create(<Boxl style="color: red;" />);
+        const received = TestRenderer.create(<Boxl css="color: red;" />);
         expect(received).toMatchSnapshot();
       });
 
       it("template", () => {
-        const received = TestRenderer.create(<Boxl style={`color: red;`} />);
+        const received = TestRenderer.create(
+          <Boxl
+            css={`
+              color: red;
+            `}
+          />
+        );
         expect(received).toMatchSnapshot();
       });
 
       it("object", () => {
-        const received = TestRenderer.create(<Boxl style={{ color: "red" }} />);
+        const received = TestRenderer.create(<Boxl css={{ color: "red" }} />);
         expect(received).toMatchSnapshot();
       });
 
       it("style function", () => {
         const received = TestRenderer.create(
-          <Boxl style={s => s`color: red;`} />
+          <Boxl css={s => s`color: red;`} />
         );
         expect(received).toMatchSnapshot();
       });
@@ -511,7 +517,7 @@ describe("boxl", () => {
         const B = b.div<{ color: string }>();
 
         const received = TestRenderer.create(
-          <B color="red" style={s => s`color: ${props => props.color}`} />
+          <B color="red" css={s => s`color: ${props => props.color}`} />
         );
         expect(received).toMatchSnapshot();
       });

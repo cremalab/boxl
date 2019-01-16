@@ -183,7 +183,7 @@ export class BoxlComponent<P, T, E> extends React.Component<
       "isChild",
       "padding",
       "spacing",
-      "style",
+      "css",
     ]);
     const {
       childGrow,
