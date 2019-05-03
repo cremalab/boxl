@@ -10,7 +10,7 @@ import {
 
 type BoxlThunkReturn<
   T = {},
-  E extends React.ReactType = E,
+  E extends React.ReactType = React.ReactType,
   EE extends InferPropsType<E> = InferPropsType<E>
 > = <
   P,
@@ -22,7 +22,7 @@ type BoxlThunkReturn<
 
 function boxlThunk<
   T = {},
-  E extends React.ReactType = E,
+  E extends React.ReactType = React.ReactType,
   EE extends InferPropsType<E> = InferPropsType<E>
 >(component?: E): BoxlThunkReturn<T, E> {
   return <
@@ -57,7 +57,7 @@ const boxls = domElements.reduce(
 
 export const boxl = Object.assign(boxlThunk, boxls); // tslint:disable-line
 
-export type Boxl<T = {}> = (<E extends React.ReactType = E>(
+export type Boxl<T = {}> = (<E extends React.ReactType = React.ReactType>(
   component: E
 ) => BoxlThunkReturn<T, E>) &
   Boxls<T>;
